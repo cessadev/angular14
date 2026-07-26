@@ -17,18 +17,18 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   private extractMessage(error: HttpErrorResponse): string {
-  if (typeof error.error === 'string' && error.error.trim().length > 0) {
-    return error.error;
+    if (typeof error.error === 'string' && error.error.trim().length > 0) {
+      return error.error;
+    }
+    if (error.error?.message) {
+      return error.error.message;
+    }
+    if (error.status === 0) {
+      return 'No se pudo conectar con el servidor. Verifica que la API esté corriendo.';
+    }
+    if (error.status === 404) {
+      return 'El recurso solicitado no existe.';
+    }
+    return error.error?.title ?? `Ocurrió un error inesperado (código ${error.status}).`;
   }
-  if (error.error?.message) {
-    return error.error.message;
-  }
-  if (error.status === 0) {
-    return 'Unable to connect to the server. Please verify that the API is running.';
-  }
-  if (error.status === 404) {
-    return 'The requested resource does not exist.';
-  }
-  return error.error?.title ?? `An unexpected error occurred (code ${error.status}).`;
-}
 }
