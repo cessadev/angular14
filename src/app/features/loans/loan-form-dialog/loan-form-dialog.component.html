@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>Nuevo préstamo</h2>
+
+<div *ngIf="loadingOptions" class="loading-container">
+  <mat-spinner diameter="32"></mat-spinner>
+</div>
+
+<p *ngIf="!loadingOptions && loadError" class="error-text">
+  No se pudieron cargar clientes/vehículos. Cierra e intenta de nuevo.
+</p>
+
+<form *ngIf="!loadingOptions && !loadError" [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Cliente</mat-label>
+      <mat-select formControlName="customerDocumentNumber">
+        <mat-option *ngFor="let c of customers" [value]="c.documentNumber">
+          {{ c.name }} {{ c.lastname }} — {{ c.documentNumber }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="customers.length === 0">No hay clientes registrados</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Vehículo</mat-label>
+      <mat-select formControlName="vehicleIdentifier">
+        <mat-option *ngFor="let v of vehicles" [value]="v.identifier">
+          {{ v.identifier }} — {{ v.brand }} {{ v.model }} ({{ v.year }})
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="vehicles.length === 0">No hay vehículos registrados</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Monto del préstamo</mat-label>
+      <span matPrefix>$&nbsp;</span>
+      <input matInput type="number" formControlName="amount">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Plazo</mat-label>
+      <mat-select formControlName="installments">
+        <mat-option *ngFor="let term of terms" [value]="term">
+          {{ termMonths[term] }} meses
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit"
+            [disabled]="customers.length === 0 || vehicles.length === 0">
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</form>
