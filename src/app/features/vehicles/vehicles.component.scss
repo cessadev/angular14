@@ -1,0 +1,21 @@
+.vehicles-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.full-width { width: 100%; }
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.search-field {
+  width: 100%;
+  max-width: 320px;
+  display: block;
+  margin-bottom: 16px;
+}
