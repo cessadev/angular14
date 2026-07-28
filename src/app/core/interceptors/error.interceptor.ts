@@ -23,6 +23,9 @@ export class ErrorInterceptor implements HttpInterceptor {
     if (error.error?.message) {
       return error.error.message;
     }
+    if (error.error?.detail) {
+      return error.error.detail;
+    }
     if (error.status === 0) {
       return 'No se pudo conectar con el servidor. Verifica que la API esté corriendo.';
     }

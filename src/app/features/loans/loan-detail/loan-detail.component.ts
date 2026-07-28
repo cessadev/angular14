@@ -56,6 +56,6 @@ export class LoanDetailComponent implements OnInit {
   }
 
   goToInstallments(): void {
-    this.router.navigate(['/installments'], { queryParams: { loan: this.loan?.reference } });
+    this.router.navigate(['/installments', 'loan', this.loan?.reference]);
   }
 }
