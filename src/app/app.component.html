@@ -1,12 +1,37 @@
-<mat-toolbar color="primary">
-  <span>CarCredit</span>
-  <span class="spacer"></span>
-  <a mat-button routerLink="/customers" routerLinkActive="active-link">Clientes</a>
-  <a mat-button routerLink="/vehicles" routerLinkActive="active-link">Vehículos</a>
-  <a mat-button routerLink="/loans" routerLinkActive="active-link">Préstamos</a>
-  <a mat-button routerLink="/installments" routerLinkActive="active-link">Cuotas</a>
-</mat-toolbar>
+<mat-sidenav-container class="app-container">
+  <mat-sidenav
+    #sidenav
+    [mode]="(isMobile$ | async) ? 'over' : 'side'"
+    [opened]="(isMobile$ | async) === false"
+    class="app-sidenav"
+  >
+    <div class="sidenav-header">
+      <span>CarCredit</span>
+    </div>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        *ngFor="let link of navLinks"
+        [routerLink]="link.path"
+        routerLinkActive="active-link"
+        (click)="closeIfMobile(sidenav)"
+      >
+        <mat-icon matListIcon>{{ link.icon }}</mat-icon>
+        <span>{{ link.label }}</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
 
-<main class="content">
-  <router-outlet></router-outlet>
-</main>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button *ngIf="isMobile$ | async" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>CarCredit</span>
+    </mat-toolbar>
+
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

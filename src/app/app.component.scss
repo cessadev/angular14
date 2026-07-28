@@ -1,10 +1,20 @@
-.spacer {
-  flex: 1 1 auto;
+.app-container {
+  height: 100vh;
+}
+
+.app-sidenav {
+  width: 240px;
+}
+
+.sidenav-header {
+  padding: 16px;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .active-link {
-  font-weight: 700;
-  text-decoration: underline;
+  background-color: rgba(0, 0, 0, 0.06);
+  font-weight: 600;
 }
 
 .content {
