@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Registrar pago — Cuota #{{ data.installment.number }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content>
+    <p>Saldo pendiente: <strong>{{ remainingBalance | copCurrency }}</strong></p>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Método de pago</mat-label>
+      <mat-select formControlName="method">
+        <mat-option *ngFor="let m of methods" [value]="m">{{ methodLabels[m] }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Monto a pagar</mat-label>
+      <span matPrefix>$&nbsp;</span>
+      <input matInput type="number" formControlName="amount">
+      <mat-error *ngIf="form.get('amount')?.hasError('max')">
+        No puede exceder el saldo pendiente
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit">Registrar pago</button>
+  </mat-dialog-actions>
+</form>

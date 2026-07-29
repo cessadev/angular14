@@ -3,15 +3,18 @@ import { CommonModule } from '@angular/common';
 
 import { CustomersRoutingModule } from './customers-routing.module';
 import { CustomersComponent } from './customers.component';
-
+import { CustomerFormDialogComponent } from './customer-form-dialog/customer-form-dialog.component';
+import { SharedModuleModule } from 'src/app/shared/shared-module.module';
 
 @NgModule({
   declarations: [
-    CustomersComponent
+    CustomersComponent,
+    CustomerFormDialogComponent
   ],
   imports: [
     CommonModule,
-    CustomersRoutingModule
+    CustomersRoutingModule,
+    SharedModuleModule
   ]
 })
 export class CustomersModule { }

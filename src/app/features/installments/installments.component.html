@@ -1,1 +1,51 @@
-<p>installments works!</p>
+<h1>Cuotas en mora</h1>
+
+<div *ngIf="loading" class="loading-container">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>
+
+<table mat-table [dataSource]="dataSource" *ngIf="!loading" class="mat-elevation-z2 full-width">
+  <ng-container matColumnDef="loanReference">
+    <th mat-header-cell *matHeaderCellDef>Préstamo</th>
+    <td mat-cell *matCellDef="let i">{{ i.loanReference }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="number">
+    <th mat-header-cell *matHeaderCellDef>Cuota #</th>
+    <td mat-cell *matCellDef="let i">{{ i.number }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="customer">
+    <th mat-header-cell *matHeaderCellDef>Cliente</th>
+    <td mat-cell *matCellDef="let i">{{ i.customer }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="vehicle">
+    <th mat-header-cell *matHeaderCellDef>Vehículo</th>
+    <td mat-cell *matCellDef="let i">{{ i.vehicle }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="amount">
+    <th mat-header-cell *matHeaderCellDef>Monto</th>
+    <td mat-cell *matCellDef="let i">{{ i.amount | copCurrency }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="dateExpiration">
+    <th mat-header-cell *matHeaderCellDef>Vencimiento</th>
+    <td mat-cell *matCellDef="let i">{{ i.dateExpiration | date:'dd/MM/yyyy' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="daysOverdue">
+    <th mat-header-cell *matHeaderCellDef>Días en mora</th>
+    <td mat-cell *matCellDef="let i">
+      <mat-chip-list>
+        <mat-chip color="warn" selected>{{ i.daysOverdue }}</mat-chip>
+      </mat-chip-list>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="viewLoan(row)" class="clickable-row"></tr>
+</table>
+
+<p *ngIf="!loading && dataSource.data.length === 0" class="empty-state">No hay cuotas en mora actualmente.</p>

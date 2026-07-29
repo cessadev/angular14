@@ -3,15 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { LoansRoutingModule } from './loans-routing.module';
 import { LoansComponent } from './loans.component';
+import { LoanFormDialogComponent } from './loan-form-dialog/loan-form-dialog.component';
+import { LoanDetailComponent } from './loan-detail/loan-detail.component';
+import { SharedModuleModule } from 'src/app/shared/shared-module.module';
 
 
 @NgModule({
   declarations: [
-    LoansComponent
+    LoansComponent,
+    LoanFormDialogComponent,
+    LoanDetailComponent
   ],
   imports: [
     CommonModule,
-    LoansRoutingModule
+    LoansRoutingModule,
+    SharedModuleModule
   ]
 })
 export class LoansModule { }
