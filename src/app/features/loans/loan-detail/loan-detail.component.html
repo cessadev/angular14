@@ -17,7 +17,7 @@
       <mat-card-content>
         <p><strong>Cliente:</strong> {{ summary.customer }}</p>
         <p><strong>Vehículo:</strong> {{ summary.vehicle }}</p>
-        <p><strong>Monto:</strong> {{ loan.amount | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
+        <p><strong>Monto:</strong> {{ loan.amount | copCurrency }}</p>
         <p><strong>Plazo:</strong> {{ termMonths[loan.installments] }} meses</p>
         <p><strong>Fecha de creación:</strong> {{ loan.dateCreation | date:'dd/MM/yyyy' }}</p>
       </mat-card-content>
@@ -28,9 +28,9 @@
       <mat-card-content>
         <p><strong>Cuotas:</strong> {{ summary.installmentsPaid }} pagadas / {{ summary.totalInstallments }} totales</p>
         <p><strong>Cuotas pendientes:</strong> {{ summary.installmentsOwed }}</p>
-        <p><strong>Total a pagar:</strong> {{ summary.totalValue | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
-        <p><strong>Total pagado:</strong> {{ summary.totalPaid | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
-        <p><strong>Saldo pendiente:</strong> {{ summary.totalOwed | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
+        <p><strong>Total a pagar:</strong> {{ summary.totalValue | copCurrency }}</p>
+        <p><strong>Total pagado:</strong> {{ summary.totalPaid | copCurrency }}</p>
+        <p><strong>Saldo pendiente:</strong> {{ summary.totalOwed | copCurrency }}</p>
       </mat-card-content>
       <mat-card-actions>
         <button mat-raised-button color="primary" (click)="goToInstallments()">

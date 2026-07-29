@@ -38,11 +38,11 @@
 
   <ng-container matColumnDef="marketValue">
     <th mat-header-cell *matHeaderCellDef>Valor de mercado</th>
-    <td mat-cell *matCellDef="let v">{{ v.marketValue | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+    <td mat-cell *matCellDef="let v">{{ v.marketValue | copCurrency }}</td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<p *ngIf="!loading && dataSource.filteredData.length === 0">No hay vehículos registrados aún.</p>
+<p *ngIf="!loading && dataSource.filteredData.length === 0" class="empty-state">No hay vehículos registrados aún.</p>

@@ -24,7 +24,7 @@
 
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button mat-icon-button *ngIf="isMobile$ | async" (click)="sidenav.toggle()">
+      <button mat-icon-button *ngIf="isMobile$ | async" (click)="sidenav.toggle()" aria-label="Abrir menú de navegación">
         <mat-icon>menu</mat-icon>
       </button>
       <span>CarCredit</span>

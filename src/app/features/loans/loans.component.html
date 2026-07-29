@@ -27,7 +27,7 @@
 
   <ng-container matColumnDef="amount">
     <th mat-header-cell *matHeaderCellDef>Monto</th>
-    <td mat-cell *matCellDef="let l">{{ l.amount | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+    <td mat-cell *matCellDef="let l">{{ l.amount | copCurrency }}</td>
   </ng-container>
 
   <ng-container matColumnDef="installments">
@@ -43,7 +43,7 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let l">
-      <button mat-icon-button color="warn" (click)="deleteLoan(l, $event)" matTooltip="Eliminar">
+      <button mat-icon-button color="warn" (click)="deleteLoan(l, $event)" matTooltip="Eliminar", aria-label="Eliminar préstamo">
         <mat-icon>delete</mat-icon>
       </button>
     </td>
@@ -53,4 +53,4 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="viewDetail(row)" class="clickable-row"></tr>
 </table>
 
-<p *ngIf="!loading && dataSource.data.length === 0">No hay préstamos registrados aún.</p>
+<p *ngIf="!loading && dataSource.data.length === 0" class="empty-state">No hay préstamos registrados aún.</p>

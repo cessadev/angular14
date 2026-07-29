@@ -2,7 +2,7 @@
 
 <form [formGroup]="form" (ngSubmit)="save()">
   <mat-dialog-content>
-    <p>Saldo pendiente: <strong>{{ remainingBalance | currency:'COP':'symbol-narrow':'1.0-0' }}</strong></p>
+    <p>Saldo pendiente: <strong>{{ remainingBalance | copCurrency }}</strong></p>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Método de pago</mat-label>

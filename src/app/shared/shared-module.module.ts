@@ -19,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { CopCurrencyPipe } from './pipes/cop-currency.pipe';
 
 const MATERIAL_MODULES = [
   MatTableModule, MatButtonModule, MatIconModule, MatFormFieldModule,
@@ -28,8 +29,8 @@ const MATERIAL_MODULES = [
 ];
 
 @NgModule({
-  declarations: [ConfirmDialogComponent],
+  declarations: [ConfirmDialogComponent, CopCurrencyPipe],
   imports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES],
-  exports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES, ConfirmDialogComponent]
+  exports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES, ConfirmDialogComponent, CopCurrencyPipe]
 })
 export class SharedModuleModule { }
