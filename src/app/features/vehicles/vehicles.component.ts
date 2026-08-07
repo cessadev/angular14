@@ -5,8 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
-import { VehicleResponse } from 'src/app/core/models';
-import { VehicleFormDialogComponent } from './vehicle-form-dialog/vehicle-form-dialog.component';
+import { UpdateVehicleRequest, VehicleResponse } from 'src/app/core/models';
+import { VehicleFormDialogComponent, VehicleFormDialogData } from './vehicle-form-dialog/vehicle-form-dialog.component';
 
 @Component({
   selector: 'app-vehicles',
@@ -16,7 +16,7 @@ import { VehicleFormDialogComponent } from './vehicle-form-dialog/vehicle-form-d
 export class VehiclesComponent implements OnInit {
   dataSource = new MatTableDataSource<VehicleResponse>([]);
   loading = false;
-  displayedColumns = ['identifier', 'brand', 'model', 'year', 'marketValue'];
+  displayedColumns = ['identifier', 'brand', 'model', 'year', 'marketValue', 'actions'];
   searchControl = new FormControl('');
 
   constructor(
@@ -61,6 +61,27 @@ export class VehiclesComponent implements OnInit {
       this.vehicleService.create(request).subscribe({
         next: () => {
           this.snackBar.open('Vehículo registrado correctamente', 'Cerrar', { duration: 3000 });
+          this.loadVehicles();
+        },
+        error: (err: Error) => {
+          this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+        }
+      });
+    });
+  }
+
+  openEditDialog(vehicle: VehicleResponse): void {
+    const dialogRef = this.dialog.open<VehicleFormDialogComponent, VehicleFormDialogData, UpdateVehicleRequest>(
+      VehicleFormDialogComponent,
+      { width: '480px', data: { vehicle } }
+    );
+
+    dialogRef.afterClosed().subscribe((request) => {
+      if (!request) return;
+
+      this.vehicleService.update(vehicle.identifier, request).subscribe({
+        next: () => {
+          this.snackBar.open('Vehículo actualizado correctamente', 'Cerrar', { duration: 3000 });
           this.loadVehicles();
         },
         error: (err: Error) => {

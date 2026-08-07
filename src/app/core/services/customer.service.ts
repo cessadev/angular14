@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CustomerResponse, CreateCustomerRequest } from '../models';
+import { CustomerResponse, CreateCustomerRequest, UpdateCustomerRequest } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
@@ -20,6 +20,10 @@ export class CustomerService {
 
   create(request: CreateCustomerRequest): Observable<CustomerResponse> {
     return this.http.post<CustomerResponse>(this.baseUrl, request);
+  }
+
+  update(documentNumber: number, request: UpdateCustomerRequest): Observable<CustomerResponse> {
+    return this.http.put<CustomerResponse>(`${this.baseUrl}/${documentNumber}`, request);
   }
 
   delete(documentNumber: number): Observable<void> {

@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Nuevo cliente</h2>
+<h2 mat-dialog-title>{{ isEditMode ? 'Editar cliente' : 'Nuevo cliente' }}</h2>
 
 <form [formGroup]="form" (ngSubmit)="save()">
   <mat-dialog-content>
@@ -9,6 +9,7 @@
           {{ documentTypeLabels[type] }}
         </mat-option>
       </mat-select>
+      <mat-hint *ngIf="isEditMode">No editable</mat-hint>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">

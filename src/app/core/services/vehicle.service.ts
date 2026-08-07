@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { VehicleResponse, RegisterVehicleRequest } from '../models';
+import { VehicleResponse, RegisterVehicleRequest, UpdateVehicleRequest } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class VehicleService {
@@ -20,5 +20,9 @@ export class VehicleService {
 
   create(request: RegisterVehicleRequest): Observable<VehicleResponse> {
     return this.http.post<VehicleResponse>(this.baseUrl, request);
+  }
+
+  update(identifier: string, request: UpdateVehicleRequest): Observable<VehicleResponse> {
+    return this.http.put<VehicleResponse>(`${this.baseUrl}/${identifier}`, request);
   }
 }
