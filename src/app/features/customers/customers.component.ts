@@ -8,6 +8,7 @@ import { CustomerService } from 'src/app/core/services/customer.service';
 import { CustomerResponse, EDocumentType, DOCUMENT_TYPE_LABELS, UpdateCustomerRequest } from 'src/app/core/models';
 import { CustomerFormDialogComponent, CustomerFormDialogData } from './customer-form-dialog/customer-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { CustomerLoansDialogComponent } from './customer-loans-dialog/customer-loans-dialog.component';
 
 @Component({
   selector: 'app-customers',
@@ -114,6 +115,13 @@ export class CustomersComponent implements OnInit {
           this.snackBar.open(err.message, 'Cerrar', { duration: 6000 });
         }
       });
+    });
+  }
+
+  openLoansDialog(customer: CustomerResponse): void {
+    this.dialog.open(CustomerLoansDialogComponent, {
+      width: '640px',
+      data: { customer }
     });
   }
 

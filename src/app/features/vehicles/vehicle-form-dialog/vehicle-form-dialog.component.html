@@ -3,7 +3,7 @@
 <form [formGroup]="form" (ngSubmit)="save()">
   <mat-dialog-content>
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Identificador / Placa</mat-label>
+      <mat-label>Identificador</mat-label>
       <input matInput formControlName="identifier">
       <mat-error *ngIf="form.get('identifier')?.hasError('required')">Requerido</mat-error>
     </mat-form-field>

@@ -49,6 +49,9 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let c">
+      <button mat-icon-button (click)="openLoansDialog(c)" matTooltip="Ver créditos" aria-label="Ver créditos del cliente">
+        <mat-icon>request_quote</mat-icon>
+      </button>
       <button mat-icon-button color="primary" (click)="openEditDialog(c)" matTooltip="Editar" aria-label="Editar cliente">
         <mat-icon>edit</mat-icon>
       </button>
