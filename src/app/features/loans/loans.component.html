@@ -1,8 +1,13 @@
 <div class="loans-header">
   <h1>Préstamos</h1>
-  <button mat-raised-button color="primary" (click)="openCreateDialog()">
-    <mat-icon>add</mat-icon> Nuevo préstamo
-  </button>
+  <div class="header-actions">
+    <button mat-stroked-button color="primary" (click)="openSimulationDialog()">
+      <mat-icon>calculate</mat-icon> Simular crédito
+    </button>
+    <button mat-raised-button color="primary" (click)="openCreateDialog()">
+      <mat-icon>add</mat-icon> Nuevo préstamo
+    </button>
+  </div>
 </div>
 
 <div *ngIf="loading" class="loading-container">

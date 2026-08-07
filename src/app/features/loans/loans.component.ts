@@ -7,6 +7,7 @@ import { LoanService } from 'src/app/core/services/loan.service';
 import { LoanResponse, EInstallmentsTerm, INSTALLMENTS_TERM_MONTHS } from 'src/app/core/models';
 import { LoanFormDialogComponent } from './loan-form-dialog/loan-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { LoanSimulationDialogComponent } from './loan-simulation-dialog/loan-simulation-dialog.component';
 
 @Component({
   selector: 'app-loans',
@@ -89,6 +90,10 @@ export class LoansComponent implements OnInit {
         }
       });
     });
+  }
+
+  openSimulationDialog(): void {
+    this.dialog.open(LoanSimulationDialogComponent, { width: '560px' });
   }
 
   getTermMonths(term: EInstallmentsTerm): number {

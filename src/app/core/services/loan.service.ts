@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { LoanResponse, CreateLoanRequest } from '../models';
+import { LoanResponse, CreateLoanRequest, SimulateLoanRequest, LoanSimulation } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class LoanService {
@@ -24,5 +24,9 @@ export class LoanService {
 
   delete(reference: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${reference}`);
+  }
+
+  simulate(request: SimulateLoanRequest): Observable<LoanSimulation> {
+    return this.http.post<LoanSimulation>(`${this.baseUrl}/simulate`, request);
   }
 }

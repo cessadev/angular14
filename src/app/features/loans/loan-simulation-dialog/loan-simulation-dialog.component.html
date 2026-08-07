@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>Simular crédito</h2>
+
+<form [formGroup]="form" (ngSubmit)="simulate()">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Monto a simular</mat-label>
+      <span matPrefix>$&nbsp;</span>
+      <input matInput type="number" formControlName="amount">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Plazo</mat-label>
+      <mat-select formControlName="installments">
+        <mat-option *ngFor="let term of terms" [value]="term">
+          {{ termMonths[term] }} meses
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Vehículo (opcional)</mat-label>
+      <mat-select formControlName="vehicleIdentifier">
+        <mat-option [value]="null">Sin vehículo específico</mat-option>
+        <mat-option *ngFor="let v of vehicles" [value]="v.identifier">
+          {{ v.identifier }} — {{ v.brand }} {{ v.model }} ({{ v.marketValue | copCurrency }})
+        </mat-option>
+      </mat-select>
+      <mat-hint>Si seleccionas uno, se valida contra su valor comercial</mat-hint>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="simulating">
+      Simular
+    </button>
+
+    <div *ngIf="simulating" class="loading-container">
+      <mat-spinner diameter="32"></mat-spinner>
+    </div>
+
+    <div *ngIf="simulation" class="simulation-result">
+      <p><strong>Valor de cuota:</strong> {{ simulation.installmentValue | copCurrency }}</p>
+      <p><strong>Total a pagar:</strong> {{ simulation.totalToPay | copCurrency }}</p>
+
+      <table mat-table [dataSource]="simulation.schedule" class="full-width">
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef>Cuota #</th>
+          <td mat-cell *matCellDef="let i">{{ i.number }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>Valor</th>
+          <td mat-cell *matCellDef="let i">{{ i.amount | copCurrency }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateExpiration">
+          <th mat-header-cell *matHeaderCellDef>Vencimiento</th>
+          <td mat-cell *matCellDef="let i">{{ i.dateExpiration | date:'dd/MM/yyyy' }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Cerrar</button>
+  </mat-dialog-actions>
+</form>
