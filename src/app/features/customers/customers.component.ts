@@ -5,9 +5,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CustomerService } from 'src/app/core/services/customer.service';
-import { CustomerResponse, EDocumentType, DOCUMENT_TYPE_LABELS } from 'src/app/core/models';
-import { CustomerFormDialogComponent } from './customer-form-dialog/customer-form-dialog.component';
+import { CustomerResponse, EDocumentType, DOCUMENT_TYPE_LABELS, UpdateCustomerRequest } from 'src/app/core/models';
+import { CustomerFormDialogComponent, CustomerFormDialogData } from './customer-form-dialog/customer-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { CustomerLoansDialogComponent } from './customer-loans-dialog/customer-loans-dialog.component';
 
 @Component({
   selector: 'app-customers',
@@ -72,6 +73,27 @@ export class CustomersComponent implements OnInit {
     });
   }
 
+  openEditDialog(customer: CustomerResponse): void {
+    const dialogRef = this.dialog.open<CustomerFormDialogComponent, CustomerFormDialogData, UpdateCustomerRequest>(
+      CustomerFormDialogComponent,
+      { width: '480px', data: { customer } }
+    );
+
+    dialogRef.afterClosed().subscribe((request) => {
+      if (!request) return;
+
+      this.customerService.update(customer.documentNumber, request).subscribe({
+        next: () => {
+          this.snackBar.open('Cliente actualizado correctamente', 'Cerrar', { duration: 3000 });
+          this.loadCustomers();
+        },
+        error: (err: Error) => {
+          this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+        }
+      });
+    });
+  }
+
   deleteCustomer(customer: CustomerResponse): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
@@ -93,6 +115,13 @@ export class CustomersComponent implements OnInit {
           this.snackBar.open(err.message, 'Cerrar', { duration: 6000 });
         }
       });
+    });
+  }
+
+  openLoansDialog(customer: CustomerResponse): void {
+    this.dialog.open(CustomerLoansDialogComponent, {
+      width: '640px',
+      data: { customer }
     });
   }
 

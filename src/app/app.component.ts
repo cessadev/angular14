@@ -21,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy{
   private isMobileSubscription?: Subscription;
 
   navLinks = [
+    { path: '/dashboard', label: 'Panel general', icon: 'dashboard' },
     { path: '/customers', label: 'Clientes', icon: 'people' },
     { path: '/vehicles', label: 'Vehículos', icon: 'directions_car' },
     { path: '/loans', label: 'Préstamos', icon: 'request_quote' },

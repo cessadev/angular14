@@ -17,3 +17,10 @@ export interface CreateCustomerRequest {
   age: number;
   address: string;
 }
+
+export interface UpdateCustomerRequest {
+  name: string;
+  lastname: string;
+  age: number;
+  address: string;
+}

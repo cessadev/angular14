@@ -15,3 +15,10 @@ export interface RegisterVehicleRequest {
   marketValue: number;
   year: number;
 }
+
+export interface UpdateVehicleRequest {
+  brand: EVehicleBrand;
+  model: string;
+  marketValue: number;
+  year: number;
+}
