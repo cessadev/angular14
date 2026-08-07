@@ -1,0 +1,41 @@
+.dashboard-header {
+  margin-bottom: 16px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.kpi-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px;
+
+  &--warn {
+    border-left: 4px solid #b00020;
+  }
+}
+
+.kpi-label {
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.kpi-value {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.kpi-footnote {
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.5);
+}
