@@ -78,6 +78,12 @@ export class LoanInstallmentsComponent implements OnInit {
     });
   }
 
+  viewPayments(installment: InstallmentResponse): void {
+    this.router.navigate(['/payments', 'loan', this.loanReference], {
+      queryParams: { paymentReference: installment.paymentReference }
+    });
+  }
+
   goBack(): void {
     this.router.navigate(['/loans', this.loanReference]);
   }
