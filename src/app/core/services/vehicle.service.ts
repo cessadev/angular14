@@ -22,6 +22,10 @@ export class VehicleService {
     return this.http.post<VehicleResponse>(this.baseUrl, request);
   }
 
+  delete(identifier: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${identifier}`);
+  }
+
   update(identifier: string, request: UpdateVehicleRequest): Observable<VehicleResponse> {
     return this.http.put<VehicleResponse>(`${this.baseUrl}/${identifier}`, request);
   }

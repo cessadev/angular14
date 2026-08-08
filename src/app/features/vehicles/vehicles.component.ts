@@ -7,6 +7,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
 import { UpdateVehicleRequest, VehicleResponse } from 'src/app/core/models';
 import { VehicleFormDialogComponent, VehicleFormDialogData } from './vehicle-form-dialog/vehicle-form-dialog.component';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-vehicles',
@@ -65,6 +66,30 @@ export class VehiclesComponent implements OnInit {
         },
         error: (err: Error) => {
           this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+        }
+      });
+    });
+  }
+
+  deleteVehicle(vehicle: VehicleResponse): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Eliminar vehículo',
+        message: `¿Seguro que desea eliminar el vehículo ${vehicle.identifier} (${vehicle.brand} ${vehicle.model})?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) return;
+
+      this.vehicleService.delete(vehicle.identifier).subscribe({
+        next: () => {
+          this.snackBar.open('Vehículo eliminado', 'Cerrar', { duration: 3000 });
+          this.loadVehicles();
+        },
+        error: (err: Error) => {
+          this.snackBar.open(err.message, 'Cerrar', { duration: 6000 });
         }
       });
     });
