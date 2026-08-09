@@ -4,6 +4,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
+const SIDENAV_COLLAPSE_BREAKPOINT = '(max-width: 768px)';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,7 +13,7 @@ import { map, shareReplay } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit, OnDestroy{
   isMobile$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
+    .observe(SIDENAV_COLLAPSE_BREAKPOINT)
     .pipe(
       map((result) => result.matches),
       shareReplay(1)
