@@ -11,7 +11,8 @@ import {
 
 @Component({
   selector: 'app-loan-form-dialog',
-  templateUrl: './loan-form-dialog.component.html'
+  templateUrl: './loan-form-dialog.component.html',
+  styleUrls: ['./loan-form-dialog.component.scss']
 })
 export class LoanFormDialogComponent implements OnInit {
   form: FormGroup;

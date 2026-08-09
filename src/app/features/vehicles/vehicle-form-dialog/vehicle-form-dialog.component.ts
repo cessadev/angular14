@@ -9,7 +9,8 @@ export interface VehicleFormDialogData {
 
 @Component({
   selector: 'app-vehicle-form-dialog',
-  templateUrl: './vehicle-form-dialog.component.html'
+  templateUrl: './vehicle-form-dialog.component.html',
+  styleUrls: ['./vehicle-form-dialog.component.scss']
 })
 export class VehicleFormDialogComponent {
   form: FormGroup;

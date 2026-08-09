@@ -9,7 +9,8 @@ export interface PaymentDialogData {
 
 @Component({
   selector: 'app-payment-dialog',
-  templateUrl: './payment-dialog.component.html'
+  templateUrl: './payment-dialog.component.html',
+  styleUrls: ['./payment-dialog.component.scss']
 })
 export class PaymentDialogComponent {
   form: FormGroup;

@@ -15,7 +15,8 @@ export interface CustomerFormDialogData {
 
 @Component({
   selector: 'app-customer-form-dialog',
-  templateUrl: './customer-form-dialog.component.html'
+  templateUrl: './customer-form-dialog.component.html',
+  styleUrls: ['./customer-form-dialog.component.scss']
 })
 export class CustomerFormDialogComponent {
   form: FormGroup;

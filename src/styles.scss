@@ -2,3 +2,12 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Angular Material 14 (legacy/non-MDC) applies a vertical offset to
+   mat-form-field prefixes/suffixes, sized for icon prefixes (mat-icon).
+   Plain-text prefixes like the currency "$" sign end up sitting lower
+   than the input's baseline — this resets that offset. */
+.mat-form-field-prefix,
+.mat-form-field-suffix {
+  top: 0 !important;
+}
