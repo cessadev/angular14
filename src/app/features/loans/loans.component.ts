@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { LoanResponse, EInstallmentsTerm, INSTALLMENTS_TERM_MONTHS } from 'src/app/core/models';
 import { LoanFormDialogComponent } from './loan-form-dialog/loan-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { LoanSimulationDialogComponent } from './loan-simulation-dialog/loan-simulation-dialog.component';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-loans',
@@ -23,7 +23,7 @@ export class LoansComponent implements OnInit {
   constructor(
     private loanService: LoanService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
+    private notificationService: NotificationService,
     private router: Router
   ) {}
 
@@ -40,7 +40,7 @@ export class LoansComponent implements OnInit {
       },
       error: (err: Error) => {
         this.loading = false;
-        this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+        this.notificationService.error(err.message);
       }
     });
   }
@@ -53,11 +53,11 @@ export class LoansComponent implements OnInit {
 
       this.loanService.create(request).subscribe({
         next: () => {
-          this.snackBar.open('Préstamo creado correctamente', 'Cerrar', { duration: 3000 });
+          this.notificationService.success('Préstamo creado correctamente');
           this.loadLoans();
         },
         error: (err: Error) => {
-          this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+          this.notificationService.error(err.message);
         }
       });
     });
@@ -82,11 +82,11 @@ export class LoansComponent implements OnInit {
 
       this.loanService.delete(loan.reference).subscribe({
         next: () => {
-          this.snackBar.open('Préstamo eliminado', 'Cerrar', { duration: 3000 });
+          this.notificationService.success('Préstamo eliminado');
           this.loadLoans();
         },
         error: (err: Error) => {
-          this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+          this.notificationService.error(err.message);
         }
       });
     });

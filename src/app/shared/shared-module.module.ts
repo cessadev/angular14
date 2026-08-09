@@ -10,7 +10,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
@@ -19,18 +18,19 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { FeedbackDialogComponent } from './components/feedback-dialog/feedback-dialog.component';
 import { CopCurrencyPipe } from './pipes/cop-currency.pipe';
 
 const MATERIAL_MODULES = [
   MatTableModule, MatButtonModule, MatIconModule, MatFormFieldModule,
   MatInputModule, MatSelectModule, MatDialogModule, MatProgressSpinnerModule,
-  MatSnackBarModule, MatToolbarModule, MatSidenavModule, MatListModule,
+  MatToolbarModule, MatSidenavModule, MatListModule,
   MatCardModule, MatTooltipModule, MatChipsModule
 ];
 
 @NgModule({
-  declarations: [ConfirmDialogComponent, CopCurrencyPipe],
+  declarations: [ConfirmDialogComponent, FeedbackDialogComponent, CopCurrencyPipe],
   imports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES],
-  exports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES, ConfirmDialogComponent, CopCurrencyPipe]
+  exports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES, ConfirmDialogComponent, FeedbackDialogComponent, CopCurrencyPipe]
 })
 export class SharedModuleModule { }

@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { CustomerResponse, LoanResponse, INSTALLMENTS_TERM_MONTHS, EInstallmentsTerm } from 'src/app/core/models';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 export interface CustomerLoansDialogData {
   customer: CustomerResponse;
@@ -25,7 +25,7 @@ export class CustomerLoansDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<CustomerLoansDialogComponent>,
     private loanService: LoanService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class CustomerLoansDialogComponent implements OnInit {
       },
       error: (err: Error) => {
         this.loading = false;
-        this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+        this.notificationService.error(err.message);
       }
     });
   }

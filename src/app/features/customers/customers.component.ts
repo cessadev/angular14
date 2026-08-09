@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -9,6 +8,7 @@ import { CustomerResponse, EDocumentType, DOCUMENT_TYPE_LABELS, UpdateCustomerRe
 import { CustomerFormDialogComponent, CustomerFormDialogData } from './customer-form-dialog/customer-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CustomerLoansDialogComponent } from './customer-loans-dialog/customer-loans-dialog.component';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-customers',
@@ -25,7 +25,7 @@ export class CustomersComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +50,7 @@ export class CustomersComponent implements OnInit {
       },
       error: (err: Error) => {
         this.loading = false;
-        this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+        this.notificationService.error(err.message);
       }
     });
   }
@@ -63,11 +63,11 @@ export class CustomersComponent implements OnInit {
 
       this.customerService.create(request).subscribe({
         next: () => {
-          this.snackBar.open('Cliente creado correctamente', 'Cerrar', { duration: 3000 });
+          this.notificationService.success('Cliente creado correctamente');
           this.loadCustomers();
         },
         error: (err: Error) => {
-          this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+          this.notificationService.error(err.message);
         }
       });
     });
@@ -84,11 +84,11 @@ export class CustomersComponent implements OnInit {
 
       this.customerService.update(customer.documentNumber, request).subscribe({
         next: () => {
-          this.snackBar.open('Cliente actualizado correctamente', 'Cerrar', { duration: 3000 });
+          this.notificationService.success('Cliente actualizado correctamente');
           this.loadCustomers();
         },
         error: (err: Error) => {
-          this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+          this.notificationService.error(err.message);
         }
       });
     });
@@ -108,11 +108,11 @@ export class CustomersComponent implements OnInit {
 
       this.customerService.delete(customer.documentNumber).subscribe({
         next: () => {
-          this.snackBar.open('Cliente eliminado', 'Cerrar', { duration: 3000 });
+          this.notificationService.success('Cliente eliminado');
           this.loadCustomers();
         },
         error: (err: Error) => {
-          this.snackBar.open(err.message, 'Cerrar', { duration: 6000 });
+          this.notificationService.error(err.message);
         }
       });
     });

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
 import { LoanService } from 'src/app/core/services/loan.service';
 import {
   VehicleResponse, EInstallmentsTerm, INSTALLMENTS_TERM_MONTHS,
   SimulateLoanRequest, LoanSimulation
 } from 'src/app/core/models';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-loan-simulation-dialog',
@@ -28,7 +28,7 @@ export class LoanSimulationDialogComponent implements OnInit {
     private vehicleService: VehicleService,
     private loanService: LoanService,
     private dialogRef: MatDialogRef<LoanSimulationDialogComponent>,
-    private snackBar: MatSnackBar
+    private notificationService: NotificationService
   ) {
     this.form = this.fb.group({
       amount: [null, [Validators.required, Validators.min(1)]],
@@ -40,7 +40,7 @@ export class LoanSimulationDialogComponent implements OnInit {
   ngOnInit(): void {
     this.vehicleService.getAll().subscribe({
       next: (vehicles) => (this.vehicles = vehicles),
-      error: () => this.snackBar.open('No se pudieron cargar los vehículos', 'Cerrar', { duration: 5000 })
+      error: () => this.notificationService.error('No se pudieron cargar los vehículos')
     });
   }
 
@@ -63,7 +63,7 @@ export class LoanSimulationDialogComponent implements OnInit {
       },
       error: (err: Error) => {
         this.simulating = false;
-        this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+        this.notificationService.error(err.message);
       }
     });
   }

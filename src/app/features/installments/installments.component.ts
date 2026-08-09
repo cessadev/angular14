@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { InstallmentService } from 'src/app/core/services/installment.service';
 import { OverdueInstallment } from 'src/app/core/models';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-installments',
@@ -17,7 +17,7 @@ export class InstallmentsComponent implements OnInit {
 
   constructor(
     private installmentService: InstallmentService,
-    private snackBar: MatSnackBar,
+    private notificationService: NotificationService,
     private router: Router
   ) {}
 
@@ -34,7 +34,7 @@ export class InstallmentsComponent implements OnInit {
       },
       error: (err: Error) => {
         this.loading = false;
-        this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+        this.notificationService.error(err.message);
       }
     });
   }

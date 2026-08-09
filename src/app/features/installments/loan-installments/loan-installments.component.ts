@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { InstallmentService } from 'src/app/core/services/installment.service';
 import { InstallmentResponse } from 'src/app/core/models';
 import { PaymentDialogComponent } from '../payment-dialog/payment-dialog.component';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 type InstallmentStatus = 'paid' | 'overdue' | 'pending';
 
@@ -24,7 +24,7 @@ export class LoanInstallmentsComponent implements OnInit {
     private router: Router,
     private installmentService: InstallmentService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +41,7 @@ export class LoanInstallmentsComponent implements OnInit {
       },
       error: (err: Error) => {
         this.loading = false;
-        this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+        this.notificationService.error(err.message);
       }
     });
   }
@@ -68,11 +68,11 @@ export class LoanInstallmentsComponent implements OnInit {
 
       this.installmentService.registerPayment(installment.paymentReference, request).subscribe({
         next: () => {
-          this.snackBar.open('Pago registrado correctamente', 'Cerrar', { duration: 3000 });
+          this.notificationService.success('Pago registrado correctamente');
           this.loadInstallments();
         },
         error: (err: Error) => {
-          this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+          this.notificationService.error(err.message);
         }
       });
     });

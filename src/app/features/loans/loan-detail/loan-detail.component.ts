@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { forkJoin } from 'rxjs';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { InstallmentService } from 'src/app/core/services/installment.service';
 import { LoanResponse, LoanSummary, INSTALLMENTS_TERM_MONTHS } from 'src/app/core/models';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-loan-detail',
@@ -23,7 +23,7 @@ export class LoanDetailComponent implements OnInit {
     private router: Router,
     private loanService: LoanService,
     private installmentService: InstallmentService,
-    private snackBar: MatSnackBar
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class LoanDetailComponent implements OnInit {
       error: (err: Error) => {
         this.loading = false;
         this.notFound = true;
-        this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+        this.notificationService.error(err.message);
       }
     });
   }

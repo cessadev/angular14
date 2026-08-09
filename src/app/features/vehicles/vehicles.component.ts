@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -8,6 +7,7 @@ import { VehicleService } from 'src/app/core/services/vehicle.service';
 import { UpdateVehicleRequest, VehicleResponse } from 'src/app/core/models';
 import { VehicleFormDialogComponent, VehicleFormDialogData } from './vehicle-form-dialog/vehicle-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-vehicles',
@@ -23,7 +23,7 @@ export class VehiclesComponent implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -48,7 +48,7 @@ export class VehiclesComponent implements OnInit {
       },
       error: (err: Error) => {
         this.loading = false;
-        this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+        this.notificationService.error(err.message);
       }
     });
   }
@@ -61,11 +61,11 @@ export class VehiclesComponent implements OnInit {
 
       this.vehicleService.create(request).subscribe({
         next: () => {
-          this.snackBar.open('Vehículo registrado correctamente', 'Cerrar', { duration: 3000 });
+          this.notificationService.success('Vehiculo registrado correctamente');
           this.loadVehicles();
         },
         error: (err: Error) => {
-          this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+          this.notificationService.error(err.message);
         }
       });
     });
@@ -85,11 +85,11 @@ export class VehiclesComponent implements OnInit {
 
       this.vehicleService.delete(vehicle.identifier).subscribe({
         next: () => {
-          this.snackBar.open('Vehículo eliminado', 'Cerrar', { duration: 3000 });
+          this.notificationService.success('Vehiculo eliminado');
           this.loadVehicles();
         },
         error: (err: Error) => {
-          this.snackBar.open(err.message, 'Cerrar', { duration: 6000 });
+          this.notificationService.error(err.message);
         }
       });
     });
@@ -106,11 +106,11 @@ export class VehiclesComponent implements OnInit {
 
       this.vehicleService.update(vehicle.identifier, request).subscribe({
         next: () => {
-          this.snackBar.open('Vehículo actualizado correctamente', 'Cerrar', { duration: 3000 });
+          this.notificationService.success('Vehiculo actualizado correctamente');
           this.loadVehicles();
         },
         error: (err: Error) => {
-          this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+          this.notificationService.error(err.message);
         }
       });
     });

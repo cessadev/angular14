@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { PaymentService } from 'src/app/core/services/payment.service';
 import { PaymentResponse, PAYMENT_METHOD_LABELS, EPaymentMethod } from 'src/app/core/models';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-loan-payments',
@@ -20,7 +20,7 @@ export class LoanPaymentsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private paymentService: PaymentService,
-    private snackBar: MatSnackBar
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +43,7 @@ export class LoanPaymentsComponent implements OnInit {
       },
       error: (err: Error) => {
         this.loading = false;
-        this.snackBar.open(err.message, 'Cerrar', { duration: 5000 });
+        this.notificationService.error(err.message);
       }
     });
   }
