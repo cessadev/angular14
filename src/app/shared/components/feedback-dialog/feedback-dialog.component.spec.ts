@@ -1,23 +1,29 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { FeedbackDialogComponent } from './feedback-dialog.component';
+import { FeedbackDialogComponent, FeedbackDialogData } from './feedback-dialog.component';
 
 describe('FeedbackDialogComponent', () => {
-  let component: FeedbackDialogComponent;
-  let fixture: ComponentFixture<FeedbackDialogComponent>;
+  // [Success variant]
+  it('constructor_SuccessData_ExposesInjectedDialogData', () => {
+    const data: FeedbackDialogData = {
+      type: 'success',
+      title: 'Operación exitosa',
+      message: 'Cliente creado correctamente'
+    };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ FeedbackDialogComponent ]
-    })
-    .compileComponents();
+    const component = new FeedbackDialogComponent(data);
 
-    fixture = TestBed.createComponent(FeedbackDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    expect(component.data).toEqual(data);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  // [Error variant]
+  it('constructor_ErrorData_ExposesInjectedDialogData', () => {
+    const data: FeedbackDialogData = {
+      type: 'error',
+      title: 'No se pudo completar la operación',
+      message: 'El vehículo ya tiene un crédito activo'
+    };
+
+    const component = new FeedbackDialogComponent(data);
+
+    expect(component.data).toEqual(data);
   });
 });

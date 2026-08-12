@@ -1,23 +1,33 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ConfirmDialogComponent } from './confirm-dialog.component';
+import { MatDialogRef } from '@angular/material/dialog';
+import { ConfirmDialogComponent, ConfirmDialogData } from './confirm-dialog.component';
 
 describe('ConfirmDialogComponent', () => {
   let component: ConfirmDialogComponent;
-  let fixture: ComponentFixture<ConfirmDialogComponent>;
+  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<ConfirmDialogComponent, boolean>>;
+  const data: ConfirmDialogData = {
+    title: 'Eliminar cliente',
+    message: '¿Seguro que desea eliminar a Carlos Ruiz?'
+  };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ ConfirmDialogComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(ConfirmDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    dialogRefSpy = jasmine.createSpyObj<MatDialogRef<ConfirmDialogComponent, boolean>>('MatDialogRef', ['close']);
+    component = new ConfirmDialogComponent(dialogRefSpy, data);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  // [Confirm]
+  it('confirm_Always_ClosesDialogWithTrue', () => {
+    component.confirm();
+    expect(dialogRefSpy.close).toHaveBeenCalledOnceWith(true);
+  });
+
+  // [Cancel]
+  it('cancel_Always_ClosesDialogWithFalse', () => {
+    component.cancel();
+    expect(dialogRefSpy.close).toHaveBeenCalledOnceWith(false);
+  });
+
+  // [Injected data is exposed to the template]
+  it('data_Always_ExposesInjectedDialogData', () => {
+    expect(component.data).toEqual(data);
   });
 });

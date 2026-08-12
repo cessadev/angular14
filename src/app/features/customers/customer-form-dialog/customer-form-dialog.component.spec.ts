@@ -1,23 +1,107 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CustomerFormDialogComponent } from './customer-form-dialog.component';
+import { FormBuilder } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { CustomerFormDialogComponent, CustomerFormDialogData } from './customer-form-dialog.component';
+import { CustomerResponse, EDocumentType, CreateCustomerRequest, UpdateCustomerRequest } from 'src/app/core/models';
 
 describe('CustomerFormDialogComponent', () => {
-  let component: CustomerFormDialogComponent;
-  let fixture: ComponentFixture<CustomerFormDialogComponent>;
+  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<CustomerFormDialogComponent, CreateCustomerRequest | UpdateCustomerRequest>>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ CustomerFormDialogComponent ]
-    })
-    .compileComponents();
+  const existingCustomer: CustomerResponse = {
+    documentType: EDocumentType.CedulaCiudadania,
+    documentNumber: 123456789,
+    name: 'Carlos',
+    lastname: 'Ruiz',
+    age: 35,
+    address: 'Calle 50 #23-10, Barranquilla'
+  };
 
-    fixture = TestBed.createComponent(CustomerFormDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    dialogRefSpy = jasmine.createSpyObj<MatDialogRef<CustomerFormDialogComponent, CreateCustomerRequest | UpdateCustomerRequest>>('MatDialogRef', ['close']);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  function createComponent(data: CustomerFormDialogData | null): CustomerFormDialogComponent {
+    return new CustomerFormDialogComponent(new FormBuilder(), dialogRefSpy, data);
+  }
+
+  // [Create mode]
+  it('constructor_NoData_InitializesEmptyFormWithEditableDocumentFields', () => {
+    const component = createComponent(null);
+
+    expect(component.isEditMode).toBeFalse();
+    expect(component.form.get('documentType')?.disabled).toBeFalse();
+    expect(component.form.get('documentNumber')?.disabled).toBeFalse();
+    expect(component.form.get('name')?.value).toBe('');
+  });
+
+  // [Edit mode]
+  it('constructor_WithCustomerData_PrefillsFormAndDisablesDocumentFields', () => {
+    const component = createComponent({ customer: existingCustomer });
+
+    expect(component.isEditMode).toBeTrue();
+    expect(component.form.get('documentType')?.disabled).toBeTrue();
+    expect(component.form.get('documentNumber')?.disabled).toBeTrue();
+    expect(component.form.get('name')?.value).toBe(existingCustomer.name);
+    expect(component.form.get('address')?.value).toBe(existingCustomer.address);
+  });
+
+  // [Invalid form]
+  it('save_InvalidForm_DoesNotCloseDialogAndMarksFieldsAsTouched', () => {
+    const component = createComponent(null);
+
+    component.save();
+
+    expect(dialogRefSpy.close).not.toHaveBeenCalled();
+    expect(component.form.get('name')?.touched).toBeTrue();
+  });
+
+  // [Create mode, valid form]
+  it('save_CreateModeValidForm_ClosesDialogWithFullCreateRequest', () => {
+    const component = createComponent(null);
+
+    component.form.setValue({
+      documentType: EDocumentType.CedulaCiudadania,
+      documentNumber: 123456789,
+      name: 'Carlos',
+      lastname: 'Ruiz',
+      age: 35,
+      address: 'Calle 50 #23-10, Barranquilla'
+    });
+
+    component.save();
+
+    expect(dialogRefSpy.close).toHaveBeenCalledOnceWith({
+      documentType: EDocumentType.CedulaCiudadania,
+      documentNumber: 123456789,
+      name: 'Carlos',
+      lastname: 'Ruiz',
+      age: 35,
+      address: 'Calle 50 #23-10, Barranquilla'
+    });
+  });
+
+  // [Edit mode, valid form]
+  it('save_EditModeValidForm_ClosesDialogWithOnlyEditableFields', () => {
+    const component = createComponent({ customer: existingCustomer });
+
+    component.form.get('name')?.setValue('Carlos Andrés');
+    component.form.get('address')?.setValue('Calle 72 #10-45, Barranquilla');
+
+    component.save();
+
+    expect(dialogRefSpy.close).toHaveBeenCalledOnceWith({
+      name: 'Carlos Andrés',
+      lastname: existingCustomer.lastname,
+      age: existingCustomer.age,
+      address: 'Calle 72 #10-45, Barranquilla'
+    });
+  });
+
+  // [Cancel]
+  it('cancel_Always_ClosesDialogWithoutValue', () => {
+    const component = createComponent(null);
+
+    component.cancel();
+
+    expect(dialogRefSpy.close).toHaveBeenCalledOnceWith();
   });
 });
