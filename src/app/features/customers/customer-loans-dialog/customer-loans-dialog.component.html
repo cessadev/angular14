@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>Créditos de {{ data.customer.name }} {{ data.customer.lastname }}</h2>
+<h2 class="dialog-title">Créditos de {{ data.customer.name }} {{ data.customer.lastname }}</h2>
 
-<mat-dialog-content>
+<div class="dialog-content">
   <div *ngIf="loading" class="loading-container">
     <mat-spinner diameter="32"></mat-spinner>
   </div>
@@ -36,8 +36,8 @@
   </table>
 
   <p *ngIf="!loading && loans.length === 0" class="empty-state">Este cliente no tiene créditos registrados.</p>
-</mat-dialog-content>
+</div>
 
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cerrar</button>
-</mat-dialog-actions>
+<div class="dialog-actions dialog-actions--end">
+  <button mat-button (click)="close()">Cerrar</button>
+</div>

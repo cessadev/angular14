@@ -1,12 +1,12 @@
 <div class="feedback-dialog" [class.feedback-success]="data.type === 'success'" [class.feedback-error]="data.type === 'error'">
   <mat-icon class="feedback-icon">{{ data.type === 'success' ? 'check_circle' : 'error' }}</mat-icon>
 
-  <h2 mat-dialog-title>{{ data.title }}</h2>
-  <mat-dialog-content>{{ data.message }}</mat-dialog-content>
+  <h2 class="dialog-title">{{ data.title }}</h2>
+  <div class="dialog-content">{{ data.message }}</div>
 
-  <mat-dialog-actions align="center">
-    <button mat-raised-button [color]="data.type === 'success' ? 'primary' : 'warn'" mat-dialog-close>
+  <div class="dialog-actions dialog-actions--center">
+    <button mat-raised-button [color]="data.type === 'success' ? 'primary' : 'warn'" (click)="close()">
       Aceptar
     </button>
-  </mat-dialog-actions>
+  </div>
 </div>

@@ -47,6 +47,10 @@ export class CustomerLoansDialogComponent implements OnInit {
     this.router.navigate(['/loans', loan.reference]);
   }
 
+  close(): void {
+    this.dialogRef.close();
+  }
+
   getTermMonths(term: EInstallmentsTerm): number {
     return INSTALLMENTS_TERM_MONTHS[term];
   }

@@ -1,8 +1,8 @@
-<h2 mat-dialog-title>{{ data.title }}</h2>
-<mat-dialog-content>{{ data.message }}</mat-dialog-content>
-<mat-dialog-actions align="end">
+<h2 class="dialog-title">{{ data.title }}</h2>
+<div class="dialog-content">{{ data.message }}</div>
+<div class="dialog-actions dialog-actions--end">
   <button mat-button (click)="cancel()">Cancelar</button>
   <button mat-raised-button color="warn" (click)="confirm()">
     {{ data.confirmLabel ?? 'Eliminar' }}
   </button>
-</mat-dialog-actions>
+</div>

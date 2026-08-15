@@ -45,3 +45,45 @@ h1, h2, h3, .display { font-family: var(--font-display); }
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+// --- Estructura de diálogo (reemplaza mat-dialog-title/content/actions) ---
+.dialog-title {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+.dialog-content { margin-bottom: 16px; }
+.dialog-actions { display: flex; gap: 8px; margin-top: 8px; }
+.dialog-actions--end { justify-content: flex-end; }
+.dialog-actions--center { justify-content: center; }
+
+// --- Listas de datos (reemplaza mat-table) ---
+.data-list { display: flex; flex-direction: column; gap: 8px; }
+.data-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.data-row--clickable { cursor: pointer; transition: background 0.15s ease; }
+.data-row--clickable:hover { background: rgba(46, 139, 146, 0.12); }
+.data-row__field { display: flex; flex-direction: column; gap: 2px; min-width: 110px; }
+.data-row__label {
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.04em; color: var(--color-text-muted);
+}
+.data-row__actions { margin-left: auto; display: flex; gap: 4px; align-self: center; }
+
+// --- Badges (reemplaza mat-chip) ---
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 500; background: rgba(255,255,255,0.08);
+}
+.badge--warn { background: rgba(193, 80, 63, 0.25); color: #F2A99B; }
+.badge--primary { background: rgba(29, 92, 99, 0.3); color: #7FCBD1; }

@@ -1,4 +1,4 @@
-import { DIALOG_DATA } from '@angular/cdk/dialog';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject } from '@angular/core';
 
 export type FeedbackType = 'success' | 'error';
@@ -15,5 +15,12 @@ export interface FeedbackDialogData {
   styleUrls: ['./feedback-dialog.component.scss']
 })
 export class FeedbackDialogComponent {
-  constructor(@Inject(DIALOG_DATA) public data: FeedbackDialogData) {}
+  constructor(
+    private dialogRef: DialogRef<void, FeedbackDialogComponent>,
+    @Inject(DIALOG_DATA) public data: FeedbackDialogData
+  ) {}
+
+  close(): void {
+    this.dialogRef.close();
+  }
 }
