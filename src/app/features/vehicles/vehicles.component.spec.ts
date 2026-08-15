@@ -16,7 +16,7 @@ describe('VehiclesComponent', () => {
   let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
 
   const vehicle: VehicleResponse = {
-    identifier: 'MK-1299',
+    identifier: 'M129900112',
     brand: EVehicleBrand.Toyota,
     model: 'Hilux Cargo',
     marketValue: 125000000,
@@ -39,9 +39,11 @@ describe('VehiclesComponent', () => {
     const component = createComponent();
     component.ngOnInit();
 
-    expect(component.dataSource.data).toEqual([vehicle]);
-    expect(component.dataSource.filterPredicate(vehicle, 'mk-12')).toBeTrue();
-    expect(component.dataSource.filterPredicate(vehicle, 'zz-99')).toBeFalse();
+    expect(component.vehicles).toEqual([vehicle]);
+    component['applyFilter']('M129900112');
+    expect(component.filteredVehicles).toEqual([vehicle]);
+    component['applyFilter']('X876543210');
+    expect(component.filteredVehicles).toEqual([]);
   });
 
   // [Search control wiring, debounced]
@@ -49,10 +51,10 @@ describe('VehiclesComponent', () => {
     const component = createComponent();
     component.ngOnInit();
 
-    component.searchControl.setValue('  MK-1299  ');
+    component.searchControl.setValue('  M129900112  ');
     tick(200);
 
-    expect(component.dataSource.filter).toBe('MK-1299');
+    expect(component.filteredVehicles).toEqual([vehicle]);
   }));
 
   // [Load error]

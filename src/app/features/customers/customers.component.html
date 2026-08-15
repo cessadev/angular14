@@ -15,40 +15,15 @@
   <mat-spinner diameter="40"></mat-spinner>
 </div>
 
-<table mat-table [dataSource]="dataSource" *ngIf="!loading" class="mat-elevation-z2 full-width">
-  <ng-container matColumnDef="documentType">
-    <th mat-header-cell *matHeaderCellDef>Tipo doc.</th>
-    <td mat-cell *matCellDef="let c">{{ getDocumentTypeLabel(c.documentType) }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="documentNumber">
-    <th mat-header-cell *matHeaderCellDef>Número</th>
-    <td mat-cell *matCellDef="let c">{{ c.documentNumber }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Nombre</th>
-    <td mat-cell *matCellDef="let c">{{ c.name }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="lastname">
-    <th mat-header-cell *matHeaderCellDef>Apellido</th>
-    <td mat-cell *matCellDef="let c">{{ c.lastname }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="age">
-    <th mat-header-cell *matHeaderCellDef>Edad</th>
-    <td mat-cell *matCellDef="let c">{{ c.age }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="address">
-    <th mat-header-cell *matHeaderCellDef>Dirección</th>
-    <td mat-cell *matCellDef="let c">{{ c.address }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let c">
+<div class="data-list" *ngIf="!loading">
+  <div class="data-row" *ngFor="let c of filteredCustomers">
+    <div class="data-row__field"><span class="data-row__label">Tipo doc.</span>{{ getDocumentTypeLabel(c.documentType) }}</div>
+    <div class="data-row__field"><span class="data-row__label">Número</span>{{ c.documentNumber }}</div>
+    <div class="data-row__field"><span class="data-row__label">Nombre</span>{{ c.name }}</div>
+    <div class="data-row__field"><span class="data-row__label">Apellido</span>{{ c.lastname }}</div>
+    <div class="data-row__field"><span class="data-row__label">Edad</span>{{ c.age }}</div>
+    <div class="data-row__field"><span class="data-row__label">Dirección</span>{{ c.address }}</div>
+    <div class="data-row__actions">
       <button mat-icon-button (click)="openLoansDialog(c)" matTooltip="Ver créditos" aria-label="Ver créditos del cliente">
         <mat-icon>request_quote</mat-icon>
       </button>
@@ -58,11 +33,8 @@
       <button mat-icon-button color="warn" (click)="deleteCustomer(c)" matTooltip="Eliminar" aria-label="Eliminar cliente">
         <mat-icon>delete</mat-icon>
       </button>
-    </td>
-  </ng-container>
+    </div>
+  </div>
+</div>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
-
-<p *ngIf="!loading && dataSource.filteredData.length === 0" class="empty-state">No hay clientes registrados aún.</p>
+<p *ngIf="!loading && filteredCustomers.length === 0" class="empty-state">No hay clientes registrados aún.</p>

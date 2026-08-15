@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CustomerService } from 'src/app/core/services/customer.service';
@@ -16,9 +15,9 @@ import { Dialog } from '@angular/cdk/dialog';
   styleUrls: ['./customers.component.scss']
 })
 export class CustomersComponent implements OnInit {
-  dataSource = new MatTableDataSource<CustomerResponse>([]);
+  customers: CustomerResponse[] = [];
+  filteredCustomers: CustomerResponse[] = [];
   loading = false;
-  displayedColumns = ['documentType', 'documentNumber', 'name', 'lastname', 'age', 'address', 'actions'];
   documentTypeLabels = DOCUMENT_TYPE_LABELS;
   searchControl = new FormControl('');
 
@@ -31,13 +30,10 @@ export class CustomersComponent implements OnInit {
   ngOnInit(): void {
     this.loadCustomers();
 
-    this.dataSource.filterPredicate = (customer, filter) =>
-      customer.documentNumber.toString().includes(filter.trim());
-
     this.searchControl.valueChanges
       .pipe(debounceTime(200), distinctUntilChanged())
       .subscribe((value) => {
-        this.dataSource.filter = (value ?? '').trim();
+        this.applyFilter(value ?? '');
       });
   }
 
@@ -45,7 +41,8 @@ export class CustomersComponent implements OnInit {
     this.loading = true;
     this.customerService.getAll().subscribe({
       next: (customers) => {
-        this.dataSource.data = customers;
+        this.customers = customers;
+        this.applyFilter(this.searchControl.value ?? '');
         this.loading = false;
       },
       error: (err: Error) => {
@@ -123,6 +120,13 @@ export class CustomersComponent implements OnInit {
       width: '640px',
       data: { customer }
     });
+  }
+
+  private applyFilter(term: string): void {
+    const value = term.trim();
+    this.filteredCustomers = value
+      ? this.customers.filter((c) => c.documentNumber.toString().includes(value))
+      : this.customers;
   }
 
   getDocumentTypeLabel(type: EDocumentType): string {

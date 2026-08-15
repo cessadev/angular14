@@ -43,7 +43,7 @@ describe('LoansComponent', () => {
     const component = createComponent();
     component.ngOnInit();
 
-    expect(component.dataSource.data).toEqual([loan]);
+    expect(component.loans).toEqual([loan]);
     expect(component.loading).toBeFalse();
   });
 

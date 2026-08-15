@@ -37,7 +37,7 @@ describe('InstallmentsComponent', () => {
     const component = createComponent();
     component.ngOnInit();
 
-    expect(component.dataSource.data).toEqual([overdueItem]);
+    expect(component.items).toEqual([overdueItem]);
     expect(component.loading).toBeFalse();
   });
 

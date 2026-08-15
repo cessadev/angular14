@@ -15,46 +15,22 @@
   <mat-spinner diameter="40"></mat-spinner>
 </div>
 
-<table mat-table [dataSource]="dataSource" *ngIf="!loading" class="mat-elevation-z2 full-width">
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let v">
+<div class="data-list" *ngIf="!loading">
+  <div class="data-row" *ngFor="let v of filteredVehicles">
+    <div class="data-row__field"><span class="data-row__label">Identificador</span>{{ v.identifier }}</div>
+    <div class="data-row__field"><span class="data-row__label">Marca</span>{{ v.brand }}</div>
+    <div class="data-row__field"><span class="data-row__label">Modelo</span>{{ v.model }}</div>
+    <div class="data-row__field"><span class="data-row__label">Año</span>{{ v.year }}</div>
+    <div class="data-row__field"><span class="data-row__label">Valor de mercado</span>{{ v.marketValue | copCurrency }}</div>
+    <div class="data-row__actions">
       <button mat-icon-button color="primary" (click)="openEditDialog(v)" matTooltip="Editar" aria-label="Editar vehículo">
         <mat-icon>edit</mat-icon>
       </button>
       <button mat-icon-button color="warn" (click)="deleteVehicle(v)" matTooltip="Eliminar" aria-label="Eliminar vehículo">
         <mat-icon>delete</mat-icon>
       </button>
-    </td>
-  </ng-container>
+    </div>
+  </div>
+</div>
 
-  <ng-container matColumnDef="identifier">
-    <th mat-header-cell *matHeaderCellDef>Identificador</th>
-    <td mat-cell *matCellDef="let v">{{ v.identifier }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="brand">
-    <th mat-header-cell *matHeaderCellDef>Marca</th>
-    <td mat-cell *matCellDef="let v">{{ v.brand }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="model">
-    <th mat-header-cell *matHeaderCellDef>Modelo</th>
-    <td mat-cell *matCellDef="let v">{{ v.model }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="year">
-    <th mat-header-cell *matHeaderCellDef>Año</th>
-    <td mat-cell *matCellDef="let v">{{ v.year }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="marketValue">
-    <th mat-header-cell *matHeaderCellDef>Valor de mercado</th>
-    <td mat-cell *matCellDef="let v">{{ v.marketValue | copCurrency }}</td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
-
-<p *ngIf="!loading && dataSource.filteredData.length === 0" class="empty-state">No hay vehículos registrados aún.</p>
+<p *ngIf="!loading && filteredVehicles.length === 0" class="empty-state">No hay vehículos registrados aún.</p>

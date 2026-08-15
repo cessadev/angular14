@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
@@ -15,9 +14,9 @@ import { Dialog } from '@angular/cdk/dialog';
   styleUrls: ['./vehicles.component.scss']
 })
 export class VehiclesComponent implements OnInit {
-  dataSource = new MatTableDataSource<VehicleResponse>([]);
+  vehicles: VehicleResponse[] = [];
+  filteredVehicles: VehicleResponse[] = [];
   loading = false;
-  displayedColumns = ['identifier', 'brand', 'model', 'year', 'marketValue', 'actions'];
   searchControl = new FormControl('');
 
   constructor(
@@ -29,13 +28,10 @@ export class VehiclesComponent implements OnInit {
   ngOnInit(): void {
     this.loadVehicles();
 
-    this.dataSource.filterPredicate = (vehicle, filter) =>
-      vehicle.identifier.toLowerCase().includes(filter.trim().toLowerCase());
-
     this.searchControl.valueChanges
       .pipe(debounceTime(200), distinctUntilChanged())
       .subscribe((value) => {
-        this.dataSource.filter = (value ?? '').trim();
+        this.applyFilter(value ?? '');
       });
   }
 
@@ -43,7 +39,8 @@ export class VehiclesComponent implements OnInit {
     this.loading = true;
     this.vehicleService.getAll().subscribe({
       next: (vehicles) => {
-        this.dataSource.data = vehicles;
+        this.vehicles = vehicles;
+        this.applyFilter(this.searchControl.value ?? '');
         this.loading = false;
       },
       error: (err: Error) => {
@@ -114,5 +111,12 @@ export class VehiclesComponent implements OnInit {
         }
       });
     });
+  }
+
+  private applyFilter(term: string): void {
+    const value = term.trim().toLowerCase();
+    this.filteredVehicles = value
+      ? this.vehicles.filter((v) => v.identifier.toLowerCase().includes(value))
+      : this.vehicles;
   }
 }

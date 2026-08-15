@@ -40,25 +40,13 @@
       <p><strong>Valor de cuota:</strong> {{ simulation.installmentValue | copCurrency }}</p>
       <p><strong>Total a pagar:</strong> {{ simulation.totalToPay | copCurrency }}</p>
 
-      <table mat-table [dataSource]="simulation.schedule" class="full-width">
-        <ng-container matColumnDef="number">
-          <th mat-header-cell *matHeaderCellDef>Cuota #</th>
-          <td mat-cell *matCellDef="let i">{{ i.number }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="amount">
-          <th mat-header-cell *matHeaderCellDef>Valor</th>
-          <td mat-cell *matCellDef="let i">{{ i.amount | copCurrency }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="dateExpiration">
-          <th mat-header-cell *matHeaderCellDef>Vencimiento</th>
-          <td mat-cell *matCellDef="let i">{{ i.dateExpiration | date:'dd/MM/yyyy' }}</td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+      <div class="data-list">
+        <div class="data-row" *ngFor="let i of simulation.schedule">
+          <div class="data-row__field"><span class="data-row__label">Cuota #</span>{{ i.number }}</div>
+          <div class="data-row__field"><span class="data-row__label">Valor</span>{{ i.amount | copCurrency }}</div>
+          <div class="data-row__field"><span class="data-row__label">Vencimiento</span>{{ i.dateExpiration | date:'dd/MM/yyyy' }}</div>
+        </div>
+      </div>
     </div>
   </div>
 

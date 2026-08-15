@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { LoanResponse, EInstallmentsTerm, INSTALLMENTS_TERM_MONTHS, CreateLoanRequest } from 'src/app/core/models';
 import { LoanFormDialogComponent } from './loan-form-dialog/loan-form-dialog.component';
@@ -15,9 +14,8 @@ import { Dialog } from '@angular/cdk/dialog';
   styleUrls: ['./loans.component.scss']
 })
 export class LoansComponent implements OnInit {
-  dataSource = new MatTableDataSource<LoanResponse>([]);
+  loans: LoanResponse[] = [];
   loading = false;
-  displayedColumns = ['reference', 'customerDocumentNumber', 'vehicleIdentifier', 'amount', 'installments', 'dateCreation', 'actions'];
   termMonths = INSTALLMENTS_TERM_MONTHS;
 
   constructor(
@@ -35,7 +33,7 @@ export class LoansComponent implements OnInit {
     this.loading = true;
     this.loanService.getAll().subscribe({
       next: (loans) => {
-        this.dataSource.data = loans;
+        this.loans = loans;
         this.loading = false;
       },
       error: (err: Error) => {

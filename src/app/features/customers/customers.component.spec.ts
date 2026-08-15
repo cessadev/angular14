@@ -41,9 +41,11 @@ describe('CustomersComponent', () => {
     const component = createComponent();
     component.ngOnInit();
 
-    expect(component.dataSource.data).toEqual([customer]);
-    expect(component.dataSource.filterPredicate(customer, '12345')).toBeTrue();
-    expect(component.dataSource.filterPredicate(customer, '99999')).toBeFalse();
+    expect(component.customers).toEqual([customer]);
+    component['applyFilter']('12345');
+    expect(component.filteredCustomers).toEqual([customer]);
+    component['applyFilter']('99999');
+    expect(component.filteredCustomers).toEqual([]);
   });
 
   // [Search control wiring, debounced]
@@ -54,7 +56,7 @@ describe('CustomersComponent', () => {
     component.searchControl.setValue('  123456789  ');
     tick(200);
 
-    expect(component.dataSource.filter).toBe('123456789');
+    expect(component.filteredCustomers).toEqual([customer]);
   }));
 
   // [Load error]
