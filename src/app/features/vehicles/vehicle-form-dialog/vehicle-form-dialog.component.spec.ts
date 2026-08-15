@@ -1,10 +1,10 @@
 import { FormBuilder } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { VehicleFormDialogComponent, VehicleFormDialogData } from './vehicle-form-dialog.component';
 import { VehicleResponse, EVehicleBrand, RegisterVehicleRequest, UpdateVehicleRequest } from 'src/app/core/models';
+import { DialogRef } from '@angular/cdk/dialog';
 
 describe('VehicleFormDialogComponent', () => {
-  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<VehicleFormDialogComponent, RegisterVehicleRequest | UpdateVehicleRequest>>;
+  let dialogRefSpy: jasmine.SpyObj<DialogRef<RegisterVehicleRequest | UpdateVehicleRequest, VehicleFormDialogComponent>>;
 
   const existingVehicle: VehicleResponse = {
     identifier: 'MK-1299',
@@ -15,7 +15,7 @@ describe('VehicleFormDialogComponent', () => {
   };
 
   beforeEach(() => {
-    dialogRefSpy = jasmine.createSpyObj<MatDialogRef<VehicleFormDialogComponent, RegisterVehicleRequest | UpdateVehicleRequest>>('MatDialogRef', ['close']);
+    dialogRefSpy = jasmine.createSpyObj<DialogRef<RegisterVehicleRequest | UpdateVehicleRequest, VehicleFormDialogComponent>>('DialogRef', ['close']);
   });
 
   function createComponent(data: VehicleFormDialogData | null): VehicleFormDialogComponent {

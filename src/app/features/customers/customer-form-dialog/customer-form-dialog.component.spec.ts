@@ -1,10 +1,10 @@
 import { FormBuilder } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { CustomerFormDialogComponent, CustomerFormDialogData } from './customer-form-dialog.component';
 import { CustomerResponse, EDocumentType, CreateCustomerRequest, UpdateCustomerRequest } from 'src/app/core/models';
+import { DialogRef } from '@angular/cdk/dialog';
 
 describe('CustomerFormDialogComponent', () => {
-  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<CustomerFormDialogComponent, CreateCustomerRequest | UpdateCustomerRequest>>;
+  let dialogRefSpy: jasmine.SpyObj<DialogRef<CreateCustomerRequest | UpdateCustomerRequest, CustomerFormDialogComponent>>;
 
   const existingCustomer: CustomerResponse = {
     documentType: EDocumentType.CedulaCiudadania,
@@ -16,7 +16,7 @@ describe('CustomerFormDialogComponent', () => {
   };
 
   beforeEach(() => {
-    dialogRefSpy = jasmine.createSpyObj<MatDialogRef<CustomerFormDialogComponent, CreateCustomerRequest | UpdateCustomerRequest>>('MatDialogRef', ['close']);
+    dialogRefSpy = jasmine.createSpyObj<DialogRef<CreateCustomerRequest | UpdateCustomerRequest, CustomerFormDialogComponent>>('DialogRef', ['close']);
   });
 
   function createComponent(data: CustomerFormDialogData | null): CustomerFormDialogComponent {

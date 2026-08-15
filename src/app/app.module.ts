@@ -2,7 +2,6 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDialogModule } from '@angular/material/dialog';
 import localeEsCo from '@angular/common/locales/es-CO';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +14,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { DialogModule } from '@angular/cdk/dialog';
 
 registerLocaleData(localeEsCo, 'es-CO')
 
@@ -31,7 +31,7 @@ registerLocaleData(localeEsCo, 'es-CO')
     MatSidenavModule,
     MatListModule,
     MatIconModule,
-    MatDialogModule,
+    DialogModule,
     MatButtonModule
   ],
   providers: [

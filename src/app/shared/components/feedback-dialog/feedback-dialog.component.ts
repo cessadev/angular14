@@ -1,5 +1,5 @@
+import { DIALOG_DATA } from '@angular/cdk/dialog';
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export type FeedbackType = 'success' | 'error';
 
@@ -15,5 +15,5 @@ export interface FeedbackDialogData {
   styleUrls: ['./feedback-dialog.component.scss']
 })
 export class FeedbackDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: FeedbackDialogData) {}
+  constructor(@Inject(DIALOG_DATA) public data: FeedbackDialogData) {}
 }

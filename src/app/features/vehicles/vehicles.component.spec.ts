@@ -1,18 +1,18 @@
 import { of, throwError } from 'rxjs';
 import { fakeAsync, tick } from '@angular/core/testing';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { VehiclesComponent } from './vehicles.component';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { VehicleResponse, EVehicleBrand, RegisterVehicleRequest, UpdateVehicleRequest } from 'src/app/core/models';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 
-function fakeDialogRef(result: unknown): MatDialogRef<any, any> {
-  return { afterClosed: () => of(result) } as MatDialogRef<any, any>;
+function fakeDialogRef(result: unknown): DialogRef<any, any> {
+  return { closed: of(result) } as DialogRef<any, any>;
 }
 
 describe('VehiclesComponent', () => {
   let vehicleServiceSpy: jasmine.SpyObj<VehicleService>;
-  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let dialogSpy: jasmine.SpyObj<Dialog>;
   let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
 
   const vehicle: VehicleResponse = {
@@ -25,7 +25,7 @@ describe('VehiclesComponent', () => {
 
   beforeEach(() => {
     vehicleServiceSpy = jasmine.createSpyObj<VehicleService>('VehicleService', ['getAll', 'create', 'update', 'delete']);
-    dialogSpy = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+    dialogSpy = jasmine.createSpyObj<Dialog>('Dialog', ['open']);
     notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
     vehicleServiceSpy.getAll.and.returnValue(of([vehicle]));
   });

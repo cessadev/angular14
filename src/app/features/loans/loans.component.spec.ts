@@ -1,19 +1,19 @@
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LoansComponent } from './loans.component';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { LoanResponse, EInstallmentsTerm, CreateLoanRequest, INSTALLMENTS_TERM_MONTHS } from 'src/app/core/models';
 import { LoanSimulationDialogComponent } from './loan-simulation-dialog/loan-simulation-dialog.component';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 
-function fakeDialogRef(result: unknown): MatDialogRef<any, any> {
-  return { afterClosed: () => of(result) } as MatDialogRef<any, any>;
+function fakeDialogRef(result: unknown): DialogRef<any, any> {
+  return { closed: of(result) } as DialogRef<any, any>;
 }
 
 describe('LoansComponent', () => {
   let loanServiceSpy: jasmine.SpyObj<LoanService>;
-  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let dialogSpy: jasmine.SpyObj<Dialog>;
   let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
   let routerSpy: jasmine.SpyObj<Router>;
 
@@ -28,7 +28,7 @@ describe('LoansComponent', () => {
 
   beforeEach(() => {
     loanServiceSpy = jasmine.createSpyObj<LoanService>('LoanService', ['getAll', 'create', 'delete']);
-    dialogSpy = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+    dialogSpy = jasmine.createSpyObj<Dialog>('Dialog', ['open']);
     notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
     routerSpy = jasmine.createSpyObj<Router>('Router', ['navigate']);
     loanServiceSpy.getAll.and.returnValue(of([loan]));

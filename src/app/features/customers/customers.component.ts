@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CustomerService } from 'src/app/core/services/customer.service';
-import { CustomerResponse, EDocumentType, DOCUMENT_TYPE_LABELS, UpdateCustomerRequest } from 'src/app/core/models';
+import { CustomerResponse, EDocumentType, DOCUMENT_TYPE_LABELS, UpdateCustomerRequest, CreateCustomerRequest } from 'src/app/core/models';
 import { CustomerFormDialogComponent, CustomerFormDialogData } from './customer-form-dialog/customer-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CustomerLoansDialogComponent } from './customer-loans-dialog/customer-loans-dialog.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-customers',
@@ -24,7 +24,7 @@ export class CustomersComponent implements OnInit {
 
   constructor(
     private customerService: CustomerService,
-    private dialog: MatDialog,
+    private dialog: Dialog,
     private notificationService: NotificationService
   ) {}
 
@@ -56,9 +56,9 @@ export class CustomersComponent implements OnInit {
   }
 
   openCreateDialog(): void {
-    const dialogRef = this.dialog.open(CustomerFormDialogComponent, { width: '480px' });
+    const dialogRef = this.dialog.open<CreateCustomerRequest, unknown, CustomerFormDialogComponent>(CustomerFormDialogComponent, { width: '480px' });
 
-    dialogRef.afterClosed().subscribe((request) => {
+    dialogRef.closed.subscribe((request) => {
       if (!request) return;
 
       this.customerService.create(request).subscribe({
@@ -74,12 +74,12 @@ export class CustomersComponent implements OnInit {
   }
 
   openEditDialog(customer: CustomerResponse): void {
-    const dialogRef = this.dialog.open<CustomerFormDialogComponent, CustomerFormDialogData, UpdateCustomerRequest>(
+    const dialogRef = this.dialog.open<UpdateCustomerRequest, CustomerFormDialogData, CustomerFormDialogComponent>(
       CustomerFormDialogComponent,
       { width: '480px', data: { customer } }
     );
 
-    dialogRef.afterClosed().subscribe((request) => {
+    dialogRef.closed.subscribe((request) => {
       if (!request) return;
 
       this.customerService.update(customer.documentNumber, request).subscribe({
@@ -95,7 +95,7 @@ export class CustomersComponent implements OnInit {
   }
 
   deleteCustomer(customer: CustomerResponse): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    const dialogRef = this.dialog.open<boolean, unknown, ConfirmDialogComponent>(ConfirmDialogComponent, {
       width: '400px',
       data: {
         title: 'Eliminar cliente',
@@ -103,7 +103,7 @@ export class CustomersComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmed) => {
+    dialogRef.closed.subscribe((confirmed) => {
       if (!confirmed) return;
 
       this.customerService.delete(customer.documentNumber).subscribe({

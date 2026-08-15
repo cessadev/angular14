@@ -1,10 +1,10 @@
 import { FormBuilder } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { PaymentDialogComponent, PaymentDialogData } from './payment-dialog.component';
 import { InstallmentResponse, EPaymentMethod, RegisterPaymentRequest } from 'src/app/core/models';
+import { DialogRef } from '@angular/cdk/dialog';
 
 describe('PaymentDialogComponent', () => {
-  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<PaymentDialogComponent, RegisterPaymentRequest>>;
+  let dialogRefSpy: jasmine.SpyObj<DialogRef<RegisterPaymentRequest, PaymentDialogComponent>>;
 
   const installment: InstallmentResponse = {
     loanReference: 'LN-ABC1234567',
@@ -18,7 +18,7 @@ describe('PaymentDialogComponent', () => {
   };
 
   beforeEach(() => {
-    dialogRefSpy = jasmine.createSpyObj<MatDialogRef<PaymentDialogComponent, RegisterPaymentRequest>>('MatDialogRef', ['close']);
+    dialogRefSpy = jasmine.createSpyObj<DialogRef<RegisterPaymentRequest, PaymentDialogComponent>>('DialogRef', ['close']);
   });
 
   function createComponent(data: PaymentDialogData): PaymentDialogComponent {

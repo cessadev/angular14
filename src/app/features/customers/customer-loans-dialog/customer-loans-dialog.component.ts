@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { CustomerResponse, LoanResponse, INSTALLMENTS_TERM_MONTHS, EInstallmentsTerm } from 'src/app/core/models';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 export interface CustomerLoansDialogData {
   customer: CustomerResponse;
@@ -21,8 +21,8 @@ export class CustomerLoansDialogComponent implements OnInit {
   displayedColumns = ['reference', 'vehicleIdentifier', 'amount', 'installments', 'dateCreation'];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: CustomerLoansDialogData,
-    private dialogRef: MatDialogRef<CustomerLoansDialogComponent>,
+    @Inject(DIALOG_DATA) public data: CustomerLoansDialogData,
+    private dialogRef: DialogRef<CustomerLoansDialogComponent>,
     private loanService: LoanService,
     private router: Router,
     private notificationService: NotificationService

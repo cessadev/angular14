@@ -1,13 +1,13 @@
-import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from './notification.service';
 import { FeedbackDialogComponent } from 'src/app/shared/components/feedback-dialog/feedback-dialog.component';
+import { Dialog } from '@angular/cdk/dialog';
 
 describe('NotificationService', () => {
   let service: NotificationService;
-  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let dialogSpy: jasmine.SpyObj<Dialog>;
 
   beforeEach(() => {
-    dialogSpy = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+    dialogSpy = jasmine.createSpyObj<Dialog>('Dialog', ['open']);
     service = new NotificationService(dialogSpy);
   });
 

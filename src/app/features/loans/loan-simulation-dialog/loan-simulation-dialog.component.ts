@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
 import { LoanService } from 'src/app/core/services/loan.service';
 import {
@@ -8,6 +7,7 @@ import {
   SimulateLoanRequest, LoanSimulation
 } from 'src/app/core/models';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-loan-simulation-dialog',
@@ -27,7 +27,7 @@ export class LoanSimulationDialogComponent implements OnInit {
     private fb: FormBuilder,
     private vehicleService: VehicleService,
     private loanService: LoanService,
-    private dialogRef: MatDialogRef<LoanSimulationDialogComponent>,
+    private dialogRef: DialogRef<LoanSimulationDialogComponent>,
     private notificationService: NotificationService
   ) {
     this.form = this.fb.group({

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { LoanService } from 'src/app/core/services/loan.service';
-import { LoanResponse, EInstallmentsTerm, INSTALLMENTS_TERM_MONTHS } from 'src/app/core/models';
+import { LoanResponse, EInstallmentsTerm, INSTALLMENTS_TERM_MONTHS, CreateLoanRequest } from 'src/app/core/models';
 import { LoanFormDialogComponent } from './loan-form-dialog/loan-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { LoanSimulationDialogComponent } from './loan-simulation-dialog/loan-simulation-dialog.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-loans',
@@ -22,7 +22,7 @@ export class LoansComponent implements OnInit {
 
   constructor(
     private loanService: LoanService,
-    private dialog: MatDialog,
+    private dialog: Dialog,
     private notificationService: NotificationService,
     private router: Router
   ) {}
@@ -46,9 +46,9 @@ export class LoansComponent implements OnInit {
   }
 
   openCreateDialog(): void {
-    const dialogRef = this.dialog.open(LoanFormDialogComponent, { width: '520px' });
+    const dialogRef = this.dialog.open<CreateLoanRequest, unknown, LoanFormDialogComponent>(LoanFormDialogComponent, { width: '520px' });
 
-    dialogRef.afterClosed().subscribe((request) => {
+    dialogRef.closed.subscribe((request) => {
       if (!request) return;
 
       this.loanService.create(request).subscribe({
@@ -77,7 +77,7 @@ export class LoansComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmed) => {
+    dialogRef.closed.subscribe((confirmed) => {
       if (!confirmed) return;
 
       this.loanService.delete(loan.reference).subscribe({

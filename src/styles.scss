@@ -1,13 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  // Superficie
+  --color-bg: #14161A;
+  --color-surface: #1E2128;
+  --color-surface-glass: rgba(30, 33, 40, 0.55);
+
+  // Acento
+  --color-primary: #1D5C63;
+  --color-primary-light: #2E8B92;
+  --color-warning: #D98E3C;
+  --color-danger: #C1503F;
+  --color-text: #ECEDEE;
+  --color-text-muted: #9A9FA6;
+
+  // Tipografía
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  // Glass
+  --glass-blur: 16px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+}
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+h1, h2, h3, .display { font-family: var(--font-display); }
+.money, .amount { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 
-/* Angular Material 14 (legacy/non-MDC) applies a vertical offset to
-   mat-form-field prefixes/suffixes, sized for icon prefixes (mat-icon).
-   Plain-text prefixes like the currency "$" sign end up sitting lower
-   than the input's baseline — this resets that offset. */
-.mat-form-field-prefix,
-.mat-form-field-suffix {
-  top: 0 !important;
+// Superficie glass reutilizable — la vas a aplicar a cards, dialogs, toolbar
+.glass-surface {
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
-import { UpdateVehicleRequest, VehicleResponse } from 'src/app/core/models';
+import { RegisterVehicleRequest, UpdateVehicleRequest, VehicleResponse } from 'src/app/core/models';
 import { VehicleFormDialogComponent, VehicleFormDialogData } from './vehicle-form-dialog/vehicle-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-vehicles',
@@ -22,7 +22,7 @@ export class VehiclesComponent implements OnInit {
 
   constructor(
     private vehicleService: VehicleService,
-    private dialog: MatDialog,
+    private dialog: Dialog,
     private notificationService: NotificationService
   ) {}
 
@@ -54,9 +54,9 @@ export class VehiclesComponent implements OnInit {
   }
 
   openCreateDialog(): void {
-    const dialogRef = this.dialog.open(VehicleFormDialogComponent, { width: '480px' });
+    const dialogRef = this.dialog.open<RegisterVehicleRequest, unknown, VehicleFormDialogComponent>(VehicleFormDialogComponent, { width: '480px' });
 
-    dialogRef.afterClosed().subscribe((request) => {
+    dialogRef.closed.subscribe((request) => {
       if (!request) return;
 
       this.vehicleService.create(request).subscribe({
@@ -72,7 +72,7 @@ export class VehiclesComponent implements OnInit {
   }
 
   deleteVehicle(vehicle: VehicleResponse): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    const dialogRef = this.dialog.open<boolean, unknown, ConfirmDialogComponent>(ConfirmDialogComponent, {
       width: '400px',
       data: {
         title: 'Eliminar vehículo',
@@ -80,7 +80,7 @@ export class VehiclesComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmed) => {
+    dialogRef.closed.subscribe((confirmed) => {
       if (!confirmed) return;
 
       this.vehicleService.delete(vehicle.identifier).subscribe({
@@ -96,12 +96,12 @@ export class VehiclesComponent implements OnInit {
   }
 
   openEditDialog(vehicle: VehicleResponse): void {
-    const dialogRef = this.dialog.open<VehicleFormDialogComponent, VehicleFormDialogData, UpdateVehicleRequest>(
+    const dialogRef = this.dialog.open<UpdateVehicleRequest, VehicleFormDialogData, VehicleFormDialogComponent>(
       VehicleFormDialogComponent,
       { width: '480px', data: { vehicle } }
     );
 
-    dialogRef.afterClosed().subscribe((request) => {
+    dialogRef.closed.subscribe((request) => {
       if (!request) return;
 
       this.vehicleService.update(vehicle.identifier, request).subscribe({

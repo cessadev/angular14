@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { forkJoin } from 'rxjs';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
@@ -8,6 +7,7 @@ import {
   CustomerResponse, VehicleResponse, EInstallmentsTerm,
   INSTALLMENTS_TERM_MONTHS, CreateLoanRequest
 } from 'src/app/core/models';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-loan-form-dialog',
@@ -28,7 +28,7 @@ export class LoanFormDialogComponent implements OnInit {
     private fb: FormBuilder,
     private customerService: CustomerService,
     private vehicleService: VehicleService,
-    private dialogRef: MatDialogRef<LoanFormDialogComponent, CreateLoanRequest>
+    private dialogRef: DialogRef<CreateLoanRequest, LoanFormDialogComponent>
   ) {
     this.form = this.fb.group({
       customerDocumentNumber: [null, Validators.required],

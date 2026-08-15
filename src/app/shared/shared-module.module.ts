@@ -8,7 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -20,10 +19,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { FeedbackDialogComponent } from './components/feedback-dialog/feedback-dialog.component';
 import { CopCurrencyPipe } from './pipes/cop-currency.pipe';
+import { DialogModule } from '@angular/cdk/dialog';
 
 const MATERIAL_MODULES = [
   MatTableModule, MatButtonModule, MatIconModule, MatFormFieldModule,
-  MatInputModule, MatSelectModule, MatDialogModule, MatProgressSpinnerModule,
+  MatInputModule, MatSelectModule, DialogModule, MatProgressSpinnerModule,
   MatToolbarModule, MatSidenavModule, MatListModule,
   MatCardModule, MatTooltipModule, MatChipsModule
 ];

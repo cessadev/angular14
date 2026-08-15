@@ -1,16 +1,16 @@
 import { of, throwError } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { LoanSimulationDialogComponent } from './loan-simulation-dialog.component';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { VehicleResponse, EVehicleBrand, EInstallmentsTerm, LoanSimulation } from 'src/app/core/models';
+import { DialogRef } from '@angular/cdk/dialog';
 
 describe('LoanSimulationDialogComponent', () => {
   let vehicleServiceSpy: jasmine.SpyObj<VehicleService>;
   let loanServiceSpy: jasmine.SpyObj<LoanService>;
-  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<LoanSimulationDialogComponent>>;
+  let dialogRefSpy: jasmine.SpyObj<DialogRef<LoanSimulationDialogComponent>>;
   let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
 
   const vehicles: VehicleResponse[] = [
@@ -34,7 +34,7 @@ describe('LoanSimulationDialogComponent', () => {
   beforeEach(() => {
     vehicleServiceSpy = jasmine.createSpyObj<VehicleService>('VehicleService', ['getAll']);
     loanServiceSpy = jasmine.createSpyObj<LoanService>('LoanService', ['simulate']);
-    dialogRefSpy = jasmine.createSpyObj<MatDialogRef<LoanSimulationDialogComponent>>('MatDialogRef', ['close']);
+    dialogRefSpy = jasmine.createSpyObj<DialogRef<LoanSimulationDialogComponent>>('DialogRef', ['close']);
     notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
   });
 

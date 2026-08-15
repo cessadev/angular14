@@ -1,14 +1,14 @@
 import { of, throwError } from 'rxjs';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CustomerLoansDialogComponent, CustomerLoansDialogData } from './customer-loans-dialog.component';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CustomerResponse, LoanResponse, EDocumentType, EInstallmentsTerm, INSTALLMENTS_TERM_MONTHS } from 'src/app/core/models';
+import { DialogRef } from '@angular/cdk/dialog';
 
 describe('CustomerLoansDialogComponent', () => {
   let loanServiceSpy: jasmine.SpyObj<LoanService>;
-  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<CustomerLoansDialogComponent>>;
+  let dialogRefSpy: jasmine.SpyObj<DialogRef<CustomerLoansDialogComponent>>;
   let routerSpy: jasmine.SpyObj<Router>;
   let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
 
@@ -34,7 +34,7 @@ describe('CustomerLoansDialogComponent', () => {
 
   beforeEach(() => {
     loanServiceSpy = jasmine.createSpyObj<LoanService>('LoanService', ['getByCustomer']);
-    dialogRefSpy = jasmine.createSpyObj<MatDialogRef<CustomerLoansDialogComponent>>('MatDialogRef', ['close']);
+    dialogRefSpy = jasmine.createSpyObj<DialogRef<CustomerLoansDialogComponent>>('DialogRef', ['close']);
     routerSpy = jasmine.createSpyObj<Router>('Router', ['navigate']);
     notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
   });

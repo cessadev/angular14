@@ -1,19 +1,19 @@
 import { of, throwError } from 'rxjs';
 import { fakeAsync, tick } from '@angular/core/testing';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CustomersComponent } from './customers.component';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CustomerResponse, EDocumentType, CreateCustomerRequest, UpdateCustomerRequest } from 'src/app/core/models';
 import { CustomerLoansDialogComponent } from './customer-loans-dialog/customer-loans-dialog.component';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 
-function fakeDialogRef(result: unknown): MatDialogRef<any, any> {
-  return { afterClosed: () => of(result) } as MatDialogRef<any, any>;
+function fakeDialogRef(result: unknown): DialogRef<any, any> {
+  return { closed: of(result) } as DialogRef<any, any>;
 }
 
 describe('CustomersComponent', () => {
   let customerServiceSpy: jasmine.SpyObj<CustomerService>;
-  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let dialogSpy: jasmine.SpyObj<Dialog>;
   let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
 
   const customer: CustomerResponse = {
@@ -27,7 +27,7 @@ describe('CustomersComponent', () => {
 
   beforeEach(() => {
     customerServiceSpy = jasmine.createSpyObj<CustomerService>('CustomerService', ['getAll', 'create', 'update', 'delete']);
-    dialogSpy = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+    dialogSpy = jasmine.createSpyObj<Dialog>('Dialog', ['open']);
     notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
     customerServiceSpy.getAll.and.returnValue(of([customer]));
   });

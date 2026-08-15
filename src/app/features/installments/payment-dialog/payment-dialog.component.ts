@@ -1,6 +1,6 @@
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EPaymentMethod, PAYMENT_METHOD_LABELS, RegisterPaymentRequest, InstallmentResponse } from 'src/app/core/models';
 
 export interface PaymentDialogData {
@@ -20,8 +20,8 @@ export class PaymentDialogComponent {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<PaymentDialogComponent, RegisterPaymentRequest>,
-    @Inject(MAT_DIALOG_DATA) public data: PaymentDialogData
+    private dialogRef: DialogRef<RegisterPaymentRequest, PaymentDialogComponent>,
+    @Inject(DIALOG_DATA) public data: PaymentDialogData
   ) {
     this.remainingBalance = data.installment.amount - data.installment.amountPaid;
 
