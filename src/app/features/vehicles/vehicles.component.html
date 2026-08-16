@@ -1,6 +1,6 @@
 <div class="vehicles-header">
   <h1>Vehículos</h1>
-  <button mat-raised-button color="primary" (click)="openCreateDialog()">
+  <button class="btn btn--primary" (click)="openCreateDialog()">
     <app-icon name="add"></app-icon> Nuevo vehículo
   </button>
 </div>
@@ -12,7 +12,7 @@
 </mat-form-field>
 
 <div *ngIf="loading" class="loading-container">
-  <mat-spinner diameter="40"></mat-spinner>
+  <app-spinner [size]="40"></app-spinner>
 </div>
 
 <div class="data-list" *ngIf="!loading">
@@ -23,10 +23,10 @@
     <div class="data-row__field"><span class="data-row__label">Año</span>{{ v.year }}</div>
     <div class="data-row__field"><span class="data-row__label">Valor de mercado</span>{{ v.marketValue | copCurrency }}</div>
     <div class="data-row__actions">
-      <button mat-icon-button color="primary" (click)="openEditDialog(v)" matTooltip="Editar" aria-label="Editar vehículo">
+      <button class="icon-button icon-button--primary" (click)="openEditDialog(v)" matTooltip="Editar" aria-label="Editar vehículo">
         <app-icon name="edit"></app-icon>
       </button>
-      <button mat-icon-button color="warn" (click)="deleteVehicle(v)" matTooltip="Eliminar" aria-label="Eliminar vehículo">
+      <button class="icon-button icon-button--danger" (click)="deleteVehicle(v)" matTooltip="Eliminar" aria-label="Eliminar vehículo">
         <app-icon name="delete"></app-icon>
       </button>
     </div>

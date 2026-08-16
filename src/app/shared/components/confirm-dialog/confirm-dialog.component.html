@@ -1,8 +1,8 @@
 <h2 class="dialog-title">{{ data.title }}</h2>
 <div class="dialog-content">{{ data.message }}</div>
 <div class="dialog-actions dialog-actions--end">
-  <button mat-button (click)="cancel()">Cancelar</button>
-  <button mat-raised-button color="warn" (click)="confirm()">
+  <button class="btn btn--text" (click)="cancel()">Cancelar</button>
+  <button class="btn btn--danger" (click)="confirm()">
     {{ data.confirmLabel ?? 'Eliminar' }}
   </button>
 </div>

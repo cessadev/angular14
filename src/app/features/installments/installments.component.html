@@ -1,7 +1,7 @@
 <h1>Cuotas en mora</h1>
 
 <div *ngIf="loading" class="loading-container">
-  <mat-spinner diameter="40"></mat-spinner>
+  <app-spinner [size]="40"></app-spinner>
 </div>
 
 <div class="data-list" *ngIf="!loading">

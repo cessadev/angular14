@@ -1,11 +1,11 @@
-<button mat-button (click)="goBack()" class="back-button">
+<button class="back-button btn btn--text" (click)="goBack()">
   <app-icon name="arrow-back"></app-icon> Volver al préstamo
 </button>
 
 <h1>Cuotas del préstamo {{ loanReference }}</h1>
 
 <div *ngIf="loading" class="loading-container">
-  <mat-spinner diameter="40"></mat-spinner>
+  <app-spinner [size]="40"></app-spinner>
 </div>
 
 <div class="data-list" *ngIf="!loading">
@@ -19,10 +19,10 @@
       'badge--warn': status(i) === 'overdue'
     }">{{ statusLabel(status(i)) }}</span>
     <div class="data-row__actions">
-      <button mat-icon-button color="primary" (click)="viewPayments(i)" matTooltip="Ver pagos" aria-label="Ver pagos de la cuota">
+      <button class="icon-button icon-button--primary" (click)="viewPayments(i)" matTooltip="Ver pagos" aria-label="Ver pagos de la cuota">
         <app-icon name="receipt"></app-icon>
       </button>
-      <button mat-raised-button color="primary" *ngIf="!i.paid" (click)="openPaymentDialog(i)">
+      <button class="btn btn--primary" *ngIf="!i.paid" (click)="openPaymentDialog(i)">
         Registrar pago
       </button>
     </div>

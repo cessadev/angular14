@@ -1,17 +1,17 @@
 <div class="loans-header">
   <h1>Préstamos</h1>
   <div class="header-actions">
-    <button mat-stroked-button color="primary" (click)="openSimulationDialog()">
+    <button class="btn btn--outline" (click)="openSimulationDialog()">
       <app-icon name="calculate"></app-icon> Simular crédito
     </button>
-    <button mat-raised-button color="primary" (click)="openCreateDialog()">
+    <button class="btn btn--primary" (click)="openCreateDialog()">
       <app-icon name="add"></app-icon> Nuevo préstamo
     </button>
   </div>
 </div>
 
 <div *ngIf="loading" class="loading-container">
-  <mat-spinner diameter="40"></mat-spinner>
+  <app-spinner [size]="40"></app-spinner>
 </div>
 
 <div class="data-list" *ngIf="!loading">
@@ -23,7 +23,7 @@
     <div class="data-row__field"><span class="data-row__label">Plazo</span>{{ getTermMonths(l.installments) }} meses</div>
     <div class="data-row__field"><span class="data-row__label">Fecha</span>{{ l.dateCreation | date:'dd/MM/yyyy' }}</div>
     <div class="data-row__actions">
-      <button mat-icon-button color="warn" (click)="deleteLoan(l, $event)" matTooltip="Eliminar" aria-label="Eliminar préstamo">
+      <button class="icon-button icon-button--danger" (click)="deleteLoan(l, $event)" matTooltip="Eliminar" aria-label="Eliminar préstamo">
         <app-icon name="delete"></app-icon>
       </button>
     </div>

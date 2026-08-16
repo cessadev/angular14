@@ -1,6 +1,6 @@
 <div class="customers-header">
   <h1>Clientes</h1>
-  <button mat-raised-button color="primary" (click)="openCreateDialog()">
+  <button class="btn btn--primary" (click)="openCreateDialog()">
     <app-icon name="add"></app-icon> Nuevo cliente
   </button>
 </div>
@@ -12,7 +12,7 @@
 </mat-form-field>
 
 <div *ngIf="loading" class="loading-container">
-  <mat-spinner diameter="40"></mat-spinner>
+  <app-spinner [size]="40"></app-spinner>
 </div>
 
 <div class="data-list" *ngIf="!loading">
@@ -24,13 +24,13 @@
     <div class="data-row__field"><span class="data-row__label">Edad</span>{{ c.age }}</div>
     <div class="data-row__field"><span class="data-row__label">Dirección</span>{{ c.address }}</div>
     <div class="data-row__actions">
-      <button mat-icon-button (click)="openLoansDialog(c)" matTooltip="Ver créditos" aria-label="Ver créditos del cliente">
+      <button class="icon-button" (click)="openLoansDialog(c)" matTooltip="Ver créditos" aria-label="Ver créditos del cliente">
         <app-icon name="quote"></app-icon>
       </button>
-      <button mat-icon-button color="primary" (click)="openEditDialog(c)" matTooltip="Editar" aria-label="Editar cliente">
+      <button class="icon-button icon-button--primary" (click)="openEditDialog(c)" matTooltip="Editar" aria-label="Editar cliente">
         <app-icon name="edit"></app-icon>
       </button>
-      <button mat-icon-button color="warn" (click)="deleteCustomer(c)" matTooltip="Eliminar" aria-label="Eliminar cliente">
+      <button class="icon-button icon-button--danger" (click)="deleteCustomer(c)" matTooltip="Eliminar" aria-label="Eliminar cliente">
         <app-icon name="delete"></app-icon>
       </button>
     </div>

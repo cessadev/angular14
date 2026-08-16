@@ -2,14 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -18,17 +13,16 @@ import { FeedbackDialogComponent } from './components/feedback-dialog/feedback-d
 import { CopCurrencyPipe } from './pipes/cop-currency.pipe';
 import { DialogModule } from '@angular/cdk/dialog';
 import { IconComponent } from './components/icon/icon.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 const MATERIAL_MODULES = [
-  MatButtonModule, MatFormFieldModule, MatInputModule,
-  MatSelectModule, DialogModule, MatProgressSpinnerModule,
-  MatToolbarModule, MatSidenavModule, MatListModule,
-  MatCardModule, MatTooltipModule
+  MatFormFieldModule, MatInputModule, MatSelectModule,
+  DialogModule, MatCardModule, MatTooltipModule
 ];
 
 @NgModule({
-  declarations: [ConfirmDialogComponent, FeedbackDialogComponent, IconComponent, CopCurrencyPipe],
+  declarations: [ConfirmDialogComponent, FeedbackDialogComponent, IconComponent, SpinnerComponent, CopCurrencyPipe],
   imports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES],
-  exports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES, ConfirmDialogComponent, FeedbackDialogComponent, IconComponent, CopCurrencyPipe]
+  exports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES, ConfirmDialogComponent, FeedbackDialogComponent, IconComponent, SpinnerComponent, CopCurrencyPipe]
 })
 export class SharedModuleModule { }

@@ -5,7 +5,7 @@
   <div class="dialog-content">{{ data.message }}</div>
 
   <div class="dialog-actions dialog-actions--center">
-    <button mat-raised-button [color]="data.type === 'success' ? 'primary' : 'warn'" (click)="close()">
+    <button class="btn" [class.btn--primary]="data.type === 'success'" [class.btn--danger]="data.type !== 'success'" (click)="close()">
       Aceptar
     </button>
   </div>

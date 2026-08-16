@@ -1,9 +1,9 @@
-<button mat-button (click)="goBack()" class="back-button">
+<button class="back-button btn btn--text" (click)="goBack()">
   <app-icon name="arrow-back"></app-icon> Volver
 </button>
 
 <div *ngIf="loading" class="loading-container">
-  <mat-spinner diameter="40"></mat-spinner>
+  <app-spinner [size]="40"></app-spinner>
 </div>
 
 <p *ngIf="!loading && notFound" class="empty-state">No se encontró el préstamo solicitado.</p>
@@ -33,10 +33,10 @@
         <p><strong>Saldo pendiente:</strong> {{ summary.totalOwed | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="goToInstallments()">
+        <button class="btn btn--primary" (click)="goToInstallments()">
           Ver cuotas
         </button>
-        <button mat-button (click)="goToPayments()">
+        <button class="btn btn--text" (click)="goToPayments()">
           Ver historial de pagos
         </button>
       </mat-card-actions>

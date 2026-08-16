@@ -1,11 +1,11 @@
-<button mat-button (click)="goBack()" class="back-button">
+<button class="back-button btn btn--text" (click)="goBack()">
   <app-icon name="arrow-back"></app-icon> Volver al préstamo
 </button>
 
 <h1>{{ paymentReference ? 'Pagos de la cuota ' + paymentReference : 'Historial de pagos — ' + loanReference }}</h1>
 
 <div *ngIf="loading" class="loading-container">
-  <mat-spinner diameter="40"></mat-spinner>
+  <app-spinner [size]="40"></app-spinner>
 </div>
 
 <div class="data-list" *ngIf="!loading">

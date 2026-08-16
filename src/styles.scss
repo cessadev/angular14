@@ -87,3 +87,67 @@ h1, h2, h3, .display { font-family: var(--font-display); }
 }
 .badge--warn { background: rgba(193, 80, 63, 0.25); color: #F2A99B; }
 .badge--primary { background: rgba(29, 92, 99, 0.3); color: #7FCBD1; }
+
+// --- Botones
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(29, 92, 99, 0.35);
+}
+.btn--primary:hover:not(:disabled) { box-shadow: 0 4px 16px rgba(29, 92, 99, 0.5); }
+
+.btn--outline {
+  background: transparent;
+  color: var(--color-primary-light);
+  border: 1px solid rgba(127, 203, 209, 0.5);
+}
+.btn--outline:hover:not(:disabled) { background: rgba(46, 139, 146, 0.1); }
+
+.btn--text {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+.btn--text:hover:not(:disabled) { background: rgba(255, 255, 255, 0.06); color: var(--color-text); }
+
+.btn--danger {
+  background: linear-gradient(135deg, var(--color-danger), #d9705f);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(193, 80, 63, 0.35);
+}
+
+// --- Botones de solo ícono (reemplaza mat-icon-button) ---
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.icon-button:hover { background: rgba(255, 255, 255, 0.08); }
+.icon-button--primary { color: var(--color-primary-light); }
+.icon-button--primary:hover { background: rgba(46, 139, 146, 0.15); }
+.icon-button--danger { color: #E08A7C; }
+.icon-button--danger:hover { background: rgba(193, 80, 63, 0.15); }
