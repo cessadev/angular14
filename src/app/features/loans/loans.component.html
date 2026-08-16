@@ -2,10 +2,10 @@
   <h1>Préstamos</h1>
   <div class="header-actions">
     <button mat-stroked-button color="primary" (click)="openSimulationDialog()">
-      <mat-icon>calculate</mat-icon> Simular crédito
+      <app-icon name="calculate"></app-icon> Simular crédito
     </button>
     <button mat-raised-button color="primary" (click)="openCreateDialog()">
-      <mat-icon>add</mat-icon> Nuevo préstamo
+      <app-icon name="add"></app-icon> Nuevo préstamo
     </button>
   </div>
 </div>
@@ -24,7 +24,7 @@
     <div class="data-row__field"><span class="data-row__label">Fecha</span>{{ l.dateCreation | date:'dd/MM/yyyy' }}</div>
     <div class="data-row__actions">
       <button mat-icon-button color="warn" (click)="deleteLoan(l, $event)" matTooltip="Eliminar" aria-label="Eliminar préstamo">
-        <mat-icon>delete</mat-icon>
+        <app-icon name="delete"></app-icon>
       </button>
     </div>
   </div>

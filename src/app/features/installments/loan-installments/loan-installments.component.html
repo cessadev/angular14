@@ -1,5 +1,5 @@
 <button mat-button (click)="goBack()" class="back-button">
-  <mat-icon>arrow_back</mat-icon> Volver al préstamo
+  <app-icon name="arrow-back"></app-icon> Volver al préstamo
 </button>
 
 <h1>Cuotas del préstamo {{ loanReference }}</h1>
@@ -20,7 +20,7 @@
     }">{{ statusLabel(status(i)) }}</span>
     <div class="data-row__actions">
       <button mat-icon-button color="primary" (click)="viewPayments(i)" matTooltip="Ver pagos" aria-label="Ver pagos de la cuota">
-        <mat-icon>receipt_long</mat-icon>
+        <app-icon name="receipt"></app-icon>
       </button>
       <button mat-raised-button color="primary" *ngIf="!i.paid" (click)="openPaymentDialog(i)">
         Registrar pago

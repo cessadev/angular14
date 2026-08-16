@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -18,17 +17,18 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { FeedbackDialogComponent } from './components/feedback-dialog/feedback-dialog.component';
 import { CopCurrencyPipe } from './pipes/cop-currency.pipe';
 import { DialogModule } from '@angular/cdk/dialog';
+import { IconComponent } from './components/icon/icon.component';
 
 const MATERIAL_MODULES = [
-  MatButtonModule, MatIconModule, MatFormFieldModule,
-  MatInputModule, MatSelectModule, DialogModule, MatProgressSpinnerModule,
+  MatButtonModule, MatFormFieldModule, MatInputModule,
+  MatSelectModule, DialogModule, MatProgressSpinnerModule,
   MatToolbarModule, MatSidenavModule, MatListModule,
   MatCardModule, MatTooltipModule
 ];
 
 @NgModule({
-  declarations: [ConfirmDialogComponent, FeedbackDialogComponent, CopCurrencyPipe],
+  declarations: [ConfirmDialogComponent, FeedbackDialogComponent, IconComponent, CopCurrencyPipe],
   imports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES],
-  exports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES, ConfirmDialogComponent, FeedbackDialogComponent, CopCurrencyPipe]
+  exports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES, ConfirmDialogComponent, FeedbackDialogComponent, IconComponent, CopCurrencyPipe]
 })
 export class SharedModuleModule { }

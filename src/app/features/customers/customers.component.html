@@ -1,14 +1,14 @@
 <div class="customers-header">
   <h1>Clientes</h1>
   <button mat-raised-button color="primary" (click)="openCreateDialog()">
-    <mat-icon>add</mat-icon> Nuevo cliente
+    <app-icon name="add"></app-icon> Nuevo cliente
   </button>
 </div>
 
 <mat-form-field appearance="outline" class="search-field">
   <mat-label>Buscar por número de documento</mat-label>
   <input matInput [formControl]="searchControl" placeholder="Ej. 1002345678">
-  <mat-icon matSuffix>search</mat-icon>
+  <app-icon name="search" matSuffix></app-icon>
 </mat-form-field>
 
 <div *ngIf="loading" class="loading-container">
@@ -25,13 +25,13 @@
     <div class="data-row__field"><span class="data-row__label">Dirección</span>{{ c.address }}</div>
     <div class="data-row__actions">
       <button mat-icon-button (click)="openLoansDialog(c)" matTooltip="Ver créditos" aria-label="Ver créditos del cliente">
-        <mat-icon>request_quote</mat-icon>
+        <app-icon name="quote"></app-icon>
       </button>
       <button mat-icon-button color="primary" (click)="openEditDialog(c)" matTooltip="Editar" aria-label="Editar cliente">
-        <mat-icon>edit</mat-icon>
+        <app-icon name="edit"></app-icon>
       </button>
       <button mat-icon-button color="warn" (click)="deleteCustomer(c)" matTooltip="Eliminar" aria-label="Eliminar cliente">
-        <mat-icon>delete</mat-icon>
+        <app-icon name="delete"></app-icon>
       </button>
     </div>
   </div>

@@ -1,14 +1,14 @@
 <div class="vehicles-header">
   <h1>Vehículos</h1>
   <button mat-raised-button color="primary" (click)="openCreateDialog()">
-    <mat-icon>add</mat-icon> Nuevo vehículo
+    <app-icon name="add"></app-icon> Nuevo vehículo
   </button>
 </div>
 
 <mat-form-field appearance="outline" class="search-field">
   <mat-label>Buscar por identificador</mat-label>
   <input matInput [formControl]="searchControl" placeholder="Ej. ABC123">
-  <mat-icon matSuffix>search</mat-icon>
+  <app-icon name="search" matSuffix></app-icon>
 </mat-form-field>
 
 <div *ngIf="loading" class="loading-container">
@@ -24,10 +24,10 @@
     <div class="data-row__field"><span class="data-row__label">Valor de mercado</span>{{ v.marketValue | copCurrency }}</div>
     <div class="data-row__actions">
       <button mat-icon-button color="primary" (click)="openEditDialog(v)" matTooltip="Editar" aria-label="Editar vehículo">
-        <mat-icon>edit</mat-icon>
+        <app-icon name="edit"></app-icon>
       </button>
       <button mat-icon-button color="warn" (click)="deleteVehicle(v)" matTooltip="Eliminar" aria-label="Eliminar vehículo">
-        <mat-icon>delete</mat-icon>
+        <app-icon name="delete"></app-icon>
       </button>
     </div>
   </div>

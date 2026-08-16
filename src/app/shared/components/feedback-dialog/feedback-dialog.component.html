@@ -1,5 +1,5 @@
 <div class="feedback-dialog" [class.feedback-success]="data.type === 'success'" [class.feedback-error]="data.type === 'error'">
-  <mat-icon class="feedback-icon">{{ data.type === 'success' ? 'check_circle' : 'error' }}</mat-icon>
+  <app-icon class="feedback-icon" [name]="data.type === 'success' ? 'check-circle' : 'error'" [size]="32"></app-icon>
 
   <h2 class="dialog-title">{{ data.title }}</h2>
   <div class="dialog-content">{{ data.message }}</div>

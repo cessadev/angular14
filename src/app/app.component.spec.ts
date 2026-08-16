@@ -1,6 +1,5 @@
 import { of, Subject } from 'rxjs';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { MatSidenav } from '@angular/material/sidenav';
 import { AppComponent } from './app.component';
 
 function fakeBreakpointState(matches: boolean): BreakpointState {
@@ -48,38 +47,37 @@ describe('AppComponent', () => {
   // [closeIfMobile, mobile]
   it('closeIfMobile_MobileAfterInit_ClosesSidenav', () => {
     breakpointObserverSpy.observe.and.returnValue(of(fakeBreakpointState(true)));
-    const sidenavSpy = jasmine.createSpyObj<MatSidenav>('MatSidenav', ['close']);
-
     const component = new AppComponent(breakpointObserverSpy);
     component.ngOnInit();
-    component.closeIfMobile(sidenavSpy);
+    component.sidenavOpen = true;
 
-    expect(sidenavSpy.close).toHaveBeenCalledTimes(1);
+    component.closeIfMobile();
+
+    expect(component.sidenavOpen).toBeFalse();
   });
 
   // [closeIfMobile, desktop]
   it('closeIfMobile_DesktopAfterInit_DoesNotCloseSidenav', () => {
     breakpointObserverSpy.observe.and.returnValue(of(fakeBreakpointState(false)));
-    const sidenavSpy = jasmine.createSpyObj<MatSidenav>('MatSidenav', ['close']);
-
     const component = new AppComponent(breakpointObserverSpy);
     component.ngOnInit();
-    component.closeIfMobile(sidenavSpy);
+    component.sidenavOpen = true;
 
-    expect(sidenavSpy.close).not.toHaveBeenCalled();
+    component.closeIfMobile();
+
+    expect(component.sidenavOpen).toBeTrue();
   });
 
   // [closeIfMobile before ngOnInit ever ran]
   it('closeIfMobile_BeforeNgOnInit_DoesNotCloseSidenav', () => {
     breakpointObserverSpy.observe.and.returnValue(of(fakeBreakpointState(true)));
-    const sidenavSpy = jasmine.createSpyObj<MatSidenav>('MatSidenav', ['close']);
-
     const component = new AppComponent(breakpointObserverSpy);
-    // ngOnInit() deliberately not called
+    component.sidenavOpen = true;
+    // ngOnInit() is deliberately not called
 
-    component.closeIfMobile(sidenavSpy);
+    component.closeIfMobile();
 
-    expect(sidenavSpy.close).not.toHaveBeenCalled();
+    expect(component.sidenavOpen).toBeTrue();
   });
 
   // [ngOnDestroy actually stops reacting to further breakpoint changes]
@@ -94,12 +92,12 @@ describe('AppComponent', () => {
     component.ngOnDestroy();
     breakpoint$.next(fakeBreakpointState(false));
 
-    const sidenavSpy = jasmine.createSpyObj<MatSidenav>('MatSidenav', ['close']);
-    component.closeIfMobile(sidenavSpy);
+    component.sidenavOpen = true;
+    component.closeIfMobile();
 
-    // If the unsubscribe worked, the internal flag stayed frozen at "true"
-    // (its value right before destroy), so the sidenav still closes here —
-    // proving the post-destroy "false" emission was never applied.
-    expect(sidenavSpy.close).toHaveBeenCalledTimes(1);
+    // If the unsubscribe worked, the internal flag remained set to “true”
+    // (its value just before the destroy), so the side nav continues to close —
+    // which proves that the post-destroy “false” emission was never applied.
+    expect(component.sidenavOpen).toBeFalse();
   });
 });

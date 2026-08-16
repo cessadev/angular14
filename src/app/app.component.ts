@@ -1,10 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatSidenav } from '@angular/material/sidenav';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { IconName } from './shared/components/icon/icon.component';
 
 const SIDENAV_COLLAPSE_BREAKPOINT = '(max-width: 768px)';
+
+interface NavLink {
+  path: string;
+  label: string;
+  icon: IconName;
+}
 
 @Component({
   selector: 'app-root',
@@ -22,11 +28,13 @@ export class AppComponent implements OnInit, OnDestroy{
   private isMobile = false;
   private isMobileSubscription?: Subscription;
 
-  navLinks = [
+  sidenavOpen = false;
+
+  navLinks: NavLink[] = [
     { path: '/dashboard', label: 'Panel general', icon: 'dashboard' },
     { path: '/customers', label: 'Clientes', icon: 'people' },
-    { path: '/vehicles', label: 'Vehículos', icon: 'directions_car' },
-    { path: '/loans', label: 'Préstamos', icon: 'request_quote' },
+    { path: '/vehicles', label: 'Vehículos', icon: 'car' },
+    { path: '/loans', label: 'Préstamos', icon: 'quote' },
     { path: '/installments', label: 'Cuotas', icon: 'payments' }
   ];
 
@@ -40,9 +48,13 @@ export class AppComponent implements OnInit, OnDestroy{
     this.isMobileSubscription?.unsubscribe();
   }
 
-  closeIfMobile(sidenav: MatSidenav): void {
+  toggleSidenav(): void {
+    this.sidenavOpen = !this.sidenavOpen;
+  }
+
+  closeIfMobile(): void {
     if (this.isMobile) {
-      sidenav.close();
+      this.sidenavOpen = false;
     }
   }
 }
