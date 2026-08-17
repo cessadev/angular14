@@ -4,18 +4,25 @@
   <app-spinner [size]="40"></app-spinner>
 </div>
 
-<div class="data-list" *ngIf="!loading">
-  <div class="data-row data-row--clickable" *ngFor="let i of items" (click)="viewLoan(i)">
-    <div class="data-row__fields">
-      <div class="data-row__field"><span class="data-row__label">Préstamo</span>{{ i.loanReference }}</div>
-      <div class="data-row__field"><span class="data-row__label">Cuota #</span>{{ i.number }}</div>
-      <div class="data-row__field"><span class="data-row__label">Cliente</span>{{ i.customer }}</div>
-      <div class="data-row__field"><span class="data-row__label">Vehículo</span>{{ i.vehicle }}</div>
-      <div class="data-row__field"><span class="data-row__label">Monto</span>{{ i.amount | copCurrency }}</div>
-      <div class="data-row__field"><span class="data-row__label">Vencimiento</span>{{ i.dateExpiration | date:'dd/MM/yyyy' }}</div>
-    </div>
-    <div class="data-row__fields">
-      <span class="badge badge--warn">{{ i.daysOverdue }} días en mora</span>
+<div class="table-wrap" *ngIf="!loading">
+  <div class="table__header table--installments">
+    <span>Préstamo</span>
+    <span>Cuota #</span>
+    <span>Cliente</span>
+    <span>Vehículo</span>
+    <span>Monto</span>
+    <span>Vencimiento</span>
+    <span></span>
+  </div>
+  <div class="table__row table--installments table__row--clickable" *ngFor="let i of items" (click)="viewLoan(i)">
+    <span class="table__cell">{{ i.loanReference }}</span>
+    <span class="table__cell">{{ i.number }}</span>
+    <span class="table__cell">{{ i.customer }}</span>
+    <span class="table__cell">{{ i.vehicle }}</span>
+    <span class="table__cell">{{ i.amount | copCurrency }}</span>
+    <span class="table__cell">{{ i.dateExpiration | date:'dd/MM/yyyy' }}</span>
+    <div class="table__cell table__cell--actions">
+      <span class="badge badge--warn">{{ i.daysOverdue }} días</span>
     </div>
   </div>
 </div>

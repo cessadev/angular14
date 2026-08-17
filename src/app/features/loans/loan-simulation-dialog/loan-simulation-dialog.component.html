@@ -44,15 +44,18 @@
       <p><strong>Valor de cuota:</strong> {{ simulation.installmentValue | copCurrency }}</p>
       <p><strong>Total a pagar:</strong> {{ simulation.totalToPay | copCurrency }}</p>
 
-      <div class="data-list">
-        <div class="data-row" *ngFor="let i of simulation.schedule">
-          <div class="data-row__fields">
-            <div class="data-row__field"><span class="data-row__label">Cuota #</span>{{ i.number }}</div>
-            <div class="data-row__field"><span class="data-row__label">Valor</span>{{ i.amount | copCurrency }}</div>
-            <div class="data-row__field"><span class="data-row__label">Vencimiento</span>{{ i.dateExpiration | date:'dd/MM/yyyy' }}</div>
-          </div>
-        </div>
-      </div>
+      <div class="table-wrap">
++        <div class="table__header table--simulation">
++          <span>Cuota #</span>
++          <span>Valor</span>
++          <span>Vencimiento</span>
++        </div>
++        <div class="table__row table--simulation" *ngFor="let i of simulation.schedule">
++          <span class="table__cell">{{ i.number }}</span>
++          <span class="table__cell">{{ i.amount | copCurrency }}</span>
++          <span class="table__cell">{{ i.dateExpiration | date:'dd/MM/yyyy' }}</span>
++        </div>
++      </div>
     </div>
   </div>
 

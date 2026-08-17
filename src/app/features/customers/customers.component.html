@@ -17,17 +17,24 @@
   <app-spinner [size]="40"></app-spinner>
 </div>
 
-<div class="data-list" *ngIf="!loading">
-  <div class="data-row" *ngFor="let c of filteredCustomers">
-    <div class="data-row__fields">
-      <div class="data-row__field"><span class="data-row__label">Tipo doc.</span>{{ getDocumentTypeLabel(c.documentType) }}</div>
-      <div class="data-row__field"><span class="data-row__label">Número</span>{{ c.documentNumber }}</div>
-      <div class="data-row__field"><span class="data-row__label">Nombre</span>{{ c.name }}</div>
-      <div class="data-row__field"><span class="data-row__label">Apellido</span>{{ c.lastname }}</div>
-      <div class="data-row__field"><span class="data-row__label">Edad</span>{{ c.age }}</div>
-      <div class="data-row__field"><span class="data-row__label">Dirección</span>{{ c.address }}</div>
-    </div>
-    <div class="data-row__actions">
+<div class="table-wrap" *ngIf="!loading">
+  <div class="table__header table--customers">
+    <span>Tipo doc.</span>
+    <span>Número</span>
+    <span>Nombre</span>
+    <span>Apellido</span>
+    <span>Edad</span>
+    <span>Dirección</span>
+    <span></span>
+  </div>
+  <div class="table__row table--customers" *ngFor="let c of filteredCustomers">
+    <span class="table__cell">{{ getDocumentTypeLabel(c.documentType) }}</span>
+    <span class="table__cell">{{ c.documentNumber }}</span>
+    <span class="table__cell">{{ c.name }}</span>
+    <span class="table__cell">{{ c.lastname }}</span>
+    <span class="table__cell">{{ c.age }}</span>
+    <span class="table__cell">{{ c.address }}</span>
+    <div class="table__cell table__cell--actions">
       <button class="icon-button" (click)="openLoansDialog(c)" appTooltip="Ver créditos" aria-label="Ver créditos del cliente">
         <app-icon name="quote"></app-icon>
       </button>

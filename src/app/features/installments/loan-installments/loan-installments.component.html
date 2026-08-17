@@ -8,19 +8,27 @@
   <app-spinner [size]="40"></app-spinner>
 </div>
 
-<div class="data-list" *ngIf="!loading">
-  <div class="data-row" *ngFor="let i of installments">
-    <div class="data-row__fields">
-      <div class="data-row__field"><span class="data-row__label">Cuota #</span>{{ i.number }}</div>
-      <div class="data-row__field"><span class="data-row__label">Valor cuota</span>{{ i.amount | copCurrency }}</div>
-      <div class="data-row__field"><span class="data-row__label">Pagado</span>{{ i.amountPaid | copCurrency }}</div>
-      <div class="data-row__field"><span class="data-row__label">Vencimiento</span>{{ i.dateExpiration | date:'dd/MM/yyyy' }}</div>
+<div class="table-wrap" *ngIf="!loading">
+  <div class="table__header table--loan-installments">
+    <span>Cuota #</span>
+    <span>Valor cuota</span>
+    <span>Pagado</span>
+    <span>Vencimiento</span>
+    <span>Estado</span>
+    <span></span>
+  </div>
+  <div class="table__row table--loan-installments" *ngFor="let i of installments">
+    <span class="table__cell">{{ i.number }}</span>
+    <span class="table__cell">{{ i.amount | copCurrency }}</span>
+    <span class="table__cell">{{ i.amountPaid | copCurrency }}</span>
+    <span class="table__cell">{{ i.dateExpiration | date:'dd/MM/yyyy' }}</span>
+    <span class="table__cell">
       <span class="badge" [ngClass]="{
         'badge--primary': status(i) === 'paid',
         'badge--warn': status(i) === 'overdue'
       }">{{ statusLabel(status(i)) }}</span>
-    </div>
-    <div class="data-row__actions">
+    </span>
+    <div class="table__cell table__cell--actions">
       <button class="icon-button icon-button--primary" (click)="viewPayments(i)" appTooltip="Ver pagos" aria-label="Ver pagos de la cuota">
         <app-icon name="receipt"></app-icon>
       </button>

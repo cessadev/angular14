@@ -8,15 +8,20 @@
   <app-spinner [size]="40"></app-spinner>
 </div>
 
-<div class="data-list" *ngIf="!loading">
-  <div class="data-row" *ngFor="let p of payments">
-    <div class="data-row__fields">
-      <div class="data-row__field"><span class="data-row__label">Comprobante</span>{{ p.number }}</div>
-      <div class="data-row__field"><span class="data-row__label">Cuota #</span>{{ p.installmentNumber }}</div>
-      <div class="data-row__field"><span class="data-row__label">Valor pagado</span>{{ p.amount | copCurrency }}</div>
-      <div class="data-row__field"><span class="data-row__label">Método</span>{{ methodLabel(p.method) }}</div>
-      <div class="data-row__field"><span class="data-row__label">Fecha</span>{{ p.date | date:'dd/MM/yyyy HH:mm' }}</div>
-    </div>
+<div class="table-wrap" *ngIf="!loading">
+  <div class="table__header table--payments">
+    <span>Comprobante</span>
+    <span>Cuota #</span>
+    <span>Valor pagado</span>
+    <span>Método</span>
+    <span>Fecha</span>
+  </div>
+  <div class="table__row table--payments" *ngFor="let p of payments">
+    <span class="table__cell">{{ p.number }}</span>
+    <span class="table__cell">{{ p.installmentNumber }}</span>
+    <span class="table__cell">{{ p.amount | copCurrency }}</span>
+    <span class="table__cell">{{ methodLabel(p.method) }}</span>
+    <span class="table__cell">{{ p.date | date:'dd/MM/yyyy HH:mm' }}</span>
   </div>
 </div>
 

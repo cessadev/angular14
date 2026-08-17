@@ -17,16 +17,22 @@
   <app-spinner [size]="40"></app-spinner>
 </div>
 
-<div class="data-list" *ngIf="!loading">
-  <div class="data-row" *ngFor="let v of filteredVehicles">
-    <div class="data-row__fields">
-      <div class="data-row__field"><span class="data-row__label">Identificador</span>{{ v.identifier }}</div>
-      <div class="data-row__field"><span class="data-row__label">Marca</span>{{ v.brand }}</div>
-      <div class="data-row__field"><span class="data-row__label">Modelo</span>{{ v.model }}</div>
-      <div class="data-row__field"><span class="data-row__label">Año</span>{{ v.year }}</div>
-      <div class="data-row__field"><span class="data-row__label">Valor de mercado</span>{{ v.marketValue | copCurrency }}</div>
-    </div>
-    <div class="data-row__actions">
+<div class="table-wrap" *ngIf="!loading">
+  <div class="table__header table--vehicles">
+    <span>Identificador</span>
+    <span>Marca</span>
+    <span>Modelo</span>
+    <span>Año</span>
+    <span>Valor de mercado</span>
+    <span></span>
+  </div>
+  <div class="table__row table--vehicles" *ngFor="let v of filteredVehicles">
+    <span class="table__cell">{{ v.identifier }}</span>
+    <span class="table__cell">{{ v.brand }}</span>
+    <span class="table__cell">{{ v.model }}</span>
+    <span class="table__cell">{{ v.year }}</span>
+    <span class="table__cell">{{ v.marketValue | copCurrency }}</span>
+    <div class="table__cell table__cell--actions">
       <button class="icon-button icon-button--primary" (click)="openEditDialog(v)" appTooltip="Editar" aria-label="Editar vehículo">
         <app-icon name="edit"></app-icon>
       </button>

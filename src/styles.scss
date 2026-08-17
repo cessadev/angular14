@@ -61,40 +61,58 @@ h1, h2, h3, .display { font-family: var(--font-display); }
 .dialog-actions--end { justify-content: flex-end; }
 .dialog-actions--center { justify-content: center; }
 
-// --- Listas de datos
-.data-list { display: flex; flex-direction: column; gap: 8px; }
-.data-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 16px;
+// --- Tablas
+.table-wrap {
+  overflow-x: auto;
   border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.table__header,
+.table__row {
+  display: grid;
+  column-gap: 16px;
+  align-items: center;
+  padding: 12px 16px;
+  min-width: max-content;
+}
+
+.table__header {
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.table__row {
   background: var(--color-surface-glass);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.15s ease;
 }
-.data-row--clickable { cursor: pointer; transition: background 0.15s ease; }
-.data-row--clickable:hover { background: rgba(46, 139, 146, 0.12); }
+.table__row:last-child { border-bottom: none; }
+.table__row--clickable { cursor: pointer; }
+.table__row--clickable:hover { background: rgba(46, 139, 146, 0.1); }
 
-.data-row__fields {
-  flex: 1 1 auto;
-  min-width: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px 24px;
+.table__cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.data-row__field { display: flex; flex-direction: column; gap: 2px; min-width: 110px; }
-.data-row__label {
-  font-size: 0.7rem; text-transform: uppercase;
-  letter-spacing: 0.04em; color: var(--color-text-muted);
-}
-.data-row__actions { flex: 0 0 auto; display: flex; gap: 4px; }
+.table__cell--actions { display: flex; gap: 4px; justify-content: flex-end; }
 
-@media (max-width: 640px) {
-  .data-row { flex-wrap: wrap; }
-  .data-row__actions { width: 100%; justify-content: flex-end; }
-}
+.table--customers { grid-template-columns: 160px 130px 1fr 1fr 80px 1.4fr 120px; }
+.table--vehicles { grid-template-columns: 140px 120px 1fr 90px 160px 100px; }
+.table--loans { grid-template-columns: 120px 130px 130px 140px 100px 120px 60px; }
+.table--installments { grid-template-columns: 110px 80px 1fr 1fr 140px 130px 150px; }
+.table--loan-installments { grid-template-columns: 80px 140px 140px 130px 120px 190px; }
+.table--customer-loans { grid-template-columns: 1fr 1fr 140px 100px 120px; }
+.table--simulation { grid-template-columns: 80px 140px 130px; }
+.table--payments { grid-template-columns: 120px 80px 140px 140px 140px; }
 
 // --- Badges
 .badge {
