@@ -2,41 +2,41 @@
 
 <form [formGroup]="form" (ngSubmit)="save()">
   <div class="dialog-content">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Tipo de documento</mat-label>
-      <mat-select formControlName="documentType">
-        <mat-option *ngFor="let type of documentTypes" [value]="type">
-          {{ documentTypeLabels[type] }}
-        </mat-option>
-      </mat-select>
-      <mat-hint *ngIf="isEditMode">No editable</mat-hint>
-    </mat-form-field>
+    <div class="field field--full">
+      <label class="field__label" for="customer-doc-type">Tipo de documento</label>
+      <div class="field__control-wrap">
+        <select id="customer-doc-type" class="field__select" formControlName="documentType">
+          <option *ngFor="let type of documentTypes" [value]="type">{{ documentTypeLabels[type] }}</option>
+        </select>
+      </div>
+      <span class="field__hint" *ngIf="isEditMode">No editable</span>
+    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Número de documento</mat-label>
-      <input matInput type="number" formControlName="documentNumber">
-      <mat-error *ngIf="form.get('documentNumber')?.hasError('required')">Requerido</mat-error>
-    </mat-form-field>
+    <div class="field field--full">
+      <label class="field__label" for="customer-doc-number">Número de documento</label>
+      <input id="customer-doc-number" class="field__input" type="number" formControlName="documentNumber">
+      <span class="field__error" *ngIf="form.get('documentNumber')?.hasError('required')">Requerido</span>
+    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Nombre</mat-label>
-      <input matInput formControlName="name">
-    </mat-form-field>
+    <div class="field field--full">
+      <label class="field__label" for="customer-name">Nombre</label>
+      <input id="customer-name" class="field__input" formControlName="name">
+    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Apellido</mat-label>
-      <input matInput formControlName="lastname">
-    </mat-form-field>
+    <div class="field field--full">
+      <label class="field__label" for="customer-lastname">Apellido</label>
+      <input id="customer-lastname" class="field__input" formControlName="lastname">
+    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Edad</mat-label>
-      <input matInput type="number" formControlName="age">
-    </mat-form-field>
+    <div class="field field--full">
+      <label class="field__label" for="customer-age">Edad</label>
+      <input id="customer-age" class="field__input" type="number" formControlName="age">
+    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Dirección</mat-label>
-      <input matInput formControlName="address">
-    </mat-form-field>
+    <div class="field field--full">
+      <label class="field__label" for="customer-address">Dirección</label>
+      <input id="customer-address" class="field__input" formControlName="address">
+    </div>
   </div>
 
   <div class="dialog-actions dialog-actions--end">

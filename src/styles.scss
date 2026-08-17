@@ -151,3 +151,74 @@ h1, h2, h3, .display { font-family: var(--font-display); }
 .icon-button--primary:hover { background: rgba(46, 139, 146, 0.15); }
 .icon-button--danger { color: #E08A7C; }
 .icon-button--danger:hover { background: rgba(193, 80, 63, 0.15); }
+
+// --- Formularios
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.field--full { width: 100%; }
+
+.field__label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.field__control-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.field__prefix {
+  position: absolute;
+  left: 12px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+.field__suffix {
+  position: absolute;
+  right: 12px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.field__input,
+.field__select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.field__input:focus,
+.field__select:focus {
+  outline: none;
+  border-color: var(--color-primary-light);
+  box-shadow: 0 0 0 3px rgba(46, 139, 146, 0.2);
+}
+.field__input:disabled,
+.field__select:disabled { opacity: 0.5; cursor: not-allowed; }
+.field__input.has-prefix { padding-left: 26px; }
+.field__input.has-suffix { padding-right: 36px; }
+
+.field__select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239A9FA6' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 36px;
+}
+.field__select option { background: var(--color-surface); color: var(--color-text); }
+
+.field__error { font-size: 0.75rem; color: #E08A7C; }
+.field__hint { font-size: 0.75rem; color: var(--color-text-muted); }

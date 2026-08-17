@@ -1,32 +1,36 @@
 <h2 class="dialog-title">Simular crédito</h2>
 
 <form [formGroup]="form" (ngSubmit)="simulate()">
-  <div class="dialog-title">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Monto a simular</mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input matInput type="number" formControlName="amount">
-    </mat-form-field>
+  <div class="dialog-content">
+    <div class="field field--full">
+      <label class="field__label" for="sim-amount">Monto a simular</label>
+      <div class="field__control-wrap">
+        <span class="field__prefix">$</span>
+        <input id="sim-amount" class="field__input has-prefix" type="number" formControlName="amount">
+      </div>
+    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Plazo</mat-label>
-      <mat-select formControlName="installments">
-        <mat-option *ngFor="let term of terms" [value]="term">
-          {{ termMonths[term] }} meses
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="field field--full">
+      <label class="field__label" for="sim-term">Plazo</label>
+      <div class="field__control-wrap">
+        <select id="sim-term" class="field__select" formControlName="installments">
+          <option *ngFor="let term of terms" [value]="term">{{ termMonths[term] }} meses</option>
+        </select>
+      </div>
+    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Vehículo (opcional)</mat-label>
-      <mat-select formControlName="vehicleIdentifier">
-        <mat-option [value]="null">Sin vehículo específico</mat-option>
-        <mat-option *ngFor="let v of vehicles" [value]="v.identifier">
-          {{ v.identifier }} — {{ v.brand }} {{ v.model }} ({{ v.marketValue | copCurrency }})
-        </mat-option>
-      </mat-select>
-      <mat-hint>Si seleccionas uno, se valida contra su valor comercial</mat-hint>
-    </mat-form-field>
+    <div class="field field--full">
+      <label class="field__label" for="sim-vehicle">Vehículo (opcional)</label>
+      <div class="field__control-wrap">
+        <select id="sim-vehicle" class="field__select" formControlName="vehicleIdentifier">
+          <option [value]="null">Sin vehículo específico</option>
+          <option *ngFor="let v of vehicles" [value]="v.identifier">
+            {{ v.identifier }} — {{ v.brand }} {{ v.model }} ({{ v.marketValue | copCurrency }})
+          </option>
+        </select>
+      </div>
+      <span class="field__hint">Si seleccionas uno, se valida contra su valor comercial</span>
+    </div>
 
     <button class="btn btn--primary" type="submit" [disabled]="simulating">
       Simular

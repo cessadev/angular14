@@ -5,11 +5,13 @@
   </button>
 </div>
 
-<mat-form-field appearance="outline" class="search-field">
-  <mat-label>Buscar por identificador</mat-label>
-  <input matInput [formControl]="searchControl" placeholder="Ej. ABC123">
-  <app-icon name="search" matSuffix></app-icon>
-</mat-form-field>
+<div class="field search-field">
+  <label class="field__label" for="vehicle-search">Buscar por identificador</label>
+  <div class="field__control-wrap">
+    <input id="vehicle-search" class="field__input has-suffix" [formControl]="searchControl" placeholder="Ej. ABC123">
+    <app-icon class="field__suffix" name="search"></app-icon>
+  </div>
+</div>
 
 <div *ngIf="loading" class="loading-container">
   <app-spinner [size]="40"></app-spinner>
