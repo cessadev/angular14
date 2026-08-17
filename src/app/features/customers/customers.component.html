@@ -19,20 +19,22 @@
 
 <div class="data-list" *ngIf="!loading">
   <div class="data-row" *ngFor="let c of filteredCustomers">
-    <div class="data-row__field"><span class="data-row__label">Tipo doc.</span>{{ getDocumentTypeLabel(c.documentType) }}</div>
-    <div class="data-row__field"><span class="data-row__label">Número</span>{{ c.documentNumber }}</div>
-    <div class="data-row__field"><span class="data-row__label">Nombre</span>{{ c.name }}</div>
-    <div class="data-row__field"><span class="data-row__label">Apellido</span>{{ c.lastname }}</div>
-    <div class="data-row__field"><span class="data-row__label">Edad</span>{{ c.age }}</div>
-    <div class="data-row__field"><span class="data-row__label">Dirección</span>{{ c.address }}</div>
+    <div class="data-row__fields">
+      <div class="data-row__field"><span class="data-row__label">Tipo doc.</span>{{ getDocumentTypeLabel(c.documentType) }}</div>
+      <div class="data-row__field"><span class="data-row__label">Número</span>{{ c.documentNumber }}</div>
+      <div class="data-row__field"><span class="data-row__label">Nombre</span>{{ c.name }}</div>
+      <div class="data-row__field"><span class="data-row__label">Apellido</span>{{ c.lastname }}</div>
+      <div class="data-row__field"><span class="data-row__label">Edad</span>{{ c.age }}</div>
+      <div class="data-row__field"><span class="data-row__label">Dirección</span>{{ c.address }}</div>
+    </div>
     <div class="data-row__actions">
-      <button class="icon-button" (click)="openLoansDialog(c)" matTooltip="Ver créditos" aria-label="Ver créditos del cliente">
+      <button class="icon-button" (click)="openLoansDialog(c)" appTooltip="Ver créditos" aria-label="Ver créditos del cliente">
         <app-icon name="quote"></app-icon>
       </button>
-      <button class="icon-button icon-button--primary" (click)="openEditDialog(c)" matTooltip="Editar" aria-label="Editar cliente">
+      <button class="icon-button icon-button--primary" (click)="openEditDialog(c)" appTooltip="Editar" aria-label="Editar cliente">
         <app-icon name="edit"></app-icon>
       </button>
-      <button class="icon-button icon-button--danger" (click)="deleteCustomer(c)" matTooltip="Eliminar" aria-label="Eliminar cliente">
+      <button class="icon-button icon-button--danger" (click)="deleteCustomer(c)" appTooltip="Eliminar" aria-label="Eliminar cliente">
         <app-icon name="delete"></app-icon>
       </button>
     </div>

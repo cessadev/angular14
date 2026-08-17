@@ -16,14 +16,16 @@
 
 <div class="data-list" *ngIf="!loading">
   <div class="data-row data-row--clickable" *ngFor="let l of loans" (click)="viewDetail(l)">
-    <div class="data-row__field"><span class="data-row__label">Referencia</span>{{ l.reference }}</div>
-    <div class="data-row__field"><span class="data-row__label">Cliente (doc.)</span>{{ l.customerDocumentNumber }}</div>
-    <div class="data-row__field"><span class="data-row__label">Vehículo</span>{{ l.vehicleIdentifier }}</div>
-    <div class="data-row__field"><span class="data-row__label">Monto</span>{{ l.amount | copCurrency }}</div>
-    <div class="data-row__field"><span class="data-row__label">Plazo</span>{{ getTermMonths(l.installments) }} meses</div>
-    <div class="data-row__field"><span class="data-row__label">Fecha</span>{{ l.dateCreation | date:'dd/MM/yyyy' }}</div>
+    <div class="data-row__fields">
+      <div class="data-row__field"><span class="data-row__label">Referencia</span>{{ l.reference }}</div>
+      <div class="data-row__field"><span class="data-row__label">Cliente (doc.)</span>{{ l.customerDocumentNumber }}</div>
+      <div class="data-row__field"><span class="data-row__label">Vehículo</span>{{ l.vehicleIdentifier }}</div>
+      <div class="data-row__field"><span class="data-row__label">Monto</span>{{ l.amount | copCurrency }}</div>
+      <div class="data-row__field"><span class="data-row__label">Plazo</span>{{ getTermMonths(l.installments) }} meses</div>
+      <div class="data-row__field"><span class="data-row__label">Fecha</span>{{ l.dateCreation | date:'dd/MM/yyyy' }}</div>
+    </div>
     <div class="data-row__actions">
-      <button class="icon-button icon-button--danger" (click)="deleteLoan(l, $event)" matTooltip="Eliminar" aria-label="Eliminar préstamo">
+      <button class="icon-button icon-button--danger" (click)="deleteLoan(l, $event)" appTooltip="Eliminar" aria-label="Eliminar préstamo">
         <app-icon name="delete"></app-icon>
       </button>
     </div>

@@ -7,11 +7,13 @@
 
   <div class="data-list" *ngIf="!loading">
     <div class="data-row data-row--clickable" *ngFor="let l of loans" (click)="viewDetail(l)">
-      <div class="data-row__field"><span class="data-row__label">Referencia</span>{{ l.reference }}</div>
-      <div class="data-row__field"><span class="data-row__label">Vehículo</span>{{ l.vehicleIdentifier }}</div>
-      <div class="data-row__field"><span class="data-row__label">Monto</span>{{ l.amount | copCurrency }}</div>
-      <div class="data-row__field"><span class="data-row__label">Plazo</span>{{ getTermMonths(l.installments) }} meses</div>
-      <div class="data-row__field"><span class="data-row__label">Fecha</span>{{ l.dateCreation | date:'dd/MM/yyyy' }}</div>
+      <div class="data-row__fields">
+        <div class="data-row__field"><span class="data-row__label">Referencia</span>{{ l.reference }}</div>
+        <div class="data-row__field"><span class="data-row__label">Vehículo</span>{{ l.vehicleIdentifier }}</div>
+        <div class="data-row__field"><span class="data-row__label">Monto</span>{{ l.amount | copCurrency }}</div>
+        <div class="data-row__field"><span class="data-row__label">Plazo</span>{{ getTermMonths(l.installments) }} meses</div>
+        <div class="data-row__field"><span class="data-row__label">Fecha</span>{{ l.dateCreation | date:'dd/MM/yyyy' }}</div>
+      </div>
     </div>
   </div>
 

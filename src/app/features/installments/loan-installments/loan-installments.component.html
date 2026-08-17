@@ -10,16 +10,18 @@
 
 <div class="data-list" *ngIf="!loading">
   <div class="data-row" *ngFor="let i of installments">
-    <div class="data-row__field"><span class="data-row__label">Cuota #</span>{{ i.number }}</div>
-    <div class="data-row__field"><span class="data-row__label">Valor cuota</span>{{ i.amount | copCurrency }}</div>
-    <div class="data-row__field"><span class="data-row__label">Pagado</span>{{ i.amountPaid | copCurrency }}</div>
-    <div class="data-row__field"><span class="data-row__label">Vencimiento</span>{{ i.dateExpiration | date:'dd/MM/yyyy' }}</div>
-    <span class="badge" [ngClass]="{
-      'badge--primary': status(i) === 'paid',
-      'badge--warn': status(i) === 'overdue'
-    }">{{ statusLabel(status(i)) }}</span>
+    <div class="data-row__fields">
+      <div class="data-row__field"><span class="data-row__label">Cuota #</span>{{ i.number }}</div>
+      <div class="data-row__field"><span class="data-row__label">Valor cuota</span>{{ i.amount | copCurrency }}</div>
+      <div class="data-row__field"><span class="data-row__label">Pagado</span>{{ i.amountPaid | copCurrency }}</div>
+      <div class="data-row__field"><span class="data-row__label">Vencimiento</span>{{ i.dateExpiration | date:'dd/MM/yyyy' }}</div>
+      <span class="badge" [ngClass]="{
+        'badge--primary': status(i) === 'paid',
+        'badge--warn': status(i) === 'overdue'
+      }">{{ statusLabel(status(i)) }}</span>
+    </div>
     <div class="data-row__actions">
-      <button class="icon-button icon-button--primary" (click)="viewPayments(i)" matTooltip="Ver pagos" aria-label="Ver pagos de la cuota">
+      <button class="icon-button icon-button--primary" (click)="viewPayments(i)" appTooltip="Ver pagos" aria-label="Ver pagos de la cuota">
         <app-icon name="receipt"></app-icon>
       </button>
       <button class="btn btn--primary" *ngIf="!i.paid" (click)="openPaymentDialog(i)">

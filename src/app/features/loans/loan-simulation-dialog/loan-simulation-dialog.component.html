@@ -46,9 +46,11 @@
 
       <div class="data-list">
         <div class="data-row" *ngFor="let i of simulation.schedule">
-          <div class="data-row__field"><span class="data-row__label">Cuota #</span>{{ i.number }}</div>
-          <div class="data-row__field"><span class="data-row__label">Valor</span>{{ i.amount | copCurrency }}</div>
-          <div class="data-row__field"><span class="data-row__label">Vencimiento</span>{{ i.dateExpiration | date:'dd/MM/yyyy' }}</div>
+          <div class="data-row__fields">
+            <div class="data-row__field"><span class="data-row__label">Cuota #</span>{{ i.number }}</div>
+            <div class="data-row__field"><span class="data-row__label">Valor</span>{{ i.amount | copCurrency }}</div>
+            <div class="data-row__field"><span class="data-row__label">Vencimiento</span>{{ i.dateExpiration | date:'dd/MM/yyyy' }}</div>
+          </div>
         </div>
       </div>
     </div>
