@@ -5,7 +5,15 @@
     <div class="field field--full">
       <label class="field__label" for="vehicle-identifier">Identificador</label>
       <input id="vehicle-identifier" class="field__input" formControlName="identifier">
-      <span class="field__error" *ngIf="form.get('identifier')?.hasError('required')">Requerido</span>
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('identifier')?.hasError('required') &&
+          form.get('identifier')?.touched
+        "
+      >
+        Requerido
+      </span>
     </div>
 
     <div class="field field--full">
@@ -14,12 +22,30 @@
         <select id="vehicle-brand" class="field__select" formControlName="brand">
           <option *ngFor="let brand of brands" [value]="brand">{{ brand }}</option>
         </select>
+        <span
+          class="field__error"
+          *ngIf="
+            form.get('brand')?.hasError('required') &&
+            form.get('brand')?.touched
+          "
+        >
+          Requerido
+        </span>
       </div>
     </div>
 
     <div class="field field--full">
       <label class="field__label" for="vehicle-model">Modelo</label>
       <input id="vehicle-model" class="field__input" formControlName="model" placeholder="Ej. Corolla, Sportage...">
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('model')?.hasError('required') &&
+          form.get('model')?.touched
+        "
+      >
+        Requerido
+      </span>
     </div>
 
     <div class="field field--full">
@@ -28,11 +54,29 @@
         <span class="field__prefix">$</span>
         <input id="vehicle-market-value" class="field__input has-prefix" type="text" inputmode="numeric" appNumericFormat formControlName="marketValue">
       </div>
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('marketValue')?.hasError('required') &&
+          form.get('marketValue')?.touched
+        "
+      >
+        Requerido
+      </span>
     </div>
 
     <div class="field field--full">
       <label class="field__label" for="vehicle-year">Año</label>
       <input id="vehicle-year" class="field__input" type="number" formControlName="year">
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('year')?.hasError('required') &&
+          form.get('year')?.touched
+        "
+      >
+        Requerido
+      </span>
       <span class="field__error" *ngIf="form.get('year')?.hasError('max')">
         No puede ser mayor a {{ currentYear + 1 }}
       </span>

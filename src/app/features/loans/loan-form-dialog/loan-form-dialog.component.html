@@ -19,6 +19,15 @@
           </option>
         </select>
       </div>
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('customerDocumentNumber')?.hasError('required') &&
+          form.get('customerDocumentNumber')?.touched
+        "
+      >
+        Requerido
+      </span>
       <span class="field__error" *ngIf="customers.length === 0">No hay clientes registrados</span>
     </div>
 
@@ -31,6 +40,15 @@
           </option>
         </select>
       </div>
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('vehicleIdentifier')?.hasError('required') &&
+          form.get('vehicleIdentifier')?.touched
+        "
+      >
+        Requerido
+      </span>
       <span class="field__error" *ngIf="vehicles.length === 0">No hay vehículos registrados</span>
     </div>
 
@@ -40,6 +58,15 @@
         <span class="field__prefix">$</span>
         <input id="loan-amount" class="field__input has-prefix" type="text" inputmode="numeric" appNumericFormat formControlName="amount">
       </div>
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('amount')?.hasError('required') &&
+          form.get('amount')?.touched
+        "
+      >
+        Requerido
+      </span>
     </div>
 
     <div class="field field--full">
@@ -49,6 +76,15 @@
           <option *ngFor="let term of terms" [value]="term">{{ termMonths[term] }} meses</option>
         </select>
       </div>
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('installments')?.hasError('required') &&
+          form.get('installments')?.touched
+        "
+      >
+        Requerido
+      </span>
     </div>
   </div>
 

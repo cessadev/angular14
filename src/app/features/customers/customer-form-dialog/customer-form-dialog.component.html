@@ -15,27 +15,71 @@
     <div class="field field--full">
       <label class="field__label" for="customer-doc-number">Número de documento</label>
       <input id="customer-doc-number" class="field__input" type="number" formControlName="documentNumber">
-      <span class="field__error" *ngIf="form.get('documentNumber')?.hasError('required')">Requerido</span>
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('documentNumber')?.hasError('required') &&
+          form.get('documentNumber')?.touched
+        "
+      >
+        Requerido
+      </span>
     </div>
 
     <div class="field field--full">
       <label class="field__label" for="customer-name">Nombre</label>
       <input id="customer-name" class="field__input" formControlName="name">
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('name')?.hasError('required') &&
+          form.get('name')?.touched
+        "
+      >
+        Requerido
+      </span>
     </div>
 
     <div class="field field--full">
       <label class="field__label" for="customer-lastname">Apellido</label>
       <input id="customer-lastname" class="field__input" formControlName="lastname">
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('lastname')?.hasError('required') &&
+          form.get('lastname')?.touched
+        "
+      >
+        Requerido
+      </span>
     </div>
 
     <div class="field field--full">
       <label class="field__label" for="customer-age">Edad</label>
       <input id="customer-age" class="field__input" type="number" formControlName="age">
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('age')?.hasError('required') &&
+          form.get('age')?.touched
+        "
+      >
+        Requerido
+      </span>
     </div>
 
     <div class="field field--full">
       <label class="field__label" for="customer-address">Dirección</label>
       <input id="customer-address" class="field__input" formControlName="address">
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('address')?.hasError('required') &&
+          form.get('address')?.touched
+        "
+      >
+        Requerido
+      </span>
     </div>
   </div>
 
