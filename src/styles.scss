@@ -98,6 +98,7 @@ h1, h2, h3, .display { font-family: var(--font-display); }
 .table__row--clickable { cursor: pointer; }
 .table__row--clickable:hover { background: rgba(46, 139, 146, 0.1); }
 
+.table__header span,
 .table__cell {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -105,14 +106,37 @@ h1, h2, h3, .display { font-family: var(--font-display); }
 }
 .table__cell--actions { display: flex; gap: 4px; justify-content: flex-end; }
 
-.table--customers { grid-template-columns: 160px 130px 1fr 1fr 80px 1.4fr 120px; }
-.table--vehicles { grid-template-columns: 140px 120px 1fr 90px 160px 100px; }
-.table--loans { grid-template-columns: 120px 130px 130px 140px 100px 120px 60px; }
-.table--installments { grid-template-columns: 110px 80px 1fr 1fr 140px 130px 150px; }
-.table--loan-installments { grid-template-columns: 80px 140px 140px 130px 120px 190px; }
-.table--customer-loans { grid-template-columns: 1fr 1fr 140px 100px 120px; }
-.table--simulation { grid-template-columns: 80px 140px 130px; }
-.table--payments { grid-template-columns: 120px 80px 140px 140px 140px; }
+.table--customers {
+  grid-template-columns: minmax(150px, 1.1fr) minmax(120px, 0.9fr) minmax(110px, 0.9fr)
+    minmax(110px, 0.9fr) minmax(70px, 0.4fr) minmax(170px, 1.6fr) 120px;
+}
+.table--vehicles {
+  grid-template-columns: minmax(130px, 1.1fr) minmax(110px, 0.9fr) minmax(110px, 0.9fr)
+    minmax(80px, 0.4fr) minmax(150px, 1.2fr) 90px;
+}
+.table--loans {
+  grid-template-columns: minmax(130px, 1.1fr) minmax(120px, 1fr) minmax(110px, 0.9fr)
+    minmax(130px, 1.1fr) minmax(90px, 0.5fr) minmax(120px, 0.9fr) 50px;
+}
+.table--installments {
+  grid-template-columns: minmax(120px, 1fr) minmax(70px, 0.4fr) minmax(130px, 1.1fr)
+    minmax(110px, 0.9fr) minmax(130px, 1fr) minmax(120px, 1fr) 140px;
+}
+.table--loan-installments {
+  grid-template-columns: minmax(70px, 0.4fr) minmax(120px, 1fr) minmax(120px, 1fr)
+    minmax(120px, 1fr) minmax(100px, 0.6fr) 180px;
+}
+.table--customer-loans {
+  grid-template-columns: minmax(140px, 1.2fr) minmax(110px, 0.9fr) minmax(130px, 1fr)
+    minmax(90px, 0.6fr) minmax(110px, 0.9fr);
+}
+.table--simulation {
+  grid-template-columns: minmax(70px, 0.5fr) minmax(120px, 1fr) minmax(130px, 1fr);
+}
+.table--payments {
+  grid-template-columns: minmax(140px, 1.2fr) minmax(70px, 0.5fr) minmax(130px, 1fr)
+    minmax(140px, 1fr) minmax(150px, 1.1fr);
+}
 
 // --- Badges
 .badge {
