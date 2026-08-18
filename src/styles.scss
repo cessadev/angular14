@@ -280,6 +280,15 @@ h1, h2, h3, .display { font-family: var(--font-display); }
 .field__input.has-prefix { padding-left: 26px; }
 .field__input.has-suffix { padding-right: 36px; }
 
+.field__input[type="number"] {
+  -moz-appearance: textfield;
+}
+.field__input[type="number"]::-webkit-outer-spin-button,
+.field__input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .field__select {
   appearance: none;
   -webkit-appearance: none;

@@ -24,10 +24,9 @@
   <div class="app-backdrop" *ngIf="(isMobile$ | async) && sidenavOpen" (click)="closeIfMobile()"></div>
 
   <div class="app-main">
-    <header class="app-toolbar glass-surface">
+    <header class="app-toolbar glass-surface" *ngIf="isMobile$ | async">
       <button
         class="icon-button"
-        *ngIf="isMobile$ | async"
         (click)="toggleSidenav()"
         aria-label="Abrir menú de navegación"
       >

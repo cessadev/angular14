@@ -17,7 +17,7 @@
       <label class="field__label" for="payment-amount">Monto a pagar</label>
       <div class="field__control-wrap">
         <span class="field__prefix">$</span>
-        <input id="payment-amount" class="field__input has-prefix" type="number" formControlName="amount">
+        <input id="payment-amount" class="field__input has-prefix" type="text" inputmode="numeric" appNumericFormat formControlName="amount">
       </div>
       <span class="field__error" *ngIf="form.get('amount')?.hasError('max')">
         No puede exceder el saldo pendiente
