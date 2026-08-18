@@ -32,9 +32,14 @@
       <span class="field__hint">Si seleccionas uno, se valida contra su valor comercial</span>
     </div>
 
-    <button class="btn btn--primary" type="submit" [disabled]="simulating">
-      Simular
-    </button>
+    <div class="simulation-actions">
+      <button class="btn btn--primary" type="submit" [disabled]="simulating">
+        Simular
+      </button>
+      <button class="btn btn--text" type="button" (click)="close()">
+        Cerrar
+      </button>
+    </div>
 
     <div *ngIf="simulating" class="loading-container">
       <app-spinner [size]="32"></app-spinner>
@@ -57,9 +62,5 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="dialog-actions dialog-actions--end">
-    <button class="btn btn--text" type="button" (click)="close()">Cerrar</button>
   </div>
 </form>
