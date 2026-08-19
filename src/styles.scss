@@ -136,8 +136,8 @@ h1, h2, h3, .display { font-family: var(--font-display); }
     minmax(110px, 0.9fr) minmax(130px, 1fr) minmax(120px, 1fr) 140px;
 }
 .table--loan-installments {
-  grid-template-columns: minmax(70px, 0.4fr) minmax(120px, 1fr) minmax(120px, 1fr)
-    minmax(120px, 1fr) minmax(100px, 0.6fr) 180px;
+  grid-template-columns: minmax(70px, 0.6fr) minmax(120px, 0.8fr) minmax(120px, 0.8fr)
+    minmax(120px, 0.8fr) minmax(100px, 0.6fr) 180px;
 }
 .table--customer-loans {
   grid-template-columns: minmax(140px, 1.2fr) minmax(110px, 0.9fr) minmax(130px, 1fr)
@@ -147,8 +147,8 @@ h1, h2, h3, .display { font-family: var(--font-display); }
   grid-template-columns: minmax(70px, 0.5fr) minmax(120px, 1fr) minmax(130px, 1fr);
 }
 .table--payments {
-  grid-template-columns: minmax(140px, 1.2fr) minmax(70px, 0.5fr) minmax(130px, 1fr)
-    minmax(140px, 1fr) minmax(150px, 1.1fr);
+  grid-template-columns: minmax(140px, 1fr) minmax(70px, 0.8fr) minmax(130px, 1fr)
+    minmax(140px, 0.9fr) minmax(150px, 0.6fr);
 }
 
 // --- Badges
