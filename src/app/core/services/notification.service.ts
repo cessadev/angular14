@@ -10,6 +10,10 @@ export class NotificationService {
     this.open({ type: 'success', title, message });
   }
 
+  info(message: string, title = 'Información'): void {
+    this.open({ type: 'info', title, message });
+  }
+
   error(message: string, title = 'No se pudo completar la operación'): void {
     this.open({ type: 'error', title, message });
   }

@@ -33,4 +33,17 @@ describe('FeedbackDialogComponent', () => {
 
     expect(component.data).toEqual(data);
   });
+
+  // [Info variant]
+  it('constructor_InfoData_ExposesInjectedDialogData', () => {
+    const data: FeedbackDialogData = {
+      type: 'info',
+      title: 'Sin créditos',
+      message: 'Este cliente no tiene créditos asociados.'
+    };
+
+    const component = new FeedbackDialogComponent(dialogRefSpy, data);
+
+    expect(component.data).toEqual(data);
+  });
 });

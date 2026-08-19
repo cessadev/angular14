@@ -1,11 +1,7 @@
 <h2 class="dialog-title">Créditos de {{ data.customer.name }} {{ data.customer.lastname }}</h2>
 
 <div class="dialog-content">
-  <div *ngIf="loading" class="loading-container">
-    <app-spinner [size]="32"></app-spinner>
-  </div>
-
-  <div class="table-wrap" *ngIf="!loading">
+  <div class="table-wrap">
     <div class="table__header table--customer-loans">
       <span>Referencia</span>
       <span>Vehículo</span>
@@ -13,7 +9,7 @@
       <span>Plazo</span>
       <span>Fecha</span>
     </div>
-    <div class="table__row table--customer-loans table__row--clickable" *ngFor="let l of loans" (click)="viewDetail(l)">
+    <div class="table__row table--customer-loans table__row--clickable" *ngFor="let l of data.loans" (click)="viewDetail(l)">
       <span class="table__cell">{{ l.reference }}</span>
       <span class="table__cell">{{ l.vehicleIdentifier }}</span>
       <span class="table__cell">{{ l.amount | copCurrency }}</span>
@@ -21,8 +17,6 @@
       <span class="table__cell">{{ l.dateCreation | date:'dd/MM/yyyy' }}</span>
     </div>
   </div>
-
-  <p *ngIf="!loading && loans.length === 0" class="empty-state">Este cliente no tiene créditos asociados.</p>
 </div>
 
 <div class="dialog-actions dialog-actions--end">

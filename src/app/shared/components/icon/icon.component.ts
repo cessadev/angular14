@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 export type IconName =
   | 'add' | 'arrow-back' | 'calculate' | 'delete' | 'edit' | 'menu'
   | 'receipt' | 'quote' | 'search' | 'check-circle' | 'error'
-  | 'dashboard' | 'people' | 'car' | 'payments';
+  | 'dashboard' | 'people' | 'car' | 'payments' | 'info';
 
 @Component({
   selector: 'app-icon',

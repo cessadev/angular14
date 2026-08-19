@@ -66,4 +66,32 @@ describe('NotificationService', () => {
       }
     });
   });
+
+  // [Info with default title]
+  it('info_DefaultTitle_OpensFeedbackDialogWithInfoType', () => {
+    service.info('Este cliente no tiene créditos asociados.');
+
+    expect(dialogSpy.open).toHaveBeenCalledOnceWith(FeedbackDialogComponent, {
+      width: '360px',
+      data: {
+        type: 'info',
+        title: 'Información',
+        message: 'Este cliente no tiene créditos asociados.'
+      }
+    });
+  });
+
+  // [Info with custom title]
+  it('info_CustomTitle_OpensFeedbackDialogWithProvidedTitle', () => {
+    service.info('Este cliente no tiene créditos asociados.', 'Sin créditos');
+
+    expect(dialogSpy.open).toHaveBeenCalledOnceWith(FeedbackDialogComponent, {
+      width: '360px',
+      data: {
+        type: 'info',
+        title: 'Sin créditos',
+        message: 'Este cliente no tiene créditos asociados.'
+      }
+    });
+  });
 });

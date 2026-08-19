@@ -8,6 +8,7 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog
 import { CustomerLoansDialogComponent } from './customer-loans-dialog/customer-loans-dialog.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { Dialog } from '@angular/cdk/dialog';
+import { LoanService } from 'src/app/core/services/loan.service';
 
 @Component({
   selector: 'app-customers',
@@ -23,6 +24,7 @@ export class CustomersComponent implements OnInit {
 
   constructor(
     private customerService: CustomerService,
+    private loanService: LoanService,
     private dialog: Dialog,
     private notificationService: NotificationService
   ) {}
@@ -116,9 +118,21 @@ export class CustomersComponent implements OnInit {
   }
 
   openLoansDialog(customer: CustomerResponse): void {
-    this.dialog.open(CustomerLoansDialogComponent, {
-      width: '640px',
-      data: { customer }
+    this.loanService.getByCustomer(customer.documentType, customer.documentNumber).subscribe({
+      next: (loans) => {
+        if (loans.length === 0) {
+          this.notificationService.info('Este cliente no tiene créditos asociados.', 'Sin créditos');
+          return;
+        }
+
+        this.dialog.open(CustomerLoansDialogComponent, {
+          width: '800px',
+          data: { customer, loans }
+        });
+      },
+      error: (err: Error) => {
+        this.notificationService.error(err.message);
+      }
     });
   }
 

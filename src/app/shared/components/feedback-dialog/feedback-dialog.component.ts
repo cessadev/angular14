@@ -1,7 +1,7 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject } from '@angular/core';
 
-export type FeedbackType = 'success' | 'error';
+export type FeedbackType = 'success' | 'error' | 'info';
 
 export interface FeedbackDialogData {
   type: FeedbackType;

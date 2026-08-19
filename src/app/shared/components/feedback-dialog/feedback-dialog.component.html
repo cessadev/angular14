@@ -1,11 +1,16 @@
-<div class="feedback-dialog" [class.feedback-success]="data.type === 'success'" [class.feedback-error]="data.type === 'error'">
-  <app-icon class="feedback-icon" [name]="data.type === 'success' ? 'check-circle' : 'error'" [size]="32"></app-icon>
+<div class="feedback-dialog"
+     [class.feedback-success]="data.type === 'success'"
+     [class.feedback-error]="data.type === 'error'"
+     [class.feedback-info]="data.type === 'info'">
+  <app-icon class="feedback-icon"
+    [name]="data.type === 'success' ? 'check-circle' : data.type === 'error' ? 'error' : 'info'"
+    [size]="32"></app-icon>
 
   <h2 class="dialog-title">{{ data.title }}</h2>
   <div class="dialog-content">{{ data.message }}</div>
 
   <div class="dialog-actions dialog-actions--center">
-    <button class="btn" [class.btn--primary]="data.type === 'success'" [class.btn--danger]="data.type !== 'success'" (click)="close()">
+    <button class="btn" [class.btn--primary]="data.type !== 'error'" [class.btn--danger]="data.type === 'error'" (click)="close()">
       Aceptar
     </button>
   </div>

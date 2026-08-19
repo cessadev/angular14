@@ -15,6 +15,7 @@
 
 .feedback-success .feedback-icon { color: #2e7d32; }
 .feedback-error .feedback-icon { color: #b00020; }
+.feedback-info .feedback-icon { color: var(--color-primary-light); }
 
 h2[mat-dialog-title] { margin: 0 0 8px; }
 
