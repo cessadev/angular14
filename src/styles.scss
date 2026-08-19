@@ -120,16 +120,16 @@ h1, h2, h3, .display { font-family: var(--font-display); }
 .table__cell--actions { display: flex; gap: 4px; justify-content: flex-end; }
 
 .table--customers {
-  grid-template-columns: minmax(150px, 1.1fr) minmax(120px, 0.9fr) minmax(110px, 0.9fr)
+  grid-template-columns: minmax(170px, 1.1fr) minmax(120px, 0.9fr) minmax(110px, 0.9fr)
     minmax(110px, 0.9fr) minmax(70px, 0.4fr) minmax(170px, 1.6fr) 120px;
 }
 .table--vehicles {
-  grid-template-columns: minmax(130px, 1.1fr) minmax(110px, 0.9fr) minmax(110px, 0.9fr)
-    minmax(80px, 0.4fr) minmax(150px, 1.2fr) 90px;
+  grid-template-columns: minmax(130px, 0.8fr) minmax(110px, 0.8fr) minmax(110px, 0.8fr)
+    minmax(80px, 0.7fr) minmax(150px, 0.6fr) 90px;
 }
 .table--loans {
-  grid-template-columns: minmax(130px, 1.1fr) minmax(120px, 1fr) minmax(110px, 0.9fr)
-    minmax(130px, 1.1fr) minmax(90px, 0.5fr) minmax(120px, 0.9fr) 50px;
+  grid-template-columns: minmax(160px, 0.9fr) minmax(120px, 0.8fr) minmax(110px, 0.7fr)
+    minmax(130px, 0.9fr) minmax(90px, 0.7fr) minmax(120px, 0.6fr) 50px;
 }
 .table--installments {
   grid-template-columns: minmax(120px, 1fr) minmax(70px, 0.4fr) minmax(130px, 1.1fr)

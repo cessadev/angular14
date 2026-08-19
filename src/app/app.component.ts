@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy{
     { path: '/customers', label: 'Clientes', icon: 'people' },
     { path: '/vehicles', label: 'Vehículos', icon: 'car' },
     { path: '/loans', label: 'Préstamos', icon: 'quote' },
-    { path: '/installments', label: 'Cuotas', icon: 'payments' }
+    { path: '/installments', label: 'Mora', icon: 'payments' }
   ];
 
   constructor(private breakpointObserver: BreakpointObserver) {}
