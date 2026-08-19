@@ -2,9 +2,11 @@ import { FormBuilder } from '@angular/forms';
 import { PaymentDialogComponent, PaymentDialogData } from './payment-dialog.component';
 import { InstallmentResponse, EPaymentMethod, RegisterPaymentRequest } from 'src/app/core/models';
 import { DialogRef } from '@angular/cdk/dialog';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 describe('PaymentDialogComponent', () => {
   let dialogRefSpy: jasmine.SpyObj<DialogRef<RegisterPaymentRequest, PaymentDialogComponent>>;
+  let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
 
   const installment: InstallmentResponse = {
     loanReference: 'LN-ABC1234567',
@@ -19,10 +21,11 @@ describe('PaymentDialogComponent', () => {
 
   beforeEach(() => {
     dialogRefSpy = jasmine.createSpyObj<DialogRef<RegisterPaymentRequest, PaymentDialogComponent>>('DialogRef', ['close']);
+    notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
   });
 
   function createComponent(data: PaymentDialogData): PaymentDialogComponent {
-    return new PaymentDialogComponent(new FormBuilder(), dialogRefSpy, data);
+    return new PaymentDialogComponent(new FormBuilder(), dialogRefSpy, notificationServiceSpy, data);
   }
 
   // [Constructor prefill]
@@ -75,5 +78,19 @@ describe('PaymentDialogComponent', () => {
     component.cancel();
 
     expect(dialogRefSpy.close).toHaveBeenCalledOnceWith();
+  });
+
+  // [Invalid submit]
+  it('save_InvalidForm_ShowsErrorNotificationAndDoesNotClose', () => {
+    const component = createComponent({ installment });
+    component.form.get('amount')?.setValue(null);
+
+    component.save();
+
+    expect(notificationServiceSpy.error).toHaveBeenCalledOnceWith(
+      'Complete los campos obligatorios para continuar.',
+      'Formulario incompleto'
+    );
+    expect(dialogRefSpy.close).not.toHaveBeenCalled();
   });
 });

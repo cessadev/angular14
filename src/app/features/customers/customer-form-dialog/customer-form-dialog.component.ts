@@ -8,6 +8,7 @@ import {
   UpdateCustomerRequest,
   CustomerResponse
 } from 'src/app/core/models';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 export interface CustomerFormDialogData {
   customer: CustomerResponse;
@@ -27,6 +28,7 @@ export class CustomerFormDialogComponent {
   constructor(
     private fb: FormBuilder,
     private dialogRef: DialogRef<CreateCustomerRequest | UpdateCustomerRequest, CustomerFormDialogComponent>,
+    private notificationService: NotificationService,
     @Optional() @Inject(DIALOG_DATA) public data: CustomerFormDialogData | null
   ) {
     const customer = data?.customer;
@@ -51,6 +53,7 @@ export class CustomerFormDialogComponent {
   save(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.notificationService.error('Complete los campos obligatorios para continuar.', 'Formulario incompleto');
       return;
     }
 

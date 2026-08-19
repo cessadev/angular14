@@ -1,4 +1,4 @@
-<h2 class="dialog-title">Registrar pago — Cuota{{ data.installment.number }}</h2>
+<h2 class="dialog-title">Registrar pago — Cuota {{ data.installment.number }}</h2>
 
 <form [formGroup]="form" (ngSubmit)="save()">
   <div class="dialog-content">
@@ -11,6 +11,15 @@
           <option *ngFor="let m of methods" [value]="m">{{ methodLabels[m] }}</option>
         </select>
       </div>
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('method')?.hasError('required') &&
+          form.get('method')?.touched
+        "
+      >
+        Requerido
+      </span>
     </div>
 
     <div class="field field--full">
@@ -19,6 +28,15 @@
         <span class="field__prefix">$</span>
         <input id="payment-amount" class="field__input has-prefix" type="text" inputmode="numeric" appNumericFormat formControlName="amount">
       </div>
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('amount')?.hasError('required') &&
+          form.get('amount')?.touched
+        "
+      >
+        Requerido
+      </span>
       <span class="field__error" *ngIf="form.get('amount')?.hasError('max')">
         No puede exceder el saldo pendiente
       </span>

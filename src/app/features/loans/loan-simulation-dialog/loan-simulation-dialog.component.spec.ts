@@ -145,4 +145,17 @@ describe('LoanSimulationDialogComponent', () => {
 
     expect(dialogRefSpy.close).toHaveBeenCalledOnceWith();
   });
+
+  // [Invalid form]
+  it('simulate_InvalidForm_ShowsErrorNotification', () => {
+    vehicleServiceSpy.getAll.and.returnValue(of(vehicles));
+    const component = createComponent();
+
+    component.simulate();
+
+    expect(notificationServiceSpy.error).toHaveBeenCalledOnceWith(
+      'Complete los campos obligatorios para continuar.',
+      'Formulario incompleto'
+    );
+  });
 });

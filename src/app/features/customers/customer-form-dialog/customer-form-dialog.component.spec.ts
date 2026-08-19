@@ -2,9 +2,11 @@ import { FormBuilder } from '@angular/forms';
 import { CustomerFormDialogComponent, CustomerFormDialogData } from './customer-form-dialog.component';
 import { CustomerResponse, EDocumentType, CreateCustomerRequest, UpdateCustomerRequest } from 'src/app/core/models';
 import { DialogRef } from '@angular/cdk/dialog';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 describe('CustomerFormDialogComponent', () => {
   let dialogRefSpy: jasmine.SpyObj<DialogRef<CreateCustomerRequest | UpdateCustomerRequest, CustomerFormDialogComponent>>;
+  let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
 
   const existingCustomer: CustomerResponse = {
     documentType: EDocumentType.CedulaCiudadania,
@@ -17,10 +19,11 @@ describe('CustomerFormDialogComponent', () => {
 
   beforeEach(() => {
     dialogRefSpy = jasmine.createSpyObj<DialogRef<CreateCustomerRequest | UpdateCustomerRequest, CustomerFormDialogComponent>>('DialogRef', ['close']);
+    notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
   });
 
   function createComponent(data: CustomerFormDialogData | null): CustomerFormDialogComponent {
-    return new CustomerFormDialogComponent(new FormBuilder(), dialogRefSpy, data);
+    return new CustomerFormDialogComponent(new FormBuilder(), dialogRefSpy, notificationServiceSpy, data);
   }
 
   // [Create mode]
@@ -103,5 +106,18 @@ describe('CustomerFormDialogComponent', () => {
     component.cancel();
 
     expect(dialogRefSpy.close).toHaveBeenCalledOnceWith();
+  });
+
+  // [Invalid submit]
+  it('save_InvalidForm_ShowsErrorNotificationAndDoesNotClose', () => {
+    const component = createComponent(null);
+
+    component.save();
+
+    expect(notificationServiceSpy.error).toHaveBeenCalledOnceWith(
+      'Complete los campos obligatorios para continuar.',
+      'Formulario incompleto'
+    );
+    expect(dialogRefSpy.close).not.toHaveBeenCalled();
   });
 });

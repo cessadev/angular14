@@ -47,6 +47,7 @@ export class LoanSimulationDialogComponent implements OnInit {
   simulate(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.notificationService.error('Complete los campos obligatorios para continuar.', 'Formulario incompleto');
       return;
     }
 
