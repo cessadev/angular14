@@ -71,7 +71,7 @@ export class LoansComponent implements OnInit {
       width: '400px',
       data: {
         title: 'Eliminar préstamo',
-        message: `¿Seguro que deseas eliminar el préstamo ${loan.reference}?`
+        message: `¿Seguro que desea eliminar el préstamo ${loan.reference}?`
       }
     });
 

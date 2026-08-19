@@ -10,14 +10,35 @@ import { IconComponent } from './components/icon/icon.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { TooltipDirective } from './directives/tooltip.directive';
 import { NumericFormatDirective } from './directives/numeric-format.directive';
+import { LiquidTapDirective } from './directives/liquid-tap.directive';
 
 const MATERIAL_MODULES = [
   DialogModule
 ];
 
 @NgModule({
-  declarations: [ConfirmDialogComponent, FeedbackDialogComponent, IconComponent, SpinnerComponent, TooltipDirective, NumericFormatDirective, CopCurrencyPipe],
+  declarations: [
+    ConfirmDialogComponent,
+    FeedbackDialogComponent,
+    IconComponent,
+    SpinnerComponent,
+    TooltipDirective,
+    NumericFormatDirective,
+    LiquidTapDirective,
+    CopCurrencyPipe
+  ],
   imports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES],
-  exports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES, ConfirmDialogComponent, FeedbackDialogComponent, IconComponent, SpinnerComponent, TooltipDirective, NumericFormatDirective, CopCurrencyPipe]
+  exports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ...MATERIAL_MODULES,
+    ConfirmDialogComponent,
+    FeedbackDialogComponent,
+    IconComponent,
+    SpinnerComponent,
+    TooltipDirective,
+    NumericFormatDirective,
+    LiquidTapDirective,
+    CopCurrencyPipe]
 })
 export class SharedModuleModule { }
