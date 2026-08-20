@@ -10,7 +10,7 @@
   <div class="dialog-content">{{ data.message }}</div>
 
   <div class="dialog-actions dialog-actions--center">
-    <button class="btn" [class.btn--primary]="data.type !== 'error'" [class.btn--danger]="data.type === 'error'" (click)="close()">
+    <button class="btn" [class.btn--primary]="data.type !== 'error'" [class.btn--danger]="data.type === 'error'" (appLiquidDialogClose)="close()">
       Aceptar
     </button>
   </div>

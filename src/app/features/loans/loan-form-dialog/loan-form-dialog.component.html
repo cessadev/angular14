@@ -89,7 +89,7 @@
   </div>
 
   <div class="dialog-actions dialog-actions--end">
-    <button class="btn btn--text" type="button" (click)="cancel()">Cancelar</button>
+    <button class="btn btn--text" type="button" (appLiquidDialogClose)="cancel()">Cancelar</button>
     <button class="btn btn--primary" type="submit"
             [disabled]="customers.length === 0 || vehicles.length === 0">
       Guardar

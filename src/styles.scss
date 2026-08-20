@@ -380,7 +380,7 @@ h1, h2, h3, .display { font-family: var(--font-display); }
   }
 }
 
-// --- Rebote líquido
+// --- Rebote líquido general
 .liquid-tap {
   animation: liquid-tap 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -391,4 +391,25 @@ h1, h2, h3, .display { font-family: var(--font-display); }
   55% { transform: scale(1.05) translateY(-1px); }
   75% { transform: scale(0.99); }
   100% { transform: scale(1); }
+}
+
+// --- Rebote líquido al cerrar dialogos
+.cdk-overlay-pane.liquid-dialog-closing {
+  animation: liquid-dialog-out 260ms cubic-bezier(0.4, 0, 1, 1) both;
+  pointer-events: none;
+}
+
+@keyframes liquid-dialog-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scaleX(1) scaleY(1);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-4px) scaleX(1.04) scaleY(0.97);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(16px) scaleX(0.85) scaleY(0.7);
+  }
 }
