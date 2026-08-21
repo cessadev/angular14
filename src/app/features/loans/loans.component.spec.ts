@@ -1,4 +1,5 @@
 import { of, throwError } from 'rxjs';
+import { fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { LoansComponent } from './loans.component';
 import { LoanService } from 'src/app/core/services/loan.service';
@@ -38,14 +39,44 @@ describe('LoansComponent', () => {
     return new LoansComponent(loanServiceSpy, dialogSpy, notificationServiceSpy, routerSpy);
   }
 
-  // [ngOnInit loads loans]
-  it('ngOnInit_Always_LoadsLoans', () => {
+  // [ngOnInit loads loans and configures filtering]
+  it('ngOnInit_Always_LoadsLoansAndConfiguresCaseInsensitiveFilter', () => {
     const component = createComponent();
     component.ngOnInit();
 
     expect(component.loans).toEqual([loan]);
+    expect(component.filteredLoans).toEqual([loan]);
     expect(component.loading).toBeFalse();
   });
+
+  // [applyFilter matches and clears]
+  it('applyFilter_MatchingAndNonMatchingReference_UpdatesFilteredLoans', () => {
+    const component = createComponent();
+    component.ngOnInit();
+
+    component['applyFilter']('LN-ABC1234567');
+    expect(component.filteredLoans).toEqual([loan]);
+
+    component['applyFilter']('ln-abc1234567');
+    expect(component.filteredLoans).toEqual([loan]);
+
+    component['applyFilter']('LN-ZZZ9999999');
+    expect(component.filteredLoans).toEqual([]);
+
+    component['applyFilter']('');
+    expect(component.filteredLoans).toEqual([loan]);
+  });
+
+  // [Search control wiring, debounced]
+  it('ngOnInit_SearchControlValueChanges_UpdatesFilteredLoansAfterDebounce', fakeAsync(() => {
+    const component = createComponent();
+    component.ngOnInit();
+
+    component.searchControl.setValue('  LN-ABC1234567  ');
+    tick(200);
+
+    expect(component.filteredLoans).toEqual([loan]);
+  }));
 
   // [Load error]
   it('loadLoans_ServiceFails_NotifiesErrorAndStopsLoading', () => {

@@ -13,6 +13,15 @@
   padding: 32px;
 }
 
+.search-field {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
 .clickable-row {
   cursor: pointer;
 }

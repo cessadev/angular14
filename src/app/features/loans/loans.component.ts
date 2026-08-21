@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { LoanResponse, EInstallmentsTerm, INSTALLMENTS_TERM_MONTHS, CreateLoanRequest } from 'src/app/core/models';
 import { LoanFormDialogComponent } from './loan-form-dialog/loan-form-dialog.component';
@@ -15,8 +17,10 @@ import { Dialog } from '@angular/cdk/dialog';
 })
 export class LoansComponent implements OnInit {
   loans: LoanResponse[] = [];
+  filteredLoans: LoanResponse[] = [];
   loading = false;
   termMonths = INSTALLMENTS_TERM_MONTHS;
+  searchControl = new FormControl('');
 
   constructor(
     private loanService: LoanService,
@@ -27,6 +31,12 @@ export class LoansComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadLoans();
+
+    this.searchControl.valueChanges
+      .pipe(debounceTime(200), distinctUntilChanged())
+      .subscribe((value) => {
+        this.applyFilter(value ?? '');
+      });
   }
 
   loadLoans(): void {
@@ -34,6 +44,7 @@ export class LoansComponent implements OnInit {
     this.loanService.getAll().subscribe({
       next: (loans) => {
         this.loans = loans;
+        this.applyFilter(this.searchControl.value ?? '');
         this.loading = false;
       },
       error: (err: Error) => {
@@ -96,5 +107,12 @@ export class LoansComponent implements OnInit {
 
   getTermMonths(term: EInstallmentsTerm): number {
     return INSTALLMENTS_TERM_MONTHS[term];
+  }
+
+  private applyFilter(term: string): void {
+    const value = term.trim().toLowerCase();
+    this.filteredLoans = value
+      ? this.loans.filter((l) => l.reference.toLowerCase().includes(value))
+      : this.loans;
   }
 }

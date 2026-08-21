@@ -10,6 +10,14 @@
   </div>
 </div>
 
+<div class="field search-field">
+  <label class="field__label" for="loan-search">Buscar por referencia</label>
+  <div class="field__control-wrap">
+    <input id="loan-search" class="field__input has-suffix" [formControl]="searchControl" placeholder="Ej. LN-ABC1234567">
+    <app-icon class="field__suffix" name="search"></app-icon>
+  </div>
+</div>
+
 <div *ngIf="loading" class="loading-container">
   <app-spinner [size]="40"></app-spinner>
 </div>
@@ -24,7 +32,7 @@
     <span>Fecha</span>
     <span></span>
   </div>
-  <div class="table__row table--loans table__row--clickable" *ngFor="let l of loans" (click)="viewDetail(l)">
+  <div class="table__row table--loans table__row--clickable" *ngFor="let l of filteredLoans" (click)="viewDetail(l)">
     <span class="table__cell">{{ l.reference }}</span>
     <span class="table__cell">{{ l.customerDocumentNumber }}</span>
     <span class="table__cell">{{ l.vehicleIdentifier }}</span>
