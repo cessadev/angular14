@@ -37,6 +37,9 @@
       >
         Requerido
       </span>
+      <span class="field__error" *ngIf="form.get('amount')?.hasError('min')">
+        Debe ser mayor a cero
+      </span>
       <span class="field__error" *ngIf="form.get('amount')?.hasError('max')">
         No puede exceder el saldo pendiente
       </span>

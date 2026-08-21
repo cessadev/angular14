@@ -53,7 +53,7 @@ describe('PaymentDialogComponent', () => {
 
     const component = createComponent({ installment: noisyInstallment });
 
-    // Raw JS subtraction
+    // Raw JS subtraction (833333.33 - 755555.56) yields 77777.7699999999 without rounding.
     expect(component.remainingBalance).toBe(77777.77);
   });
 
@@ -66,6 +66,30 @@ describe('PaymentDialogComponent', () => {
 
     expect(dialogRefSpy.close).not.toHaveBeenCalled();
     expect(component.form.get('amount')?.touched).toBeTrue();
+  });
+
+  // [Cents-only abono, below one whole peso]
+  it('save_CentsOnlyAmountBelowOnePeso_ClosesDialogWithRegisterPaymentRequest', () => {
+    const component = createComponent({ installment });
+
+    component.form.get('amount')?.setValue(0.33);
+    component.save();
+
+    expect(dialogRefSpy.close).toHaveBeenCalledOnceWith({
+      method: EPaymentMethod.Cash,
+      amount: 0.33
+    });
+  });
+
+  // [Zero amount rejected]
+  it('save_ZeroAmount_DoesNotCloseDialogAndMarksFieldsAsTouched', () => {
+    const component = createComponent({ installment });
+
+    component.form.get('amount')?.setValue(0);
+    component.save();
+
+    expect(dialogRefSpy.close).not.toHaveBeenCalled();
+    expect(component.form.get('amount')?.hasError('min')).toBeTrue();
   });
 
   // [Valid form]

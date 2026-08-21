@@ -31,7 +31,7 @@ export class PaymentDialogComponent {
       method: [EPaymentMethod.Cash, Validators.required],
       amount: [
         this.remainingBalance,
-        [Validators.required, Validators.min(1), Validators.max(this.remainingBalance)]
+        [Validators.required, Validators.min(0.01), Validators.max(this.remainingBalance)]
       ]
     });
   }
