@@ -21,8 +21,8 @@ describe('CopCurrencyPipe', () => {
     expect(pipe.transform(undefined)).toBe('');
   });
 
-  // [Positive amount]
-  it('transform_PositiveAmount_FormatsAsColombianPesosWithoutDecimals', () => {
+  // [Positive whole amount]
+  it('transform_PositiveWholeAmount_FormatsAsColombianPesosWithoutDecimals', () => {
     const result = pipe.transform(1234567);
     expect(result).toMatch(/^\$\s?1\.234\.567$/);
   });
@@ -40,9 +40,21 @@ describe('CopCurrencyPipe', () => {
     expect(result).not.toContain('COP');
   });
 
-  // [Decimal input is rounded, no decimals should ever be visible]
-  it('transform_DecimalAmount_RoundsToWholeNumberWithNoVisibleDecimals', () => {
+  // [Decimal input shows up to two decimals, without forcing trailing zeros]
+  it('transform_DecimalAmountWithOneSignificantDigit_ShowsThatDigitWithoutTrailingZero', () => {
     const result = pipe.transform(999.6);
-    expect(result).toMatch(/^\$\s?\d{1,3}(\.\d{3})*$/);
+    expect(result).toMatch(/^\$\s?999,6$/);
+  });
+
+  // [Cents from installment amortization must remain visible]
+  it('transform_AmountWithCents_ShowsBothDecimalDigits', () => {
+    const result = pipe.transform(77777.77);
+    expect(result).toMatch(/^\$\s?77\.777,77$/);
+  });
+
+  // [Whole amount never shows a trailing decimal separator]
+  it('transform_WholeAmount_DoesNotShowDecimalSeparator', () => {
+    const result = pipe.transform(5000000);
+    expect(result).not.toContain(',');
   });
 });

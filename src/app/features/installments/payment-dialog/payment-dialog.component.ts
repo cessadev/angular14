@@ -25,7 +25,7 @@ export class PaymentDialogComponent {
     private notificationService: NotificationService,
     @Inject(DIALOG_DATA) public data: PaymentDialogData
   ) {
-    this.remainingBalance = data.installment.amount - data.installment.amountPaid;
+    this.remainingBalance = Math.round((data.installment.amount - data.installment.amountPaid) * 100) / 100;
 
     this.form = this.fb.group({
       method: [EPaymentMethod.Cash, Validators.required],

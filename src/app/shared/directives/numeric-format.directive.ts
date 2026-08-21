@@ -35,10 +35,10 @@ export class NumericFormatDirective implements ControlValueAccessor {
 
   @HostListener('input', ['$event.target.value'])
   onInput(rawValue: string): void {
-    const digitsOnly = rawValue.replace(/\D/g, '');
-    const numericValue = digitsOnly ? Number(digitsOnly) : null;
+    const cleaned = this.sanitize(rawValue);
+    const numericValue = this.parse(cleaned);
 
-    this.el.nativeElement.value = this.format(numericValue);
+    this.el.nativeElement.value = this.formatRaw(cleaned);
     this.onChange(numericValue);
   }
 
@@ -47,11 +47,51 @@ export class NumericFormatDirective implements ControlValueAccessor {
     this.onTouched();
   }
 
+  private sanitize(rawValue: string): string {
+    const digitsAndComma = rawValue.replace(/[^\d,]/g, '');
+    const firstComma = digitsAndComma.indexOf(',');
+
+    if (firstComma === -1) {
+      return digitsAndComma;
+    }
+
+    const integerPart = digitsAndComma.slice(0, firstComma).replace(/,/g, '');
+    const decimalPart = digitsAndComma.slice(firstComma + 1).replace(/,/g, '').slice(0, 2);
+
+    return `${integerPart},${decimalPart}`;
+  }
+
+  private parse(cleaned: string): number | null {
+    if (!cleaned || cleaned === ',') {
+      return null;
+    }
+
+    const parsed = Number(cleaned.replace(',', '.'));
+
+    return Number.isNaN(parsed) ? null : parsed;
+  }
+
+  private formatRaw(cleaned: string): string {
+    if (!cleaned) {
+      return '';
+    }
+
+    const [integerPart, decimalPart] = cleaned.split(',');
+    const formattedInteger = new Intl.NumberFormat('es-CO').format(Number(integerPart || '0'));
+
+    return decimalPart !== undefined ? `${formattedInteger},${decimalPart}` : formattedInteger;
+  }
+
   private format(value: number | null | undefined): string {
     if (value === null || value === undefined) {
       return '';
     }
 
-    return new Intl.NumberFormat('es-CO').format(value);
+    const hasDecimals = !Number.isInteger(value);
+
+    return new Intl.NumberFormat('es-CO', {
+      minimumFractionDigits: hasDecimals ? 2 : 0,
+      maximumFractionDigits: 2
+    }).format(value);
   }
 }

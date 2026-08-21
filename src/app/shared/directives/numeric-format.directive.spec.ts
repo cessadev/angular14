@@ -36,6 +36,12 @@ describe('NumericFormatDirective', () => {
     expect(inputEl.value).toBe('4.000.000');
   });
 
+  it('writeValue_DecimalValue_SetsValueWithCommaSeparatorAndTwoDecimals', () => {
+    directive.writeValue(77777.77);
+
+    expect(inputEl.value).toBe('77.777,77');
+  });
+
   it('onInput_DigitsOnly_CallsOnChangeWithParsedNumber', () => {
     const onChangeSpy = jasmine.createSpy('onChange');
     directive.registerOnChange(onChangeSpy);
@@ -70,6 +76,61 @@ describe('NumericFormatDirective', () => {
     directive.onInput('...');
 
     expect(onChangeSpy).toHaveBeenCalledOnceWith(null);
+  });
+
+  // [Decimal input]
+  it('onInput_ValueWithDecimalComma_CallsOnChangeWithDecimalNumber', () => {
+    const onChangeSpy = jasmine.createSpy('onChange');
+    directive.registerOnChange(onChangeSpy);
+
+    directive.onInput('77777,77');
+
+    expect(onChangeSpy).toHaveBeenCalledOnceWith(77777.77);
+  });
+
+  it('onInput_FormattedValueWithThousandsDotsAndDecimalComma_ParsesCorrectly', () => {
+    const onChangeSpy = jasmine.createSpy('onChange');
+    directive.registerOnChange(onChangeSpy);
+
+    directive.onInput('77.777,77');
+
+    expect(onChangeSpy).toHaveBeenCalledOnceWith(77777.77);
+  });
+
+  it('onInput_MoreThanTwoDecimalDigits_TruncatesToTwoDecimals', () => {
+    const onChangeSpy = jasmine.createSpy('onChange');
+    directive.registerOnChange(onChangeSpy);
+
+    directive.onInput('77777,7789');
+
+    expect(onChangeSpy).toHaveBeenCalledOnceWith(77777.77);
+  });
+
+  it('onInput_TrailingComma_CallsOnChangeWithIntegerAndKeepsCommaDisplayed', () => {
+    const onChangeSpy = jasmine.createSpy('onChange');
+    directive.registerOnChange(onChangeSpy);
+
+    directive.onInput('4000,');
+
+    expect(onChangeSpy).toHaveBeenCalledOnceWith(4000);
+    expect(inputEl.value).toBe('4.000,');
+  });
+
+  it('onInput_OnlyComma_CallsOnChangeWithNull', () => {
+    const onChangeSpy = jasmine.createSpy('onChange');
+    directive.registerOnChange(onChangeSpy);
+
+    directive.onInput(',');
+
+    expect(onChangeSpy).toHaveBeenCalledOnceWith(null);
+  });
+
+  it('onInput_DecimalValue_UpdatesDisplayedValueWithThousandsAndDecimalSeparators', () => {
+    directive.registerOnChange(() => {});
+
+    directive.onInput('77777,77');
+
+    expect(inputEl.value).toBe('77.777,77');
   });
 
   it('onInput_Always_UpdatesDisplayedValueWithThousandsSeparators', () => {

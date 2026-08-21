@@ -47,6 +47,16 @@ describe('PaymentDialogComponent', () => {
     expect(component.form.get('amount')?.value).toBeCloseTo(5000000, 2);
   });
 
+  // [Floating point noise from JS subtraction]
+  it('constructor_SubtractionProducesFloatingPointNoise_RoundsRemainingBalanceToTwoDecimals', () => {
+    const noisyInstallment: InstallmentResponse = { ...installment, amount: 833333.33, amountPaid: 755555.56 };
+
+    const component = createComponent({ installment: noisyInstallment });
+
+    // Raw JS subtraction
+    expect(component.remainingBalance).toBe(77777.77);
+  });
+
   // [Amount exceeds remaining balance]
   it('save_AmountExceedsRemainingBalance_DoesNotCloseDialogAndMarksFieldsAsTouched', () => {
     const component = createComponent({ installment });
