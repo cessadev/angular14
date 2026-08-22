@@ -1,6 +1,6 @@
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   EDocumentType,
   DOCUMENT_TYPE_LABELS,
@@ -8,6 +8,7 @@ import {
   UpdateCustomerRequest,
   CustomerResponse
 } from 'src/app/core/models';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 export interface CustomerFormDialogData {
   customer: CustomerResponse;
@@ -26,8 +27,9 @@ export class CustomerFormDialogComponent {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<CustomerFormDialogComponent, CreateCustomerRequest | UpdateCustomerRequest>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: CustomerFormDialogData | null
+    private dialogRef: DialogRef<CreateCustomerRequest | UpdateCustomerRequest, CustomerFormDialogComponent>,
+    private notificationService: NotificationService,
+    @Optional() @Inject(DIALOG_DATA) public data: CustomerFormDialogData | null
   ) {
     const customer = data?.customer;
     this.isEditMode = !!customer;
@@ -51,6 +53,7 @@ export class CustomerFormDialogComponent {
   save(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.notificationService.error('Complete los campos obligatorios para continuar.', 'Formulario incompleto');
       return;
     }
 

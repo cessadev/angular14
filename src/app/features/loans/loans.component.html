@@ -1,61 +1,52 @@
 <div class="loans-header">
   <h1>Préstamos</h1>
   <div class="header-actions">
-    <button mat-stroked-button color="primary" (click)="openSimulationDialog()">
-      <mat-icon>calculate</mat-icon> Simular crédito
+    <button class="btn btn--outline" (click)="openSimulationDialog()">
+      <app-icon name="calculate"></app-icon> Simular crédito
     </button>
-    <button mat-raised-button color="primary" (click)="openCreateDialog()">
-      <mat-icon>add</mat-icon> Nuevo préstamo
+    <button class="btn btn--primary" (click)="openCreateDialog()">
+      <app-icon name="add"></app-icon> Nuevo préstamo
     </button>
   </div>
 </div>
 
-<div *ngIf="loading" class="loading-container">
-  <mat-spinner diameter="40"></mat-spinner>
+<div class="field search-field">
+  <label class="field__label" for="loan-search">Buscar por referencia</label>
+  <div class="field__control-wrap">
+    <input id="loan-search" class="field__input has-suffix" [formControl]="searchControl" placeholder="Ej. LN-ABC1234567">
+    <app-icon class="field__suffix" name="search"></app-icon>
+  </div>
 </div>
 
-<table mat-table [dataSource]="dataSource" *ngIf="!loading" class="mat-elevation-z2 full-width">
-  <ng-container matColumnDef="reference">
-    <th mat-header-cell *matHeaderCellDef>Referencia</th>
-    <td mat-cell *matCellDef="let l">{{ l.reference }}</td>
-  </ng-container>
+<div *ngIf="loading" class="loading-container">
+  <app-spinner [size]="40"></app-spinner>
+</div>
 
-  <ng-container matColumnDef="customerDocumentNumber">
-    <th mat-header-cell *matHeaderCellDef>Cliente (doc.)</th>
-    <td mat-cell *matCellDef="let l">{{ l.customerDocumentNumber }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="vehicleIdentifier">
-    <th mat-header-cell *matHeaderCellDef>Vehículo</th>
-    <td mat-cell *matCellDef="let l">{{ l.vehicleIdentifier }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="amount">
-    <th mat-header-cell *matHeaderCellDef>Monto</th>
-    <td mat-cell *matCellDef="let l">{{ l.amount | copCurrency }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="installments">
-    <th mat-header-cell *matHeaderCellDef>Plazo</th>
-    <td mat-cell *matCellDef="let l">{{ getTermMonths(l.installments) }} meses</td>
-  </ng-container>
-
-  <ng-container matColumnDef="dateCreation">
-    <th mat-header-cell *matHeaderCellDef>Fecha</th>
-    <td mat-cell *matCellDef="let l">{{ l.dateCreation | date:'dd/MM/yyyy' }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let l">
-      <button mat-icon-button color="warn" (click)="deleteLoan(l, $event)" matTooltip="Eliminar", aria-label="Eliminar préstamo">
-        <mat-icon>delete</mat-icon>
+<div class="table-wrap" *ngIf="!loading">
+  <div class="table__header table--loans">
+    <span>Referencia</span>
+    <span>Cliente (doc.)</span>
+    <span>Vehículo</span>
+    <span>Monto</span>
+    <span>Total a pagar</span>
+    <span>Plazo</span>
+    <span>Fecha</span>
+    <span></span>
+  </div>
+  <div class="table__row table--loans table__row--clickable" *ngFor="let l of filteredLoans" (click)="viewDetail(l)">
+    <span class="table__cell">{{ l.reference }}</span>
+    <span class="table__cell">{{ l.customerDocumentNumber }}</span>
+    <span class="table__cell">{{ l.vehicleIdentifier }}</span>
+    <span class="table__cell">{{ l.amount | copCurrency }}</span>
+    <span class="table__cell">{{ l.totalAmount | copCurrency }}</span>
+    <span class="table__cell">{{ getTermMonths(l.installments) }} meses</span>
+    <span class="table__cell">{{ l.dateCreation | date:'dd/MM/yyyy' }}</span>
+    <div class="table__cell table__cell--actions">
+      <button class="icon-button icon-button--danger" (click)="deleteLoan(l, $event)" appTooltip="Eliminar" aria-label="Eliminar préstamo">
+        <app-icon name="delete"></app-icon>
       </button>
-    </td>
-  </ng-container>
+    </div>
+  </div>
+</div>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="viewDetail(row)" class="clickable-row"></tr>
-</table>
-
-<p *ngIf="!loading && dataSource.data.length === 0" class="empty-state">No hay préstamos registrados aún.</p>
+<p *ngIf="!loading && loans.length === 0" class="empty-state">No hay préstamos registrados aún.</p>

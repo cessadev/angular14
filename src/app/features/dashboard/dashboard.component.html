@@ -3,43 +3,43 @@
 </div>
 
 <div *ngIf="loading" class="loading-container">
-  <mat-spinner diameter="40"></mat-spinner>
+  <app-spinner [size]="40"></app-spinner>
 </div>
 
 <div *ngIf="!loading && summary" class="kpi-grid">
-  <mat-card class="kpi-card">
+  <div class="kpi-card card glass-surface">
     <span class="kpi-label">Cartera colocada</span>
     <span class="kpi-value">{{ summary.totalPortfolioValue | copCurrency }}</span>
     <span class="kpi-footnote">{{ summary.totalLoans }} préstamos en total</span>
-  </mat-card>
+  </div>
 
-  <mat-card class="kpi-card">
+  <div class="kpi-card card glass-surface">
     <span class="kpi-label">Cartera recaudada</span>
     <span class="kpi-value">{{ summary.totalCollected | copCurrency }}</span>
     <span class="kpi-footnote">{{ summary.paidLoans }} préstamos pagados</span>
-  </mat-card>
+  </div>
 
-  <mat-card class="kpi-card kpi-card--warn">
+  <div class="kpi-card kpi-card--warn card glass-surface">
     <span class="kpi-label">Cartera vencida</span>
     <span class="kpi-value">{{ summary.totalOverdueAmount | copCurrency }}</span>
     <span class="kpi-footnote">{{ summary.overdueInstallmentsCount }} cuotas en mora</span>
-  </mat-card>
+  </div>
 
-  <mat-card class="kpi-card kpi-card--warn">
+  <div class="kpi-card kpi-card--warn card glass-surface">
     <span class="kpi-label">Tasa de mora</span>
     <span class="kpi-value">{{ summary.delinquencyRate | number: '1.2-2' }}%</span>
     <span class="kpi-footnote">sobre la cartera colocada</span>
-  </mat-card>
+  </div>
 
-  <mat-card class="kpi-card">
+  <div class="kpi-card card glass-surface">
     <span class="kpi-label">Créditos activos</span>
     <span class="kpi-value">{{ summary.activeLoans }}</span>
     <span class="kpi-footnote">con cuotas pendientes</span>
-  </mat-card>
+  </div>
 
-  <mat-card class="kpi-card">
+  <div class="kpi-card card glass-surface">
     <span class="kpi-label">Clientes / Vehículos</span>
     <span class="kpi-value">{{ summary.totalCustomers }} / {{ summary.totalVehicles }}</span>
     <span class="kpi-footnote">registrados en el sistema</span>
-  </mat-card>
+  </div>
 </div>

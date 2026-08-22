@@ -1,16 +1,16 @@
-import { MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent, ConfirmDialogData } from './confirm-dialog.component';
+import { DialogRef } from '@angular/cdk/dialog';
 
 describe('ConfirmDialogComponent', () => {
   let component: ConfirmDialogComponent;
-  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<ConfirmDialogComponent, boolean>>;
+  let dialogRefSpy: jasmine.SpyObj<DialogRef<boolean, ConfirmDialogComponent>>;
   const data: ConfirmDialogData = {
     title: 'Eliminar cliente',
     message: '¿Seguro que desea eliminar a Carlos Ruiz?'
   };
 
   beforeEach(() => {
-    dialogRefSpy = jasmine.createSpyObj<MatDialogRef<ConfirmDialogComponent, boolean>>('MatDialogRef', ['close']);
+    dialogRefSpy = jasmine.createSpyObj<DialogRef<boolean, ConfirmDialogComponent>>('DialogRef', ['close']);
     component = new ConfirmDialogComponent(dialogRefSpy, data);
   });
 

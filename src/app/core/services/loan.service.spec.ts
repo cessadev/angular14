@@ -34,6 +34,8 @@ describe('LoanService', () => {
         customerDocumentNumber: 123456789,
         vehicleIdentifier: 'MK-1299',
         amount: 100000000,
+        interestRate: 0.028,
+        totalAmount: 102800000,
         installments: EInstallmentsTerm.Months12,
         dateCreation: '2026-01-15T00:00:00Z'
       }
@@ -55,6 +57,8 @@ describe('LoanService', () => {
       customerDocumentNumber: 123456789,
       vehicleIdentifier: 'MK-1299',
       amount: 100000000,
+      interestRate: 0.028,
+      totalAmount: 102800000,
       installments: EInstallmentsTerm.Months12,
       dateCreation: '2026-01-15T00:00:00Z'
     };
@@ -76,6 +80,8 @@ describe('LoanService', () => {
         customerDocumentNumber: 123456789,
         vehicleIdentifier: 'MK-1299',
         amount: 100000000,
+        interestRate: 0.028,
+        totalAmount: 102800000,
         installments: EInstallmentsTerm.Months12,
         dateCreation: '2026-01-15T00:00:00Z'
       }
@@ -112,6 +118,8 @@ describe('LoanService', () => {
     req.flush({
       reference: 'LN-ABC1234567',
       dateCreation: '2026-01-15T00:00:00Z',
+      interestRate: 0.028,
+      totalAmount: 102800000,
       ...request
     });
   });
@@ -127,8 +135,11 @@ describe('LoanService', () => {
     const expectedSimulation: LoanSimulation = {
       amount: 100000000,
       installments: EInstallmentsTerm.Months12,
-      installmentValue: 8333333.33,
-      totalToPay: 100000000,
+      interestRate: 0.028,
+      interestAmount: 2800000,
+      totalAmount: 102800000,
+      installmentValue: 8566666.66,
+      totalToPay: 102800000,
       schedule: []
     };
 

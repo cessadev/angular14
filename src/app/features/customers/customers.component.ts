@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CustomerService } from 'src/app/core/services/customer.service';
-import { CustomerResponse, EDocumentType, DOCUMENT_TYPE_LABELS, UpdateCustomerRequest } from 'src/app/core/models';
+import { CustomerResponse, EDocumentType, DOCUMENT_TYPE_LABELS, UpdateCustomerRequest, CreateCustomerRequest } from 'src/app/core/models';
 import { CustomerFormDialogComponent, CustomerFormDialogData } from './customer-form-dialog/customer-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CustomerLoansDialogComponent } from './customer-loans-dialog/customer-loans-dialog.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { Dialog } from '@angular/cdk/dialog';
+import { LoanService } from 'src/app/core/services/loan.service';
 
 @Component({
   selector: 'app-customers',
@@ -16,28 +16,26 @@ import { NotificationService } from 'src/app/core/services/notification.service'
   styleUrls: ['./customers.component.scss']
 })
 export class CustomersComponent implements OnInit {
-  dataSource = new MatTableDataSource<CustomerResponse>([]);
+  customers: CustomerResponse[] = [];
+  filteredCustomers: CustomerResponse[] = [];
   loading = false;
-  displayedColumns = ['documentType', 'documentNumber', 'name', 'lastname', 'age', 'address', 'actions'];
   documentTypeLabels = DOCUMENT_TYPE_LABELS;
   searchControl = new FormControl('');
 
   constructor(
     private customerService: CustomerService,
-    private dialog: MatDialog,
+    private loanService: LoanService,
+    private dialog: Dialog,
     private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
     this.loadCustomers();
 
-    this.dataSource.filterPredicate = (customer, filter) =>
-      customer.documentNumber.toString().includes(filter.trim());
-
     this.searchControl.valueChanges
       .pipe(debounceTime(200), distinctUntilChanged())
       .subscribe((value) => {
-        this.dataSource.filter = (value ?? '').trim();
+        this.applyFilter(value ?? '');
       });
   }
 
@@ -45,7 +43,8 @@ export class CustomersComponent implements OnInit {
     this.loading = true;
     this.customerService.getAll().subscribe({
       next: (customers) => {
-        this.dataSource.data = customers;
+        this.customers = customers;
+        this.applyFilter(this.searchControl.value ?? '');
         this.loading = false;
       },
       error: (err: Error) => {
@@ -56,9 +55,9 @@ export class CustomersComponent implements OnInit {
   }
 
   openCreateDialog(): void {
-    const dialogRef = this.dialog.open(CustomerFormDialogComponent, { width: '480px' });
+    const dialogRef = this.dialog.open<CreateCustomerRequest, unknown, CustomerFormDialogComponent>(CustomerFormDialogComponent, { width: '480px' });
 
-    dialogRef.afterClosed().subscribe((request) => {
+    dialogRef.closed.subscribe((request) => {
       if (!request) return;
 
       this.customerService.create(request).subscribe({
@@ -74,12 +73,12 @@ export class CustomersComponent implements OnInit {
   }
 
   openEditDialog(customer: CustomerResponse): void {
-    const dialogRef = this.dialog.open<CustomerFormDialogComponent, CustomerFormDialogData, UpdateCustomerRequest>(
+    const dialogRef = this.dialog.open<UpdateCustomerRequest, CustomerFormDialogData, CustomerFormDialogComponent>(
       CustomerFormDialogComponent,
       { width: '480px', data: { customer } }
     );
 
-    dialogRef.afterClosed().subscribe((request) => {
+    dialogRef.closed.subscribe((request) => {
       if (!request) return;
 
       this.customerService.update(customer.documentNumber, request).subscribe({
@@ -95,7 +94,7 @@ export class CustomersComponent implements OnInit {
   }
 
   deleteCustomer(customer: CustomerResponse): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    const dialogRef = this.dialog.open<boolean, unknown, ConfirmDialogComponent>(ConfirmDialogComponent, {
       width: '400px',
       data: {
         title: 'Eliminar cliente',
@@ -103,7 +102,7 @@ export class CustomersComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmed) => {
+    dialogRef.closed.subscribe((confirmed) => {
       if (!confirmed) return;
 
       this.customerService.delete(customer.documentNumber).subscribe({
@@ -119,10 +118,29 @@ export class CustomersComponent implements OnInit {
   }
 
   openLoansDialog(customer: CustomerResponse): void {
-    this.dialog.open(CustomerLoansDialogComponent, {
-      width: '640px',
-      data: { customer }
+    this.loanService.getByCustomer(customer.documentType, customer.documentNumber).subscribe({
+      next: (loans) => {
+        if (loans.length === 0) {
+          this.notificationService.info('Este cliente no tiene créditos asociados.', 'Sin créditos');
+          return;
+        }
+
+        this.dialog.open(CustomerLoansDialogComponent, {
+          width: '800px',
+          data: { customer, loans }
+        });
+      },
+      error: (err: Error) => {
+        this.notificationService.error(err.message);
+      }
     });
+  }
+
+  private applyFilter(term: string): void {
+    const value = term.trim();
+    this.filteredCustomers = value
+      ? this.customers.filter((c) => c.documentNumber.toString().includes(value))
+      : this.customers;
   }
 
   getDocumentTypeLabel(type: EDocumentType): string {

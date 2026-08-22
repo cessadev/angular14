@@ -1,16 +1,16 @@
 import { of, throwError } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { LoanSimulationDialogComponent } from './loan-simulation-dialog.component';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { VehicleResponse, EVehicleBrand, EInstallmentsTerm, LoanSimulation } from 'src/app/core/models';
+import { DialogRef } from '@angular/cdk/dialog';
 
 describe('LoanSimulationDialogComponent', () => {
   let vehicleServiceSpy: jasmine.SpyObj<VehicleService>;
   let loanServiceSpy: jasmine.SpyObj<LoanService>;
-  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<LoanSimulationDialogComponent>>;
+  let dialogRefSpy: jasmine.SpyObj<DialogRef<LoanSimulationDialogComponent>>;
   let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
 
   const vehicles: VehicleResponse[] = [
@@ -26,15 +26,18 @@ describe('LoanSimulationDialogComponent', () => {
   const simulation: LoanSimulation = {
     amount: 100000000,
     installments: EInstallmentsTerm.Months12,
-    installmentValue: 8333333.33,
-    totalToPay: 100000000,
+    interestRate: 0.028,
+    interestAmount: 2800000,
+    totalAmount: 102800000,
+    installmentValue: 8566666.66,
+    totalToPay: 102800000,
     schedule: []
   };
 
   beforeEach(() => {
     vehicleServiceSpy = jasmine.createSpyObj<VehicleService>('VehicleService', ['getAll']);
     loanServiceSpy = jasmine.createSpyObj<LoanService>('LoanService', ['simulate']);
-    dialogRefSpy = jasmine.createSpyObj<MatDialogRef<LoanSimulationDialogComponent>>('MatDialogRef', ['close']);
+    dialogRefSpy = jasmine.createSpyObj<DialogRef<LoanSimulationDialogComponent>>('DialogRef', ['close']);
     notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
   });
 
@@ -144,5 +147,18 @@ describe('LoanSimulationDialogComponent', () => {
     component.close();
 
     expect(dialogRefSpy.close).toHaveBeenCalledOnceWith();
+  });
+
+  // [Invalid form]
+  it('simulate_InvalidForm_ShowsErrorNotification', () => {
+    vehicleServiceSpy.getAll.and.returnValue(of(vehicles));
+    const component = createComponent();
+
+    component.simulate();
+
+    expect(notificationServiceSpy.error).toHaveBeenCalledOnceWith(
+      'Complete los campos obligatorios para continuar.',
+      'Formulario incompleto'
+    );
   });
 });

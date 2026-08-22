@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { InstallmentService } from 'src/app/core/services/installment.service';
-import { InstallmentResponse } from 'src/app/core/models';
+import { InstallmentResponse, RegisterPaymentRequest } from 'src/app/core/models';
 import { PaymentDialogComponent } from '../payment-dialog/payment-dialog.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { Dialog } from '@angular/cdk/dialog';
 
 type InstallmentStatus = 'paid' | 'overdue' | 'pending';
 
@@ -23,7 +23,7 @@ export class LoanInstallmentsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private installmentService: InstallmentService,
-    private dialog: MatDialog,
+    private dialog: Dialog,
     private notificationService: NotificationService
   ) {}
 
@@ -58,12 +58,12 @@ export class LoanInstallmentsComponent implements OnInit {
   }
 
   openPaymentDialog(installment: InstallmentResponse): void {
-    const dialogRef = this.dialog.open(PaymentDialogComponent, {
+    const dialogRef = this.dialog.open<RegisterPaymentRequest, unknown, PaymentDialogComponent>(PaymentDialogComponent, {
       width: '420px',
       data: { installment }
     });
 
-    dialogRef.afterClosed().subscribe((request) => {
+    dialogRef.closed.subscribe((request) => {
       if (!request) return;
 
       this.installmentService.registerPayment(installment.paymentReference, request).subscribe({

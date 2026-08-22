@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { LoanService } from 'src/app/core/services/loan.service';
-import { LoanResponse, EInstallmentsTerm, INSTALLMENTS_TERM_MONTHS } from 'src/app/core/models';
+import { LoanResponse, EInstallmentsTerm, INSTALLMENTS_TERM_MONTHS, CreateLoanRequest } from 'src/app/core/models';
 import { LoanFormDialogComponent } from './loan-form-dialog/loan-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { LoanSimulationDialogComponent } from './loan-simulation-dialog/loan-simulation-dialog.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-loans',
@@ -15,27 +16,35 @@ import { NotificationService } from 'src/app/core/services/notification.service'
   styleUrls: ['./loans.component.scss']
 })
 export class LoansComponent implements OnInit {
-  dataSource = new MatTableDataSource<LoanResponse>([]);
+  loans: LoanResponse[] = [];
+  filteredLoans: LoanResponse[] = [];
   loading = false;
-  displayedColumns = ['reference', 'customerDocumentNumber', 'vehicleIdentifier', 'amount', 'installments', 'dateCreation', 'actions'];
   termMonths = INSTALLMENTS_TERM_MONTHS;
+  searchControl = new FormControl('');
 
   constructor(
     private loanService: LoanService,
-    private dialog: MatDialog,
+    private dialog: Dialog,
     private notificationService: NotificationService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadLoans();
+
+    this.searchControl.valueChanges
+      .pipe(debounceTime(200), distinctUntilChanged())
+      .subscribe((value) => {
+        this.applyFilter(value ?? '');
+      });
   }
 
   loadLoans(): void {
     this.loading = true;
     this.loanService.getAll().subscribe({
       next: (loans) => {
-        this.dataSource.data = loans;
+        this.loans = loans;
+        this.applyFilter(this.searchControl.value ?? '');
         this.loading = false;
       },
       error: (err: Error) => {
@@ -46,9 +55,9 @@ export class LoansComponent implements OnInit {
   }
 
   openCreateDialog(): void {
-    const dialogRef = this.dialog.open(LoanFormDialogComponent, { width: '520px' });
+    const dialogRef = this.dialog.open<CreateLoanRequest, unknown, LoanFormDialogComponent>(LoanFormDialogComponent, { width: '520px' });
 
-    dialogRef.afterClosed().subscribe((request) => {
+    dialogRef.closed.subscribe((request) => {
       if (!request) return;
 
       this.loanService.create(request).subscribe({
@@ -73,11 +82,11 @@ export class LoansComponent implements OnInit {
       width: '400px',
       data: {
         title: 'Eliminar préstamo',
-        message: `¿Seguro que deseas eliminar el préstamo ${loan.reference}?`
+        message: `¿Seguro que desea eliminar el préstamo ${loan.reference}?`
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmed) => {
+    dialogRef.closed.subscribe((confirmed) => {
       if (!confirmed) return;
 
       this.loanService.delete(loan.reference).subscribe({
@@ -98,5 +107,12 @@ export class LoansComponent implements OnInit {
 
   getTermMonths(term: EInstallmentsTerm): number {
     return INSTALLMENTS_TERM_MONTHS[term];
+  }
+
+  private applyFilter(term: string): void {
+    const value = term.trim().toLowerCase();
+    this.filteredLoans = value
+      ? this.loans.filter((l) => l.reference.toLowerCase().includes(value))
+      : this.loans;
   }
 }

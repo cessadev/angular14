@@ -1,11 +1,10 @@
 import { of, throwError } from 'rxjs';
 import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LoanInstallmentsComponent } from './loan-installments.component';
 import { InstallmentService } from 'src/app/core/services/installment.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { InstallmentResponse, EPaymentMethod, RegisterPaymentRequest } from 'src/app/core/models';
-import { PaymentDialogComponent } from '../payment-dialog/payment-dialog.component';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 
 function fakeActivatedRoute(reference: string | null): ActivatedRoute {
   return {
@@ -13,13 +12,13 @@ function fakeActivatedRoute(reference: string | null): ActivatedRoute {
   } as ActivatedRoute;
 }
 
-function fakeDialogRef(result: unknown): MatDialogRef<any, any> {
-  return { afterClosed: () => of(result) } as MatDialogRef<any, any>;
+function fakeDialogRef(result: unknown): DialogRef<any, any> {
+  return { closed: of(result) } as DialogRef<any, any>;
 }
 
 describe('LoanInstallmentsComponent', () => {
   let installmentServiceSpy: jasmine.SpyObj<InstallmentService>;
-  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let dialogSpy: jasmine.SpyObj<Dialog>;
   let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
   let routerSpy: jasmine.SpyObj<Router>;
 
@@ -38,7 +37,7 @@ describe('LoanInstallmentsComponent', () => {
 
   beforeEach(() => {
     installmentServiceSpy = jasmine.createSpyObj<InstallmentService>('InstallmentService', ['getByLoan', 'registerPayment']);
-    dialogSpy = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+    dialogSpy = jasmine.createSpyObj<Dialog>('Dialog', ['open']);
     notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
     routerSpy = jasmine.createSpyObj<Router>('Router', ['navigate']);
   });

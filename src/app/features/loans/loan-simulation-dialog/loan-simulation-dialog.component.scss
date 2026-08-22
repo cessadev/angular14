@@ -1,3 +1,10 @@
 .full-width { width: 100%; }
 .loading-container { display: flex; justify-content: center; padding: 16px; }
-.simulation-result { margin-top: 16px; max-height: 320px; overflow-y: auto; }
+.simulation-result { margin-top: 16px; max-height: 320px; overflow-y: auto; padding-right: 8px; }
+
+.simulation-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}

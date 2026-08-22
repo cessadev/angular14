@@ -1,22 +1,22 @@
 import { of, throwError } from 'rxjs';
 import { fakeAsync, tick } from '@angular/core/testing';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { VehiclesComponent } from './vehicles.component';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { VehicleResponse, EVehicleBrand, RegisterVehicleRequest, UpdateVehicleRequest } from 'src/app/core/models';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 
-function fakeDialogRef(result: unknown): MatDialogRef<any, any> {
-  return { afterClosed: () => of(result) } as MatDialogRef<any, any>;
+function fakeDialogRef(result: unknown): DialogRef<any, any> {
+  return { closed: of(result) } as DialogRef<any, any>;
 }
 
 describe('VehiclesComponent', () => {
   let vehicleServiceSpy: jasmine.SpyObj<VehicleService>;
-  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let dialogSpy: jasmine.SpyObj<Dialog>;
   let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
 
   const vehicle: VehicleResponse = {
-    identifier: 'MK-1299',
+    identifier: 'M129900112',
     brand: EVehicleBrand.Toyota,
     model: 'Hilux Cargo',
     marketValue: 125000000,
@@ -25,7 +25,7 @@ describe('VehiclesComponent', () => {
 
   beforeEach(() => {
     vehicleServiceSpy = jasmine.createSpyObj<VehicleService>('VehicleService', ['getAll', 'create', 'update', 'delete']);
-    dialogSpy = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+    dialogSpy = jasmine.createSpyObj<Dialog>('Dialog', ['open']);
     notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
     vehicleServiceSpy.getAll.and.returnValue(of([vehicle]));
   });
@@ -39,9 +39,11 @@ describe('VehiclesComponent', () => {
     const component = createComponent();
     component.ngOnInit();
 
-    expect(component.dataSource.data).toEqual([vehicle]);
-    expect(component.dataSource.filterPredicate(vehicle, 'mk-12')).toBeTrue();
-    expect(component.dataSource.filterPredicate(vehicle, 'zz-99')).toBeFalse();
+    expect(component.vehicles).toEqual([vehicle]);
+    component['applyFilter']('M129900112');
+    expect(component.filteredVehicles).toEqual([vehicle]);
+    component['applyFilter']('X876543210');
+    expect(component.filteredVehicles).toEqual([]);
   });
 
   // [Search control wiring, debounced]
@@ -49,10 +51,10 @@ describe('VehiclesComponent', () => {
     const component = createComponent();
     component.ngOnInit();
 
-    component.searchControl.setValue('  MK-1299  ');
+    component.searchControl.setValue('  M129900112  ');
     tick(200);
 
-    expect(component.dataSource.filter).toBe('MK-1299');
+    expect(component.filteredVehicles).toEqual([vehicle]);
   }));
 
   // [Load error]

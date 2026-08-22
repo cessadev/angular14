@@ -1,19 +1,21 @@
 import { of, throwError } from 'rxjs';
 import { fakeAsync, tick } from '@angular/core/testing';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CustomersComponent } from './customers.component';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { CustomerResponse, EDocumentType, CreateCustomerRequest, UpdateCustomerRequest } from 'src/app/core/models';
+import { CustomerResponse, EDocumentType, CreateCustomerRequest, UpdateCustomerRequest, EInstallmentsTerm, LoanResponse } from 'src/app/core/models';
 import { CustomerLoansDialogComponent } from './customer-loans-dialog/customer-loans-dialog.component';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
+import { LoanService } from 'src/app/core/services/loan.service';
 
-function fakeDialogRef(result: unknown): MatDialogRef<any, any> {
-  return { afterClosed: () => of(result) } as MatDialogRef<any, any>;
+function fakeDialogRef(result: unknown): DialogRef<any, any> {
+  return { closed: of(result) } as DialogRef<any, any>;
 }
 
 describe('CustomersComponent', () => {
   let customerServiceSpy: jasmine.SpyObj<CustomerService>;
-  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let loanServiceSpy: jasmine.SpyObj<LoanService>;
+  let dialogSpy: jasmine.SpyObj<Dialog>;
   let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
 
   const customer: CustomerResponse = {
@@ -25,15 +27,27 @@ describe('CustomersComponent', () => {
     address: 'Calle 50 #23-10, Barranquilla'
   };
 
+  const loan: LoanResponse = {
+    reference: 'LN-ABC1234567',
+    customerDocumentNumber: customer.documentNumber,
+    vehicleIdentifier: 'MK-1299',
+    amount: 100000000,
+    interestRate: 0.028,
+    totalAmount: 102800000,
+    installments: EInstallmentsTerm.Months12,
+    dateCreation: '2026-01-15T00:00:00Z'
+  };
+
   beforeEach(() => {
     customerServiceSpy = jasmine.createSpyObj<CustomerService>('CustomerService', ['getAll', 'create', 'update', 'delete']);
-    dialogSpy = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
-    notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
+    loanServiceSpy = jasmine.createSpyObj<LoanService>('LoanService', ['getByCustomer']);
+    dialogSpy = jasmine.createSpyObj<Dialog>('Dialog', ['open']);
+    notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error', 'info']);
     customerServiceSpy.getAll.and.returnValue(of([customer]));
   });
 
   function createComponent(): CustomersComponent {
-    return new CustomersComponent(customerServiceSpy, dialogSpy, notificationServiceSpy);
+    return new CustomersComponent(customerServiceSpy, loanServiceSpy, dialogSpy, notificationServiceSpy);
   }
 
   // [ngOnInit loads and configures filtering]
@@ -41,9 +55,11 @@ describe('CustomersComponent', () => {
     const component = createComponent();
     component.ngOnInit();
 
-    expect(component.dataSource.data).toEqual([customer]);
-    expect(component.dataSource.filterPredicate(customer, '12345')).toBeTrue();
-    expect(component.dataSource.filterPredicate(customer, '99999')).toBeFalse();
+    expect(component.customers).toEqual([customer]);
+    component['applyFilter']('12345');
+    expect(component.filteredCustomers).toEqual([customer]);
+    component['applyFilter']('99999');
+    expect(component.filteredCustomers).toEqual([]);
   });
 
   // [Search control wiring, debounced]
@@ -54,7 +70,7 @@ describe('CustomersComponent', () => {
     component.searchControl.setValue('  123456789  ');
     tick(200);
 
-    expect(component.dataSource.filter).toBe('123456789');
+    expect(component.filteredCustomers).toEqual([customer]);
   }));
 
   // [Load error]
@@ -160,16 +176,42 @@ describe('CustomersComponent', () => {
   });
 
   // [Open loans dialog]
-  it('openLoansDialog_Always_OpensCustomerLoansDialogWithCustomerData', () => {
-    dialogSpy.open.and.returnValue(fakeDialogRef(undefined));
+  it('openLoansDialog_CustomerHasLoans_OpensCustomerLoansDialogWithLoans', () => {
+    loanServiceSpy.getByCustomer.and.returnValue(of([loan]));
 
     const component = createComponent();
     component.openLoansDialog(customer);
 
+    expect(loanServiceSpy.getByCustomer).toHaveBeenCalledOnceWith(customer.documentType, customer.documentNumber);
     expect(dialogSpy.open).toHaveBeenCalledOnceWith(CustomerLoansDialogComponent, {
-      width: '640px',
-      data: { customer }
+      width: '800px',
+      data: { customer, loans: [loan] }
     });
+  });
+
+  // [No loans — shows an info notification instead of an empty dialog]
+  it('openLoansDialog_CustomerHasNoLoans_ShowsInfoNotificationAndDoesNotOpenDialog', () => {
+    loanServiceSpy.getByCustomer.and.returnValue(of([]));
+
+    const component = createComponent();
+    component.openLoansDialog(customer);
+
+    expect(notificationServiceSpy.info).toHaveBeenCalledOnceWith(
+      'Este cliente no tiene créditos asociados.',
+      'Sin créditos'
+    );
+    expect(dialogSpy.open).not.toHaveBeenCalled();
+  });
+
+  // [Service failure]
+  it('openLoansDialog_ServiceFails_NotifiesError', () => {
+    loanServiceSpy.getByCustomer.and.returnValue(throwError(() => new Error('Network error')));
+
+    const component = createComponent();
+    component.openLoansDialog(customer);
+
+    expect(notificationServiceSpy.error).toHaveBeenCalledOnceWith('Network error');
+    expect(dialogSpy.open).not.toHaveBeenCalled();
   });
 
   // [Document type label lookup]

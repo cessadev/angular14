@@ -1,37 +1,43 @@
-<mat-sidenav-container class="app-container">
-  <mat-sidenav
-    #sidenav
-    [mode]="(isMobile$ | async) ? 'over' : 'side'"
-    [opened]="(isMobile$ | async) === false"
-    class="app-sidenav"
+<div class="app-shell">
+  <aside
+    class="app-sidenav glass-surface"
+    [class.app-sidenav--overlay]="isMobile$ | async"
+    [class.app-sidenav--open]="sidenavOpen"
   >
     <div class="sidenav-header">
-      <span>CarCredit</span>
+      <span class="brand">CarCredit</span>
     </div>
-    <mat-nav-list>
+    <nav class="sidenav-nav">
       <a
-        mat-list-item
         *ngFor="let link of navLinks"
         [routerLink]="link.path"
         routerLinkActive="active-link"
-        (click)="closeIfMobile(sidenav)"
+        class="sidenav-link"
+        appLiquidTap
+        (click)="closeIfMobile()"
       >
-        <mat-icon matListIcon>{{ link.icon }}</mat-icon>
+        <app-icon [name]="link.icon" [size]="20"></app-icon>
         <span>{{ link.label }}</span>
       </a>
-    </mat-nav-list>
-  </mat-sidenav>
+    </nav>
+  </aside>
 
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button mat-icon-button *ngIf="isMobile$ | async" (click)="sidenav.toggle()" aria-label="Abrir menú de navegación">
-        <mat-icon>menu</mat-icon>
+  <div class="app-backdrop" *ngIf="(isMobile$ | async) && sidenavOpen" (click)="closeIfMobile()"></div>
+
+  <div class="app-main">
+    <header class="app-toolbar glass-surface" *ngIf="isMobile$ | async">
+      <button
+        class="icon-button"
+        (click)="toggleSidenav()"
+        aria-label="Abrir menú de navegación"
+      >
+        <app-icon name="menu" [size]="22"></app-icon>
       </button>
-      <span>CarCredit</span>
-    </mat-toolbar>
+      <span class="brand">CarCredit</span>
+    </header>
 
     <main class="content">
       <router-outlet></router-outlet>
     </main>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+</div>

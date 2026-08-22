@@ -1,5 +1,5 @@
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export interface ConfirmDialogData {
   title: string;
@@ -13,8 +13,8 @@ export interface ConfirmDialogData {
 })
 export class ConfirmDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<ConfirmDialogComponent, boolean>,
-    @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogData
+    public dialogRef: DialogRef<boolean, ConfirmDialogComponent>,
+    @Inject(DIALOG_DATA) public data: ConfirmDialogData
   ) {}
 
   confirm(): void {

@@ -1,43 +1,91 @@
-<h2 mat-dialog-title>{{ isEditMode ? 'Editar vehículo' : 'Nuevo vehículo' }}</h2>
+<h2 class="dialog-title">{{ isEditMode ? 'Editar vehículo' : 'Nuevo vehículo' }}</h2>
 
 <form [formGroup]="form" (ngSubmit)="save()">
-  <mat-dialog-content>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Identificador</mat-label>
-      <input matInput formControlName="identifier">
-      <mat-error *ngIf="form.get('identifier')?.hasError('required')">Requerido</mat-error>
-    </mat-form-field>
+  <div class="dialog-content">
+    <div class="field field--full">
+      <label class="field__label" for="vehicle-identifier">Identificador</label>
+      <input id="vehicle-identifier" class="field__input" formControlName="identifier">
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('identifier')?.hasError('required') &&
+          form.get('identifier')?.touched
+        "
+      >
+        Requerido
+      </span>
+    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Marca</mat-label>
-      <mat-select formControlName="brand">
-        <mat-option *ngFor="let brand of brands" [value]="brand">{{ brand }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="field field--full">
+      <label class="field__label" for="vehicle-brand">Marca</label>
+      <div class="field__control-wrap">
+        <select id="vehicle-brand" class="field__select" formControlName="brand">
+          <option *ngFor="let brand of brands" [value]="brand">{{ brand }}</option>
+        </select>
+        <span
+          class="field__error"
+          *ngIf="
+            form.get('brand')?.hasError('required') &&
+            form.get('brand')?.touched
+          "
+        >
+          Requerido
+        </span>
+      </div>
+    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Modelo</mat-label>
-      <input matInput formControlName="model" placeholder="Ej. Corolla, Sportage...">
-    </mat-form-field>
+    <div class="field field--full">
+      <label class="field__label" for="vehicle-model">Modelo</label>
+      <input id="vehicle-model" class="field__input" formControlName="model" placeholder="Ej. Corolla, Sportage...">
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('model')?.hasError('required') &&
+          form.get('model')?.touched
+        "
+      >
+        Requerido
+      </span>
+    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Valor de mercado</mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input matInput type="number" formControlName="marketValue">
-    </mat-form-field>
+    <div class="field field--full">
+      <label class="field__label" for="vehicle-market-value">Valor de mercado</label>
+      <div class="field__control-wrap">
+        <span class="field__prefix">$</span>
+        <input id="vehicle-market-value" class="field__input has-prefix" type="text" inputmode="numeric" appNumericFormat formControlName="marketValue">
+      </div>
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('marketValue')?.hasError('required') &&
+          form.get('marketValue')?.touched
+        "
+      >
+        Requerido
+      </span>
+    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Año</mat-label>
-      <input matInput type="number" formControlName="year">
-      <mat-error *ngIf="form.get('year')?.hasError('max')">
+    <div class="field field--full">
+      <label class="field__label" for="vehicle-year">Año</label>
+      <input id="vehicle-year" class="field__input" type="number" formControlName="year">
+      <span
+        class="field__error"
+        *ngIf="
+          form.get('year')?.hasError('required') &&
+          form.get('year')?.touched
+        "
+      >
+        Requerido
+      </span>
+      <span class="field__error" *ngIf="form.get('year')?.hasError('max')">
         No puede ser mayor a {{ currentYear + 1 }}
-      </mat-error>
-      <mat-error *ngIf="form.get('year')?.hasError('min')">Debe ser mayor a 1990</mat-error>
-    </mat-form-field>
-  </mat-dialog-content>
+      </span>
+      <span class="field__error" *ngIf="form.get('year')?.hasError('min')">Debe ser mayor a 1990</span>
+    </div>
+  </div>
 
-  <mat-dialog-actions align="end">
-    <button mat-button type="button" (click)="cancel()">Cancelar</button>
-    <button mat-raised-button color="primary" type="submit">Guardar</button>
-  </mat-dialog-actions>
+  <div class="dialog-actions dialog-actions--end">
+    <button class="btn btn--text" type="button" (appLiquidDialogClose)="cancel()">Cancelar</button>
+    <button class="btn btn--primary" type="submit">Guardar</button>
+  </div>
 </form>

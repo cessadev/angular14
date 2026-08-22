@@ -1,19 +1,20 @@
 import { of, throwError } from 'rxjs';
+import { fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LoansComponent } from './loans.component';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { LoanResponse, EInstallmentsTerm, CreateLoanRequest, INSTALLMENTS_TERM_MONTHS } from 'src/app/core/models';
 import { LoanSimulationDialogComponent } from './loan-simulation-dialog/loan-simulation-dialog.component';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 
-function fakeDialogRef(result: unknown): MatDialogRef<any, any> {
-  return { afterClosed: () => of(result) } as MatDialogRef<any, any>;
+function fakeDialogRef(result: unknown): DialogRef<any, any> {
+  return { closed: of(result) } as DialogRef<any, any>;
 }
 
 describe('LoansComponent', () => {
   let loanServiceSpy: jasmine.SpyObj<LoanService>;
-  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let dialogSpy: jasmine.SpyObj<Dialog>;
   let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
   let routerSpy: jasmine.SpyObj<Router>;
 
@@ -22,13 +23,15 @@ describe('LoansComponent', () => {
     customerDocumentNumber: 123456789,
     vehicleIdentifier: 'MK-1299',
     amount: 100000000,
+    interestRate: 0.028,
+    totalAmount: 102800000,
     installments: EInstallmentsTerm.Months12,
     dateCreation: '2026-01-15T00:00:00Z'
   };
 
   beforeEach(() => {
     loanServiceSpy = jasmine.createSpyObj<LoanService>('LoanService', ['getAll', 'create', 'delete']);
-    dialogSpy = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+    dialogSpy = jasmine.createSpyObj<Dialog>('Dialog', ['open']);
     notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
     routerSpy = jasmine.createSpyObj<Router>('Router', ['navigate']);
     loanServiceSpy.getAll.and.returnValue(of([loan]));
@@ -38,14 +41,44 @@ describe('LoansComponent', () => {
     return new LoansComponent(loanServiceSpy, dialogSpy, notificationServiceSpy, routerSpy);
   }
 
-  // [ngOnInit loads loans]
-  it('ngOnInit_Always_LoadsLoans', () => {
+  // [ngOnInit loads loans and configures filtering]
+  it('ngOnInit_Always_LoadsLoansAndConfiguresCaseInsensitiveFilter', () => {
     const component = createComponent();
     component.ngOnInit();
 
-    expect(component.dataSource.data).toEqual([loan]);
+    expect(component.loans).toEqual([loan]);
+    expect(component.filteredLoans).toEqual([loan]);
     expect(component.loading).toBeFalse();
   });
+
+  // [applyFilter matches and clears]
+  it('applyFilter_MatchingAndNonMatchingReference_UpdatesFilteredLoans', () => {
+    const component = createComponent();
+    component.ngOnInit();
+
+    component['applyFilter']('LN-ABC1234567');
+    expect(component.filteredLoans).toEqual([loan]);
+
+    component['applyFilter']('ln-abc1234567');
+    expect(component.filteredLoans).toEqual([loan]);
+
+    component['applyFilter']('LN-ZZZ9999999');
+    expect(component.filteredLoans).toEqual([]);
+
+    component['applyFilter']('');
+    expect(component.filteredLoans).toEqual([loan]);
+  });
+
+  // [Search control wiring, debounced]
+  it('ngOnInit_SearchControlValueChanges_UpdatesFilteredLoansAfterDebounce', fakeAsync(() => {
+    const component = createComponent();
+    component.ngOnInit();
+
+    component.searchControl.setValue('  LN-ABC1234567  ');
+    tick(200);
+
+    expect(component.filteredLoans).toEqual([loan]);
+  }));
 
   // [Load error]
   it('loadLoans_ServiceFails_NotifiesErrorAndStopsLoading', () => {

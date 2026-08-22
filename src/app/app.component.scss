@@ -1,24 +1,84 @@
-.app-container {
+.app-shell {
+  display: flex;
   height: 100vh;
+  overflow: hidden;
 }
 
 .app-sidenav {
   width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.25s ease;
 }
 
-.sidenav-header {
-  padding: 16px;
-  font-size: 1.25rem;
-  font-weight: 600;
+.app-sidenav--overlay {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 20;
+  transform: translateX(-100%);
+}
+.app-sidenav--overlay.app-sidenav--open {
+  transform: translateX(0);
 }
 
-.active-link {
-  background-color: rgba(0, 0, 0, 0.06);
-  font-weight: 600;
+.app-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 15;
+}
+
+.sidenav-header { padding: 20px 16px; }
+.brand { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; }
+
+.sidenav-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+}
+.sidenav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.sidenav-link:hover { background: rgba(255, 255, 255, 0.05); color: var(--color-text); }
+.sidenav-link.active-link {
+  background: rgba(46, 139, 146, 0.18);
+  color: var(--color-primary-light);
+  font-weight: 500;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+.app-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-radius: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .content {
   padding: 24px;
-  max-width: 1100px;
+  max-width: 1350px;
   margin: 0 auto;
+  width: 100%;
 }

@@ -1,6 +1,5 @@
 import { of, throwError } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { LoanFormDialogComponent } from './loan-form-dialog.component';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
@@ -8,11 +7,14 @@ import {
   CustomerResponse, VehicleResponse, EDocumentType, EVehicleBrand,
   EInstallmentsTerm, CreateLoanRequest
 } from 'src/app/core/models';
+import { DialogRef } from '@angular/cdk/dialog';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 describe('LoanFormDialogComponent', () => {
   let customerServiceSpy: jasmine.SpyObj<CustomerService>;
   let vehicleServiceSpy: jasmine.SpyObj<VehicleService>;
-  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<LoanFormDialogComponent, CreateLoanRequest>>;
+  let dialogRefSpy: jasmine.SpyObj<DialogRef<CreateLoanRequest, LoanFormDialogComponent>>;
+  let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
 
   const customers: CustomerResponse[] = [
     {
@@ -38,11 +40,12 @@ describe('LoanFormDialogComponent', () => {
   beforeEach(() => {
     customerServiceSpy = jasmine.createSpyObj<CustomerService>('CustomerService', ['getAll']);
     vehicleServiceSpy = jasmine.createSpyObj<VehicleService>('VehicleService', ['getAll']);
-    dialogRefSpy = jasmine.createSpyObj<MatDialogRef<LoanFormDialogComponent, CreateLoanRequest>>('MatDialogRef', ['close']);
+    notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
+    dialogRefSpy = jasmine.createSpyObj<DialogRef<CreateLoanRequest, LoanFormDialogComponent>>('DialogRef', ['close']);
   });
 
   function createComponent(): LoanFormDialogComponent {
-    return new LoanFormDialogComponent(new FormBuilder(), customerServiceSpy, vehicleServiceSpy, dialogRefSpy);
+    return new LoanFormDialogComponent(new FormBuilder(), customerServiceSpy, vehicleServiceSpy, dialogRefSpy, notificationServiceSpy);
   }
 
   // [Successful load]
@@ -117,5 +120,23 @@ describe('LoanFormDialogComponent', () => {
     component.cancel();
 
     expect(dialogRefSpy.close).toHaveBeenCalledOnceWith();
+  });
+
+  // [Invalid submit]
+  it('save_InvalidForm_ShowsErrorNotificationAndDoesNotClose', () => {
+    customerServiceSpy.getAll.and.returnValue(of(customers));
+    vehicleServiceSpy.getAll.and.returnValue(of(vehicles));
+    const component = new LoanFormDialogComponent(
+      new FormBuilder(), customerServiceSpy, vehicleServiceSpy, dialogRefSpy, notificationServiceSpy
+    );
+    component.ngOnInit();
+
+    component.save();
+
+    expect(notificationServiceSpy.error).toHaveBeenCalledOnceWith(
+      'Complete los campos obligatorios para continuar.',
+      'Formulario incompleto'
+    );
+    expect(dialogRefSpy.close).not.toHaveBeenCalled();
   });
 });

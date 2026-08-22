@@ -1,12 +1,17 @@
-<div class="feedback-dialog" [class.feedback-success]="data.type === 'success'" [class.feedback-error]="data.type === 'error'">
-  <mat-icon class="feedback-icon">{{ data.type === 'success' ? 'check_circle' : 'error' }}</mat-icon>
+<div class="feedback-dialog"
+     [class.feedback-success]="data.type === 'success'"
+     [class.feedback-error]="data.type === 'error'"
+     [class.feedback-info]="data.type === 'info'">
+  <app-icon class="feedback-icon"
+    [name]="data.type === 'success' ? 'check-circle' : data.type === 'error' ? 'error' : 'info'"
+    [size]="32"></app-icon>
 
-  <h2 mat-dialog-title>{{ data.title }}</h2>
-  <mat-dialog-content>{{ data.message }}</mat-dialog-content>
+  <h2 class="dialog-title">{{ data.title }}</h2>
+  <div class="dialog-content">{{ data.message }}</div>
 
-  <mat-dialog-actions align="center">
-    <button mat-raised-button [color]="data.type === 'success' ? 'primary' : 'warn'" mat-dialog-close>
+  <div class="dialog-actions dialog-actions--center">
+    <button class="btn" [class.btn--primary]="data.type !== 'error'" [class.btn--danger]="data.type === 'error'" (appLiquidDialogClose)="close()">
       Aceptar
     </button>
-  </mat-dialog-actions>
+  </div>
 </div>

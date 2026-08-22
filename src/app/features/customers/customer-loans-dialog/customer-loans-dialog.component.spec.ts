@@ -1,16 +1,11 @@
-import { of, throwError } from 'rxjs';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CustomerLoansDialogComponent, CustomerLoansDialogData } from './customer-loans-dialog.component';
-import { LoanService } from 'src/app/core/services/loan.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
 import { CustomerResponse, LoanResponse, EDocumentType, EInstallmentsTerm, INSTALLMENTS_TERM_MONTHS } from 'src/app/core/models';
+import { DialogRef } from '@angular/cdk/dialog';
 
 describe('CustomerLoansDialogComponent', () => {
-  let loanServiceSpy: jasmine.SpyObj<LoanService>;
-  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<CustomerLoansDialogComponent>>;
+  let dialogRefSpy: jasmine.SpyObj<DialogRef<unknown, CustomerLoansDialogComponent>>;
   let routerSpy: jasmine.SpyObj<Router>;
-  let notificationServiceSpy: jasmine.SpyObj<NotificationService>;
 
   const customer: CustomerResponse = {
     documentType: EDocumentType.CedulaCiudadania,
@@ -21,54 +16,37 @@ describe('CustomerLoansDialogComponent', () => {
     address: 'Calle 50 #23-10, Barranquilla'
   };
 
-  const data: CustomerLoansDialogData = { customer };
-
   const loan: LoanResponse = {
     reference: 'LN-ABC1234567',
     customerDocumentNumber: customer.documentNumber,
     vehicleIdentifier: 'MK-1299',
     amount: 100000000,
+    interestRate: 0.028,
+    totalAmount: 102800000,
     installments: EInstallmentsTerm.Months12,
     dateCreation: '2026-01-15T00:00:00Z'
   };
 
+  const data: CustomerLoansDialogData = { customer, loans: [loan] };
+
   beforeEach(() => {
-    loanServiceSpy = jasmine.createSpyObj<LoanService>('LoanService', ['getByCustomer']);
-    dialogRefSpy = jasmine.createSpyObj<MatDialogRef<CustomerLoansDialogComponent>>('MatDialogRef', ['close']);
+    dialogRefSpy = jasmine.createSpyObj<DialogRef<unknown, CustomerLoansDialogComponent>>('DialogRef', ['close']);
     routerSpy = jasmine.createSpyObj<Router>('Router', ['navigate']);
-    notificationServiceSpy = jasmine.createSpyObj<NotificationService>('NotificationService', ['success', 'error']);
   });
 
   function createComponent(): CustomerLoansDialogComponent {
-    return new CustomerLoansDialogComponent(data, dialogRefSpy, loanServiceSpy, routerSpy, notificationServiceSpy);
+    return new CustomerLoansDialogComponent(data, dialogRefSpy, routerSpy);
   }
 
-  // [Loans load successfully]
-  it('ngOnInit_Always_LoadsLoansForTheGivenCustomer', () => {
-    loanServiceSpy.getByCustomer.and.returnValue(of([loan]));
-
+  // [Data injection]
+  it('constructor_Always_ExposesInjectedLoansData', () => {
     const component = createComponent();
-    component.ngOnInit();
 
-    expect(component.loans).toEqual([loan]);
-    expect(component.loading).toBeFalse();
-    expect(loanServiceSpy.getByCustomer).toHaveBeenCalledOnceWith(customer.documentType, customer.documentNumber);
-  });
-
-  // [Load error]
-  it('ngOnInit_ServiceFails_NotifiesErrorAndStopsLoading', () => {
-    loanServiceSpy.getByCustomer.and.returnValue(throwError(() => new Error('Network error')));
-
-    const component = createComponent();
-    component.ngOnInit();
-
-    expect(component.loading).toBeFalse();
-    expect(notificationServiceSpy.error).toHaveBeenCalledOnceWith('Network error');
+    expect(component.data.loans).toEqual([loan]);
   });
 
   // [View detail closes the dialog first]
   it('viewDetail_Always_ClosesDialogAndNavigatesToLoanDetail', () => {
-    loanServiceSpy.getByCustomer.and.returnValue(of([loan]));
     const component = createComponent();
 
     component.viewDetail(loan);
@@ -77,9 +55,17 @@ describe('CustomerLoansDialogComponent', () => {
     expect(routerSpy.navigate).toHaveBeenCalledOnceWith(['/loans', loan.reference]);
   });
 
+  // [Close]
+  it('close_Always_ClosesDialog', () => {
+    const component = createComponent();
+
+    component.close();
+
+    expect(dialogRefSpy.close).toHaveBeenCalledOnceWith();
+  });
+
   // [Term months lookup]
   it('getTermMonths_ValidTerm_ReturnsMappedMonths', () => {
-    loanServiceSpy.getByCustomer.and.returnValue(of([]));
     const component = createComponent();
 
     expect(component.getTermMonths(EInstallmentsTerm.Months12)).toBe(INSTALLMENTS_TERM_MONTHS[EInstallmentsTerm.Months12]);

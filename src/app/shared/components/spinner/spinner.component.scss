@@ -1,0 +1,30 @@
+:host { display: inline-block; }
+
+.app-spinner {
+  position: relative;
+  filter: url(#goo);
+}
+
+.app-spinner__blob {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  top: 30%;
+  left: 30%;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  animation: spinner-orbit 1.4s ease-in-out infinite;
+}
+.app-spinner__blob--1 { animation-delay: 0s; }
+.app-spinner__blob--2 { animation-delay: -0.47s; }
+.app-spinner__blob--3 { animation-delay: -0.93s; }
+
+@keyframes spinner-orbit {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(60%, -30%) scale(0.8); }
+  66% { transform: translate(-50%, 40%) scale(0.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-spinner__blob { animation: none; }
+}

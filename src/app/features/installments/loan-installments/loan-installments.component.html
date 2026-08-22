@@ -1,58 +1,40 @@
-<button mat-button (click)="goBack()" class="back-button">
-  <mat-icon>arrow_back</mat-icon> Volver al préstamo
+<button class="back-button btn btn--text" appLiquidTap (click)="goBack()">
+  <app-icon name="arrow-back"></app-icon> Volver al préstamo
 </button>
 
 <h1>Cuotas del préstamo {{ loanReference }}</h1>
 
 <div *ngIf="loading" class="loading-container">
-  <mat-spinner diameter="40"></mat-spinner>
+  <app-spinner [size]="40"></app-spinner>
 </div>
 
-<table mat-table [dataSource]="installments" *ngIf="!loading" class="mat-elevation-z2 full-width">
-  <ng-container matColumnDef="number">
-    <th mat-header-cell *matHeaderCellDef>Cuota #</th>
-    <td mat-cell *matCellDef="let i">{{ i.number }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="amount">
-    <th mat-header-cell *matHeaderCellDef>Valor cuota</th>
-    <td mat-cell *matCellDef="let i">{{ i.amount | copCurrency }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="amountPaid">
-    <th mat-header-cell *matHeaderCellDef>Pagado</th>
-    <td mat-cell *matCellDef="let i">{{ i.amountPaid | copCurrency }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="dateExpiration">
-    <th mat-header-cell *matHeaderCellDef>Vencimiento</th>
-    <td mat-cell *matCellDef="let i">{{ i.dateExpiration | date:'dd/MM/yyyy' }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef>Estado</th>
-    <td mat-cell *matCellDef="let i">
-      <mat-chip-list>
-        <mat-chip [color]="status(i) === 'paid' ? 'primary' : status(i) === 'overdue' ? 'warn' : undefined"
-                  [selected]="status(i) !== 'pending'">
-          {{ statusLabel(status(i)) }}
-        </mat-chip>
-      </mat-chip-list>
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let i">
-      <button mat-icon-button color="primary" (click)="viewPayments(i)" matTooltip="Ver pagos" aria-label="Ver pagos de la cuota">
-        <mat-icon>receipt_long</mat-icon>
+<div class="table-wrap" *ngIf="!loading">
+  <div class="table__header table--loan-installments">
+    <span>Cuota</span>
+    <span>Valor cuota</span>
+    <span>Pagado</span>
+    <span>Vencimiento</span>
+    <span>Estado</span>
+    <span></span>
+  </div>
+  <div class="table__row table--loan-installments" *ngFor="let i of installments">
+    <span class="table__cell">{{ i.number }}</span>
+    <span class="table__cell">{{ i.amount | copCurrency }}</span>
+    <span class="table__cell">{{ i.amountPaid | copCurrency }}</span>
+    <span class="table__cell">{{ i.dateExpiration | date:'dd/MM/yyyy' }}</span>
+    <span class="table__cell">
+      <span class="badge" [ngClass]="{
+        'badge--primary': status(i) === 'paid',
+        'badge--warn': status(i) === 'overdue'
+      }">{{ statusLabel(status(i)) }}</span>
+    </span>
+    <div class="table__cell table__cell--actions">
+      <button class="icon-button icon-button--primary" (click)="viewPayments(i)" appTooltip="Ver pagos" aria-label="Ver pagos de la cuota">
+        <app-icon name="receipt"></app-icon>
       </button>
-      <button mat-raised-button color="primary" *ngIf="!i.paid" (click)="openPaymentDialog(i)">
+      <button class="btn btn--primary" *ngIf="!i.paid" (click)="openPaymentDialog(i)">
         Registrar pago
       </button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    </div>
+  </div>
+</div>

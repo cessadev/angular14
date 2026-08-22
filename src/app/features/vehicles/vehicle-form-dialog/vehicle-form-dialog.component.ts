@@ -1,7 +1,8 @@
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EVehicleBrand, RegisterVehicleRequest, UpdateVehicleRequest, VehicleResponse } from 'src/app/core/models';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 export interface VehicleFormDialogData {
   vehicle: VehicleResponse;
@@ -20,8 +21,9 @@ export class VehicleFormDialogComponent {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<VehicleFormDialogComponent, RegisterVehicleRequest | UpdateVehicleRequest>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: VehicleFormDialogData | null
+    private dialogRef: DialogRef<RegisterVehicleRequest | UpdateVehicleRequest, VehicleFormDialogComponent>,
+    private notificationService: NotificationService,
+    @Optional() @Inject(DIALOG_DATA) public data: VehicleFormDialogData | null
   ) {
     const vehicle = data?.vehicle;
     this.isEditMode = !!vehicle;
@@ -44,6 +46,7 @@ export class VehicleFormDialogComponent {
   save(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.notificationService.error('Complete los campos obligatorios para continuar.', 'Formulario incompleto');
       return;
     }
 

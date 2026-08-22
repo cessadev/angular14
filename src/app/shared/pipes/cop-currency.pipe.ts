@@ -7,6 +7,6 @@ export class CopCurrencyPipe implements PipeTransform {
 
   transform(value: number | null | undefined): string {
     if (value === null || value === undefined) return '';
-    return this.currencyPipe.transform(value, 'COP', 'symbol-narrow', '1.0-0') ?? '';
+    return this.currencyPipe.transform(value, 'COP', 'symbol-narrow', '1.0-2') ?? '';
   }
 }

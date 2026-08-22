@@ -1,13 +1,17 @@
+import { Dialog } from '@angular/cdk/dialog';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { FeedbackDialogComponent, FeedbackDialogData } from 'src/app/shared/components/feedback-dialog/feedback-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: Dialog) {}
 
   success(message: string, title = 'Operación exitosa'): void {
     this.open({ type: 'success', title, message });
+  }
+
+  info(message: string, title = 'Información'): void {
+    this.open({ type: 'info', title, message });
   }
 
   error(message: string, title = 'No se pudo completar la operación'): void {

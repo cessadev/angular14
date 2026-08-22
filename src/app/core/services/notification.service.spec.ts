@@ -1,13 +1,13 @@
-import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from './notification.service';
 import { FeedbackDialogComponent } from 'src/app/shared/components/feedback-dialog/feedback-dialog.component';
+import { Dialog } from '@angular/cdk/dialog';
 
 describe('NotificationService', () => {
   let service: NotificationService;
-  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let dialogSpy: jasmine.SpyObj<Dialog>;
 
   beforeEach(() => {
-    dialogSpy = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+    dialogSpy = jasmine.createSpyObj<Dialog>('Dialog', ['open']);
     service = new NotificationService(dialogSpy);
   });
 
@@ -63,6 +63,34 @@ describe('NotificationService', () => {
         type: 'error',
         title: 'Monto inválido',
         message: 'El monto excede el valor comercial'
+      }
+    });
+  });
+
+  // [Info with default title]
+  it('info_DefaultTitle_OpensFeedbackDialogWithInfoType', () => {
+    service.info('Este cliente no tiene créditos asociados.');
+
+    expect(dialogSpy.open).toHaveBeenCalledOnceWith(FeedbackDialogComponent, {
+      width: '360px',
+      data: {
+        type: 'info',
+        title: 'Información',
+        message: 'Este cliente no tiene créditos asociados.'
+      }
+    });
+  });
+
+  // [Info with custom title]
+  it('info_CustomTitle_OpensFeedbackDialogWithProvidedTitle', () => {
+    service.info('Este cliente no tiene créditos asociados.', 'Sin créditos');
+
+    expect(dialogSpy.open).toHaveBeenCalledOnceWith(FeedbackDialogComponent, {
+      width: '360px',
+      data: {
+        type: 'info',
+        title: 'Sin créditos',
+        message: 'Este cliente no tiene créditos asociados.'
       }
     });
   });

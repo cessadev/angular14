@@ -1,9 +1,9 @@
-<button mat-button (click)="goBack()" class="back-button">
-  <mat-icon>arrow_back</mat-icon> Volver
+<button class="back-button btn btn--text" appLiquidTap (click)="goBack()">
+  <app-icon name="arrow-back"></app-icon> Volver
 </button>
 
 <div *ngIf="loading" class="loading-container">
-  <mat-spinner diameter="40"></mat-spinner>
+  <app-spinner [size]="40"></app-spinner>
 </div>
 
 <p *ngIf="!loading && notFound" class="empty-state">No se encontró el préstamo solicitado.</p>
@@ -12,34 +12,35 @@
   <h1 class="page-title">Préstamo {{ loan.reference }}</h1>
 
   <div class="cards-grid">
-    <mat-card>
-      <mat-card-title class="card-title">Datos del préstamo</mat-card-title>
-      <mat-card-content>
+    <div class="card glass-surface">
+      <h2 class="card-title">Datos del préstamo</h2>
+      <div class="card-content">
         <p><strong>Cliente:</strong> {{ summary.customer }}</p>
         <p><strong>Vehículo:</strong> {{ summary.vehicle }}</p>
         <p><strong>Monto:</strong> {{ loan.amount | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
+        <p><strong>Tasa de interés:</strong> {{ loan.interestRate | percent:'1.1-1' }}</p>
+        <p><strong>Total con intereses:</strong> {{ loan.totalAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
         <p><strong>Plazo:</strong> {{ termMonths[loan.installments] }} meses</p>
         <p><strong>Fecha de creación:</strong> {{ loan.dateCreation | date:'dd/MM/yyyy' }}</p>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
 
-    <mat-card>
-      <mat-card-title class="card-title">Estado de pago</mat-card-title>
-      <mat-card-content>
+    <div class="card glass-surface">
+      <h2 class="card-title">Estado de pago</h2>
+      <div class="card-content">
         <p><strong>Cuotas:</strong> {{ summary.installmentsPaid }} pagadas / {{ summary.totalInstallments }} totales</p>
         <p><strong>Cuotas pendientes:</strong> {{ summary.installmentsOwed }}</p>
         <p><strong>Total a pagar:</strong> {{ summary.totalValue | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
         <p><strong>Total pagado:</strong> {{ summary.totalPaid | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
         <p><strong>Saldo pendiente:</strong> {{ summary.totalOwed | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="goToInstallments()">
+      </div>
+      <div class="card-actions">
+        <button class="btn btn--primary" (click)="goToInstallments()">
           Ver cuotas
         </button>
-        <button mat-button (click)="goToPayments()">
+        <button class="btn btn--text" (click)="goToPayments()">
           Ver historial de pagos
         </button>
-      </mat-card-actions>
-    </mat-card>
+      </div>
+    </div>
   </div>
-</div>
