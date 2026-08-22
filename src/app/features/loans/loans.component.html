@@ -28,6 +28,7 @@
     <span>Cliente (doc.)</span>
     <span>Vehículo</span>
     <span>Monto</span>
+    <span>Total a pagar</span>
     <span>Plazo</span>
     <span>Fecha</span>
     <span></span>
@@ -37,6 +38,7 @@
     <span class="table__cell">{{ l.customerDocumentNumber }}</span>
     <span class="table__cell">{{ l.vehicleIdentifier }}</span>
     <span class="table__cell">{{ l.amount | copCurrency }}</span>
+    <span class="table__cell">{{ l.totalAmount | copCurrency }}</span>
     <span class="table__cell">{{ getTermMonths(l.installments) }} meses</span>
     <span class="table__cell">{{ l.dateCreation | date:'dd/MM/yyyy' }}</span>
     <div class="table__cell table__cell--actions">

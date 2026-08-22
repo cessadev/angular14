@@ -62,6 +62,8 @@
     </div>
 
     <div *ngIf="simulation" class="simulation-result">
+      <p><strong>Tasa de interés aplicada:</strong> {{ simulation.interestRate | percent:'1.1-1' }}</p>
+      <p><strong>Interés a pagar:</strong> {{ simulation.interestAmount | copCurrency }}</p>
       <p><strong>Valor de cuota:</strong> {{ simulation.installmentValue | copCurrency }}</p>
       <p><strong>Total a pagar:</strong> {{ simulation.totalToPay | copCurrency }}</p>
 

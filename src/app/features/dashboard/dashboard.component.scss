@@ -10,14 +10,13 @@
 
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
   gap: 16px;
 }
 
 .kpi-card {
   display: flex;
   flex-direction: column;
-  gap: 4px;
 
   &--warn {
     border-left: 4px solid var(--color-danger);

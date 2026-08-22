@@ -5,6 +5,8 @@ export interface LoanResponse {
   customerDocumentNumber: number;
   vehicleIdentifier: string;
   amount: number;
+  interestRate: number;
+  totalAmount: number;
   installments: EInstallmentsTerm;
   dateCreation: string;
 }
@@ -31,6 +33,9 @@ export interface SimulatedInstallment {
 export interface LoanSimulation {
   amount: number;
   installments: EInstallmentsTerm;
+  interestRate: number;
+  interestAmount: number;
+  totalAmount: number;
   installmentValue: number;
   totalToPay: number;
   schedule: SimulatedInstallment[];

@@ -23,6 +23,8 @@ describe('LoanDetailComponent', () => {
     customerDocumentNumber: 123456789,
     vehicleIdentifier: 'MK-1299',
     amount: 100000000,
+    interestRate: 0.028,
+    totalAmount: 102800000,
     installments: EInstallmentsTerm.Months12,
     dateCreation: '2026-01-15T00:00:00Z'
   };

@@ -18,6 +18,8 @@
         <p><strong>Cliente:</strong> {{ summary.customer }}</p>
         <p><strong>Vehículo:</strong> {{ summary.vehicle }}</p>
         <p><strong>Monto:</strong> {{ loan.amount | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
+        <p><strong>Tasa de interés:</strong> {{ loan.interestRate | percent:'1.1-1' }}</p>
+        <p><strong>Total con intereses:</strong> {{ loan.totalAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
         <p><strong>Plazo:</strong> {{ termMonths[loan.installments] }} meses</p>
         <p><strong>Fecha de creación:</strong> {{ loan.dateCreation | date:'dd/MM/yyyy' }}</p>
       </div>
