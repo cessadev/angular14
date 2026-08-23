@@ -13,6 +13,7 @@ import { NumericFormatDirective } from './directives/numeric-format.directive';
 import { LiquidTapDirective } from './directives/liquid-tap.directive';
 import { LiquidDialogCloseDirective } from './directives/liquid-dialog-close.directive';
 import { TableSkeletonComponent } from './components/table-skeleton/table-skeleton.component';
+import { KpiSkeletonComponent } from './components/kpi-skeleton/kpi-skeleton.component';
 
 const MATERIAL_MODULES = [
   DialogModule
@@ -29,6 +30,7 @@ const MATERIAL_MODULES = [
     LiquidTapDirective,
     LiquidDialogCloseDirective,
     TableSkeletonComponent,
+    KpiSkeletonComponent,
     CopCurrencyPipe
   ],
   imports: [CommonModule, ReactiveFormsModule, ...MATERIAL_MODULES],
@@ -45,6 +47,7 @@ const MATERIAL_MODULES = [
     LiquidTapDirective,
     LiquidDialogCloseDirective,
     TableSkeletonComponent,
+    KpiSkeletonComponent,
     CopCurrencyPipe
   ]
 })

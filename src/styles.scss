@@ -313,6 +313,38 @@ h1, h2, h3, .display { font-family: var(--font-display); }
 .card-content p { margin: 20px 0; }
 .card-actions { display: flex; gap: 8px; margin-top: 8px; }
 
+// --- KPI cards (dashboard)
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+  gap: 16px;
+}
+
+.kpi-card {
+  display: flex;
+  flex-direction: column;
+
+  &--warn {
+    border-left: 4px solid var(--color-danger);
+  }
+}
+
+.kpi-label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.kpi-value {
+  font-size: 1.6rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.kpi-footnote {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
 // --- Tooltip (reemplaza matTooltip) ---
 .app-tooltip {
   position: fixed;
@@ -412,4 +444,33 @@ h1, h2, h3, .display { font-family: var(--font-display); }
     opacity: 0;
     transform: translateY(16px) scaleX(0.85) scaleY(0.7);
   }
+}
+
+// --- Skeleton loading
+.skeleton-bone {
+  display: block;
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.06) 25%,
+    rgba(255, 255, 255, 0.16) 37%,
+    rgba(255, 255, 255, 0.06) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton-bone--narrow {
+  width: 55%;
+  justify-self: end;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-bone { animation: none; }
 }

@@ -1,0 +1,20 @@
+:host { display: contents; }
+
+.skeleton-kpi-card {
+  pointer-events: none;
+}
+
+.skeleton-bone--kpi-label {
+  width: 55%;
+  height: 12px;
+}
+
+.skeleton-bone--kpi-value {
+  width: 75%;
+  height: 24px;
+}
+
+.skeleton-bone--kpi-footnote {
+  width: 65%;
+  height: 11px;
+}

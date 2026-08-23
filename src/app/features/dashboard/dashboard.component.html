@@ -2,8 +2,8 @@
   <h1>Panel general</h1>
 </div>
 
-<div *ngIf="loading" class="loading-container">
-  <app-spinner [size]="40"></app-spinner>
+<div class="kpi-grid" *ngIf="loading">
+  <app-kpi-skeleton [count]="6"></app-kpi-skeleton>
 </div>
 
 <div *ngIf="!loading && summary" class="kpi-grid">
