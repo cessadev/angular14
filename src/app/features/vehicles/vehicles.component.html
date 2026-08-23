@@ -13,11 +13,7 @@
   </div>
 </div>
 
-<div *ngIf="loading" class="loading-container">
-  <app-spinner [size]="40"></app-spinner>
-</div>
-
-<div class="table-wrap" *ngIf="!loading">
+<div class="table-wrap">
   <div class="table__header table--vehicles">
     <span>Identificador</span>
     <span>Marca</span>
@@ -26,21 +22,26 @@
     <span>Valor de mercado</span>
     <span></span>
   </div>
-  <div class="table__row table--vehicles" *ngFor="let v of filteredVehicles">
-    <span class="table__cell">{{ v.identifier }}</span>
-    <span class="table__cell">{{ v.brand }}</span>
-    <span class="table__cell">{{ v.model }}</span>
-    <span class="table__cell">{{ v.year }}</span>
-    <span class="table__cell">{{ v.marketValue | copCurrency }}</span>
-    <div class="table__cell table__cell--actions">
-      <button class="icon-button icon-button--primary" (click)="openEditDialog(v)" appTooltip="Editar" aria-label="Editar vehículo">
-        <app-icon name="edit"></app-icon>
-      </button>
-      <button class="icon-button icon-button--danger" (click)="deleteVehicle(v)" appTooltip="Eliminar" aria-label="Eliminar vehículo">
-        <app-icon name="delete"></app-icon>
-      </button>
+
+  <app-table-skeleton *ngIf="loading" gridClass="table--vehicles" [columns]="6"></app-table-skeleton>
+
+  <ng-container *ngIf="!loading">
+    <div class="table__row table--vehicles" *ngFor="let v of filteredVehicles">
+      <span class="table__cell">{{ v.identifier }}</span>
+      <span class="table__cell">{{ v.brand }}</span>
+      <span class="table__cell">{{ v.model }}</span>
+      <span class="table__cell">{{ v.year }}</span>
+      <span class="table__cell">{{ v.marketValue | copCurrency }}</span>
+      <div class="table__cell table__cell--actions">
+        <button class="icon-button icon-button--primary" (click)="openEditDialog(v)" appTooltip="Editar" aria-label="Editar vehículo">
+          <app-icon name="edit"></app-icon>
+        </button>
+        <button class="icon-button icon-button--danger" (click)="deleteVehicle(v)" appTooltip="Eliminar" aria-label="Eliminar vehículo">
+          <app-icon name="delete"></app-icon>
+        </button>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </div>
 
 <p *ngIf="!loading && filteredVehicles.length === 0" class="empty-state">No hay vehículos registrados aún.</p>

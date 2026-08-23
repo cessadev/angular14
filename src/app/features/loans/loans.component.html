@@ -18,11 +18,7 @@
   </div>
 </div>
 
-<div *ngIf="loading" class="loading-container">
-  <app-spinner [size]="40"></app-spinner>
-</div>
-
-<div class="table-wrap" *ngIf="!loading">
+<div class="table-wrap">
   <div class="table__header table--loans">
     <span>Referencia</span>
     <span>Cliente (doc.)</span>
@@ -33,20 +29,25 @@
     <span>Fecha</span>
     <span></span>
   </div>
-  <div class="table__row table--loans table__row--clickable" *ngFor="let l of filteredLoans" (click)="viewDetail(l)">
-    <span class="table__cell">{{ l.reference }}</span>
-    <span class="table__cell">{{ l.customerDocumentNumber }}</span>
-    <span class="table__cell">{{ l.vehicleIdentifier }}</span>
-    <span class="table__cell">{{ l.amount | copCurrency }}</span>
-    <span class="table__cell">{{ l.totalAmount | copCurrency }}</span>
-    <span class="table__cell">{{ getTermMonths(l.installments) }} meses</span>
-    <span class="table__cell">{{ l.dateCreation | date:'dd/MM/yyyy' }}</span>
-    <div class="table__cell table__cell--actions">
-      <button class="icon-button icon-button--danger" (click)="deleteLoan(l, $event)" appTooltip="Eliminar" aria-label="Eliminar préstamo">
-        <app-icon name="delete"></app-icon>
-      </button>
+
+  <app-table-skeleton *ngIf="loading" gridClass="table--loans" [columns]="8"></app-table-skeleton>
+
+  <ng-container *ngIf="!loading">
+    <div class="table__row table--loans table__row--clickable" *ngFor="let l of filteredLoans" (click)="viewDetail(l)">
+      <span class="table__cell">{{ l.reference }}</span>
+      <span class="table__cell">{{ l.customerDocumentNumber }}</span>
+      <span class="table__cell">{{ l.vehicleIdentifier }}</span>
+      <span class="table__cell">{{ l.amount | copCurrency }}</span>
+      <span class="table__cell">{{ l.totalAmount | copCurrency }}</span>
+      <span class="table__cell">{{ getTermMonths(l.installments) }} meses</span>
+      <span class="table__cell">{{ l.dateCreation | date:'dd/MM/yyyy' }}</span>
+      <div class="table__cell table__cell--actions">
+        <button class="icon-button icon-button--danger" (click)="deleteLoan(l, $event)" appTooltip="Eliminar" aria-label="Eliminar préstamo">
+          <app-icon name="delete"></app-icon>
+        </button>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </div>
 
 <p *ngIf="!loading && loans.length === 0" class="empty-state">No hay préstamos registrados aún.</p>

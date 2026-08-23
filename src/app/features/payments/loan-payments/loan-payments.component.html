@@ -4,11 +4,7 @@
 
 <h1>{{ paymentReference ? 'Pagos de la cuota ' + paymentReference : 'Historial de pagos — ' + loanReference }}</h1>
 
-<div *ngIf="loading" class="loading-container">
-  <app-spinner [size]="40"></app-spinner>
-</div>
-
-<div class="table-wrap" *ngIf="!loading">
+<div class="table-wrap">
   <div class="table__header table--payments">
     <span>Comprobante</span>
     <span>Cuota</span>
@@ -16,13 +12,18 @@
     <span>Método</span>
     <span>Fecha</span>
   </div>
-  <div class="table__row table--payments" *ngFor="let p of payments">
-    <span class="table__cell">{{ p.number }}</span>
-    <span class="table__cell">{{ p.installmentNumber }}</span>
-    <span class="table__cell">{{ p.amount | copCurrency }}</span>
-    <span class="table__cell">{{ methodLabel(p.method) }}</span>
-    <span class="table__cell">{{ p.date | date:'dd/MM/yyyy HH:mm' }}</span>
-  </div>
+
+  <app-table-skeleton *ngIf="loading" gridClass="table--payments" [columns]="5" [lastColumnNarrow]="false"></app-table-skeleton>
+
+  <ng-container *ngIf="!loading">
+    <div class="table__row table--payments" *ngFor="let p of payments">
+      <span class="table__cell">{{ p.number }}</span>
+      <span class="table__cell">{{ p.installmentNumber }}</span>
+      <span class="table__cell">{{ p.amount | copCurrency }}</span>
+      <span class="table__cell">{{ methodLabel(p.method) }}</span>
+      <span class="table__cell">{{ p.date | date:'dd/MM/yyyy HH:mm' }}</span>
+    </div>
+  </ng-container>
 </div>
 
 <p *ngIf="!loading && payments.length === 0" class="empty-state">Aún no hay pagos registrados.</p>

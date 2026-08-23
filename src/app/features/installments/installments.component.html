@@ -1,10 +1,6 @@
 <h1>Cuotas en mora</h1>
 
-<div *ngIf="loading" class="loading-container">
-  <app-spinner [size]="40"></app-spinner>
-</div>
-
-<div class="table-wrap" *ngIf="!loading">
+<div class="table-wrap">
   <div class="table__header table--installments">
     <span>Préstamo</span>
     <span>Cuota</span>
@@ -14,17 +10,22 @@
     <span>Vencimiento</span>
     <span></span>
   </div>
-  <div class="table__row table--installments table__row--clickable" *ngFor="let i of items" (click)="viewLoan(i)">
-    <span class="table__cell">{{ i.loanReference }}</span>
-    <span class="table__cell">{{ i.number }}</span>
-    <span class="table__cell">{{ i.customer }}</span>
-    <span class="table__cell">{{ i.vehicle }}</span>
-    <span class="table__cell">{{ i.amount | copCurrency }}</span>
-    <span class="table__cell">{{ i.dateExpiration | date:'dd/MM/yyyy' }}</span>
-    <div class="table__cell table__cell--actions">
-      <span class="badge badge--warn">{{ i.daysOverdue }} días</span>
+
+  <app-table-skeleton *ngIf="loading" gridClass="table--installments" [columns]="7"></app-table-skeleton>
+
+  <ng-container *ngIf="!loading">
+    <div class="table__row table--installments table__row--clickable" *ngFor="let i of items" (click)="viewLoan(i)">
+      <span class="table__cell">{{ i.loanReference }}</span>
+      <span class="table__cell">{{ i.number }}</span>
+      <span class="table__cell">{{ i.customer }}</span>
+      <span class="table__cell">{{ i.vehicle }}</span>
+      <span class="table__cell">{{ i.amount | copCurrency }}</span>
+      <span class="table__cell">{{ i.dateExpiration | date:'dd/MM/yyyy' }}</span>
+      <div class="table__cell table__cell--actions">
+        <span class="badge badge--warn">{{ i.daysOverdue }} días</span>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </div>
 
 <p *ngIf="!loading && items.length === 0" class="empty-state">No hay cuotas en mora actualmente.</p>

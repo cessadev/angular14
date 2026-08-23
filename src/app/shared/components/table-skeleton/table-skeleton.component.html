@@ -1,0 +1,13 @@
+<div
+  class="table__row skeleton-row"
+  [ngClass]="gridClass"
+  *ngFor="let r of rowIndexes"
+  role="presentation"
+  aria-hidden="true"
+>
+  <span
+    class="skeleton-bone"
+    *ngFor="let c of columnIndexes; let last = last"
+    [class.skeleton-bone--narrow]="last && lastColumnNarrow"
+  ></span>
+</div>
