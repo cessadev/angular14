@@ -3,6 +3,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { IconName } from './shared/components/icon/icon.component';
+import { ThemeService } from './core/services/theme.service';
 
 const SIDENAV_COLLAPSE_BREAKPOINT = '(max-width: 768px)';
 
@@ -38,7 +39,12 @@ export class AppComponent implements OnInit, OnDestroy{
     { path: '/installments', label: 'Mora', icon: 'payments' }
   ];
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  isLight$ = this.themeService.isLight$;
+
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private themeService: ThemeService
+  ) {}
 
   ngOnInit(): void {
     this.isMobileSubscription = this.isMobile$.subscribe((value) => (this.isMobile = value));
@@ -56,5 +62,9 @@ export class AppComponent implements OnInit, OnDestroy{
     if (this.isMobile) {
       this.sidenavOpen = false;
     }
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
   }
 }

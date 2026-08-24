@@ -8,6 +8,17 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('carcredit-theme') === 'light') {
+          document.documentElement.classList.add('theme-light');
+        }
+      } catch (e) {
+        // localStorage no disponible (modo privado, etc.) — se queda en modo oscuro por defecto
+      }
+    })();
+  </script>
 </head>
 <body>
   <svg style="position:absolute; width:0; height:0;" aria-hidden="true">

@@ -20,6 +20,19 @@
         <span>{{ link.label }}</span>
       </a>
     </nav>
+
+    <div class="sidenav-footer">
+      <button
+        type="button"
+        class="sidenav-link sidenav-theme-toggle"
+        appLiquidTap
+        (click)="toggleTheme()"
+        [attr.aria-label]="(isLight$ | async) ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'"
+      >
+        <app-icon [name]="(isLight$ | async) ? 'moon' : 'sun'" [size]="20"></app-icon>
+        <span>{{ (isLight$ | async) ? 'Modo oscuro' : 'Modo claro' }}</span>
+      </button>
+    </div>
   </aside>
 
   <div class="app-backdrop" *ngIf="(isMobile$ | async) && sidenavOpen" (click)="closeIfMobile()"></div>

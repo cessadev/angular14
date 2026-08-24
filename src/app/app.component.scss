@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   border-radius: 0;
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  border-right: 1px solid var(--overlay-hairline);
   transition: transform 0.25s ease;
 }
 
@@ -50,11 +50,26 @@
   text-decoration: none;
   transition: background 0.15s ease, color 0.15s ease;
 }
-.sidenav-link:hover { background: rgba(255, 255, 255, 0.05); color: var(--color-text); }
+.sidenav-link:hover { background: var(--overlay-faint); color: var(--color-text); }
 .sidenav-link.active-link {
   background: rgba(46, 139, 146, 0.18);
   color: var(--color-primary-light);
   font-weight: 500;
+}
+
+.sidenav-footer {
+  margin-top: auto;
+  padding: 8px;
+  border-top: 1px solid var(--overlay-hairline);
+}
+
+.sidenav-theme-toggle {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
 .app-main {
