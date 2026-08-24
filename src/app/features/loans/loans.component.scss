@@ -39,3 +39,24 @@
   display: flex;
   gap: 8px;
 }
+
+@media (max-width: 830px) {
+  .loans-header {
+    flex-wrap: wrap;
+  }
+
+  .header-actions {
+    width: 100%;
+    order: 1;
+  }
+
+  .header-actions .btn {
+    flex: 1;
+    min-width: 0;
+    padding-left: 12px;
+    padding-right: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
