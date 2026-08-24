@@ -1,0 +1,11 @@
+<div class="card glass-surface detail-skeleton-card" role="presentation" aria-hidden="true">
+  <span class="skeleton-bone skeleton-bone--card-title"></span>
+
+  <div class="detail-skeleton-lines">
+    <span class="skeleton-bone skeleton-bone--card-line" *ngFor="let l of lineIndexes"></span>
+  </div>
+
+  <div class="detail-skeleton-actions" *ngIf="actions > 0">
+    <span class="skeleton-bone skeleton-bone--card-button" *ngFor="let a of actionIndexes"></span>
+  </div>
+</div>

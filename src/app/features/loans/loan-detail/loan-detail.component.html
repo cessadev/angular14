@@ -2,9 +2,13 @@
   <app-icon name="arrow-back"></app-icon> Volver
 </button>
 
-<div *ngIf="loading" class="loading-container">
-  <app-spinner [size]="40"></app-spinner>
-</div>
+<ng-container *ngIf="loading">
+  <span class="skeleton-bone page-title-skeleton"></span>
+  <div class="cards-grid">
+    <app-detail-card-skeleton [lines]="7"></app-detail-card-skeleton>
+    <app-detail-card-skeleton [lines]="5" [actions]="2"></app-detail-card-skeleton>
+  </div>
+</ng-container>
 
 <p *ngIf="!loading && notFound" class="empty-state">No se encontró el préstamo solicitado.</p>
 

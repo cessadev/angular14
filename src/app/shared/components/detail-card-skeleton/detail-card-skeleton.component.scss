@@ -1,0 +1,38 @@
+:host { display: contents; }
+
+.detail-skeleton-card {
+  pointer-events: none;
+}
+
+.skeleton-bone--card-title {
+  width: 45%;
+  height: 18px;
+}
+
+.detail-skeleton-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.skeleton-bone--card-line {
+  height: 13px;
+}
+
+// Varía el ancho de cada línea para que no se vea como barras uniformes
+.skeleton-bone--card-line:nth-child(4n+1) { width: 85%; }
+.skeleton-bone--card-line:nth-child(4n+2) { width: 65%; }
+.skeleton-bone--card-line:nth-child(4n+3) { width: 75%; }
+.skeleton-bone--card-line:nth-child(4n+4) { width: 55%; }
+
+.detail-skeleton-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.skeleton-bone--card-button {
+  width: 130px;
+  height: 36px;
+  border-radius: var(--radius-md);
+}

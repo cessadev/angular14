@@ -22,6 +22,9 @@
   --skeleton-bone-base: rgba(255, 255, 255, 0.06);
   --skeleton-bone-highlight: rgba(255, 255, 255, 0.16);
 
+  // Backdrop del sidenav mobile
+  --overlay-backdrop: rgba(0, 0, 0, 0.2);
+
   // Tipografía
   --font-display: 'Sora', sans-serif;
   --font-body: 'Inter', sans-serif;
@@ -48,6 +51,9 @@
 
   --skeleton-bone-base: rgba(0, 0, 0, 0.13);
   --skeleton-bone-highlight: rgba(0, 0, 0, 0.045);
+
+  // Backdrop del sidenav mobile
+  --overlay-backdrop: rgba(20, 22, 26, 0.1);
 
   .field__select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7076' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
