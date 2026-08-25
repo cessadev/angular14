@@ -84,8 +84,7 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
 }
-h1, h2, h3, .display { font-family: var(--font-display); }
-.money, .amount { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+h1, h2, h3 { font-family: var(--font-display); }
 
 // Superficie glass reutilizable — la vas a aplicar a cards, dialogs, toolbar
 .glass-surface {
